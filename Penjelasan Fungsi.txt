@@ -1,0 +1,34 @@
+Tenaga Kerja (Individu)
+=======================
+
+1. pengaduan tenaga kerja
+2. Pemilihan petugas pengawas -> Generate ID_SPT
+3. Pembuatan SPT -> Get() ID_SPT. Update TGL_SPT, ISI_SPT. [UPDATE : ID_JENIS_KELUHAN = ID_KELUHAN]
+
+NOTE
+====
+1. Shorten long product name . 
+<?php 
+if (strlen($name) > 30) {
+                    $name = substr($name, 0, 30);
+                    
+                    $new_name = '';
+                    $name_arr = explode(' ', $name);
+                    $end_sentance = end($name_arr);
+                    $last_key = key($name_arr);
+                    if(strlen($end_sentance)<=3 && strlen($end_sentance)>0){
+                        unset($name_arr[$last_key]);
+                        foreach ($name_arr as $key => $val) {
+                            $new_name.=$val.' ';
+                        }
+                        $new_name = rtrim($new_name, ',.;: aA-');
+                        $new_name.= ' ...';
+                    }
+                    else{
+                        $new_name = $name.' ...';
+                    }
+                }
+                else{
+                    $new_name = $name;
+                }
+?>
