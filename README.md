@@ -19,3 +19,9 @@ Urutan Alur Sistem :
 9. Tidak ada tanggapan lanjut ke nota peringatan 2 jangka waktu 5 hari
 10. Tidak ada tanggapan nota peringatan 3 jangka waktu 3 hari, jika nota 1, 2 dan 3 tidak ada tanggapan maka dibuatkan laporan kejadian untuk persiapan pemanggilan saksi dan pelaporan
 11. Pengajuan surat BAP ke polrestabes/kejaksaan
+
+Note :
+*Macam laporan yang ada :
+1. Kartu Pemeriksaan
+2. Laporan Pemeriksaan
+3. Surat perintah tugas
