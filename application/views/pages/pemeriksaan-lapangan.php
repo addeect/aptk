@@ -624,6 +624,11 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="form-group">
+                                <div class="row-fluid">
+                                    <h3>1. Bagaimana pelaksanaan waktu kerja, waktu istirahat dan cuti di perusahaan  tersebut :</h3>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-3">
@@ -643,7 +648,7 @@
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-3">
-                                        <label for="jam_kerja_pabrik">jam_kerja_pabrik</label>
+                                        <label for="jam_kerja_pabrik">Jam Kerja Pabrik</label>
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control" name="jam_kerja_pabrik" id="jam_kerja_pabrik" placeholder="Jam Kerja Pabrik / Lapangan" />
@@ -654,10 +659,10 @@
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-3">
-                                        <label for="nama_petugas2">Nama Petugas Pengawas 2</label>
+                                        <label for="jam_kerja_security">Jam Kerja Security</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" name="nama_petugas2" id="nama_petugas2" placeholder="Ketik Nama Petugas Pengawas" />
+                                        <input type="text" class="form-control" name="jam_kerja_security" id="jam_kerja_security" placeholder="Jam Kerja Satpam / Security" />
                                     </div>
                                 </div>
                             </div>
@@ -665,10 +670,10 @@
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-3">
-                                        <label for="nama_petugas3">Nama Petugas Pengawas 3</label>
+                                        <label for="jam_istirahat_mingguan">Jam Istirahat Mingguan</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" name="nama_petugas3" id="nama_petugas3" placeholder="Ketik Nama Petugas Pengawas" />
+                                        <input type="text" class="form-control" name="jam_istirahat_mingguan" id="jam_istirahat_mingguan" placeholder="Jam Istirahat Mingguan" />
                                     </div>
                                 </div>
                             </div>
