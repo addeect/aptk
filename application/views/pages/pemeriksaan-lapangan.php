@@ -934,10 +934,10 @@
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-3">
-                                        <label for="penyebab_phk">Penyebab PHK</label>
+                                        <label for="menundurkan_diri">Mengundurkan Diri</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" name="penyebab_phk" id="penyebab_phk" placeholder="Jam Kerja Satpam / Security" />
+                                        <input type="text" class="form-control" name="menundurkan_diri" id="menundurkan_diri" placeholder="Berapa orang" />
                                     </div>
                                 </div>
                             </div>
@@ -945,10 +945,32 @@
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-3">
-                                        <label for="jam_istirahat_mingguan">Jam Istirahat Mingguan</label>
+                                        <label for="memasuki_usia_pensiun">Jam Istirahat Mingguan</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" name="jam_istirahat_mingguan" id="jam_istirahat_mingguan" placeholder="Jam Istirahat Mingguan" />
+                                        <input type="text" class="form-control" name="memasuki_usia_pensiun" id="memasuki_usia_pensiun" placeholder="Berapa orang" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="berakhirnya_pkwt">Berakhirnya PKWT</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="berakhirnya_pkwt" id="berakhirnya_pkwt" placeholder="Berapa orang" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="kesepakatan_bersama">Kesepakatan Bersama / Putusan Pengadilan</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="kesepakatan_bersama" id="kesepakatan_bersama" placeholder="Berapa orang" />
                                     </div>
                                 </div>
                             </div>
