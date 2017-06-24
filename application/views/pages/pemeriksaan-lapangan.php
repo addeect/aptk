@@ -976,28 +976,17 @@
                             </div>
                             <div class="form-group">
                                 <div class="row-fluid">
-                                    <h3>2. Bagaimana pelaksanaan cuti perusahaan :</h3>
+                                    <h3>4. Apakah ada perjanjian kerja :</h3>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-3">
-                                        <label for="cuti">Cuti</label>
+                                        <label for="perjanjian_waktu_tidak_tentu">Untuk waktu tidak tertentu</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" name="cuti" id="cuti" placeholder="Cuti" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-1">&nbsp;</div>
-                                    <div class="col-sm-3">
-                                        <label for="cuti_tahunan">Cuti Tahunan</label>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control" name="cuti_tahunan" id="cuti_tahunan" placeholder="Cuti Tahunan" />
+                                        <input type="text" class="form-control" name="perjanjian_waktu_tidak_tentu" id="perjanjian_waktu_tidak_tentu" placeholder="Jumlah" />
                                     </div>
                                 </div>
                             </div>
@@ -1005,10 +994,10 @@
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-3">
-                                        <label for="cuti_hamil">Cuti Hamil & Melahirkan</label>
+                                        <label for="perjanjian_waktu_tentu">Untuk waktu tertentu</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" name="cuti_hamil" id="cuti_hamil" placeholder="Cuti Hamil dan Melahirkan" />
+                                        <input type="text" class="form-control" name="perjanjian_waktu_tentu" id="perjanjian_waktu_tentu" placeholder="Jumlah" />
                                     </div>
                                 </div>
                             </div>
@@ -1016,59 +1005,26 @@
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-3">
-                                        <label for="cuti_karena_gugur_kandungan">Cuti Karena Gugur Kandungan</label>
+                                        <label for="perjanjian_sesuai_ketentuan">Apakah perjanjian kerja untuk waktu tertentu dibuat sesuai dengan ketentuan ?</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" name="cuti_karena_gugur_kandungan" id="cuti_karena_gugur_kandungan" placeholder="Cuti Gugur Kandungan" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-1">&nbsp;</div>
-                                    <div class="col-sm-3">
-                                        <label for="cuti_istirahat_panjang">Cuti/Istirahat Panjang</label>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control" name="cuti_istirahat_panjang" id="cuti_istirahat_panjang" placeholder="Cuti Istirahat Panjang" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-1">&nbsp;</div>
-                                    <div class="col-sm-3">
-                                        <label for="dibuat_dibuku_cuti">Apakah ada dibuat di buku cuti dan dipelihara dengan baik</label>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control" name="dibuat_dibuku_cuti" id="dibuat_dibuku_cuti" placeholder="Apakah dibuat di buku cuti" />
+                                        <input type="text" class="form-control" name="perjanjian_sesuai_ketentuan" id="perjanjian_sesuai_ketentuan" placeholder="Coba Jelaskan" />
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row-fluid">
-                                    <h3>3. Bagaimanakah pelaksanaan kerja lembur :</h3>
+                                    <h3>5. Apakah ada peraturan perusahaan :</h3>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-3">
-                                        <label for="lembur_kerja_biasa">Pada hari kerja biasa</label>
+                                        <label for="nomor_pendaftaran_pp">Nomor pendaftaran</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" name="lembur_kerja_biasa" id="lembur_kerja_biasa" placeholder="Lembur Hari Biasa"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-1">&nbsp;</div>
-                                    <div class="col-sm-3">
-                                        <label for="lembur_istirahat_mingguan">Pada hari istirahat mingguan</label>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control" name="lembur_istirahat_mingguan" id="lembur_istirahat_mingguan" placeholder="Lembur Hari Istirahat Mingguan" />
+                                        <input type="text" class="form-control" name="nomor_pendaftaran_pp" id="nomor_pendaftaran_pp" placeholder="Nomor Pendaftaran" />
                                     </div>
                                 </div>
                             </div>
@@ -1076,10 +1032,10 @@
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-3">
-                                        <label for="lembur_libur_nasional">Pada hari libur nasional</label>
+                                        <label for="tanggal_pendaftaran">Tanggal pendaftaran</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" name="lembur_libur_nasional" id="lembur_libur_nasional" placeholder="Lembur Hari Libur Nasional" />
+                                        <input type="text" class="form-control" name="tanggal_pendaftaran" id="tanggal_pendaftaran" placeholder="Tanggal Pendaftaran" />
                                     </div>
                                 </div>
                             </div>
@@ -1087,26 +1043,108 @@
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-3">
-                                        <label for="surat_perintah_kerja_lembur">Apakah ada surat perintah kerja lembur ?</label>
+                                        <label for="masa_berlaku">Masa berlaku</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" name="surat_perintah_kerja_lembur" id="surat_perintah_kerja_lembur" placeholder="Surat Perintah Kerja Lembur" />
+                                        <input type="text" class="form-control" name="masa_berlaku" id="masa_berlaku" placeholder="Masa Berlaku" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="diberikan_ke_setiap_buruh">Apakah PP diberikan ke setiap buruh ?</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="diberikan_ke_setiap_buruh" id="diberikan_ke_setiap_buruh" placeholder="Jelaskan" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="pelaksanaan_pp">Bagaimanakah pelaksanaan PP ?</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="pelaksanaan_pp" id="pelaksanaan_pp" placeholder="Jelaskan" />
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row-fluid">
-                                    <h3>4. Bagaimanakah pelaksanaan kerja malam wanita :</h3>
+                                    <h3>6. Apakah ada perjanjian kerja bersama (PKB) :</h3>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-3">
-                                        <label for="jam_kerja_malam">Jam kerja malam</label>
+                                        <label for="nomor_pendaftaran_pkb">Nomor pendaftaran</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" name="jam_kerja_malam" id="jam_kerja_malam" placeholder="Jam Kerja Malam" />
+                                        <input type="text" class="form-control" name="nomor_pendaftaran_pkb" id="nomor_pendaftaran_pkb" placeholder="Nomor Pendaftaran"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="tanggal_pendaftaran_pkb">Tanggal pendaftaran</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="tanggal_pendaftaran_pkb" id="tanggal_pendaftaran_pkb" placeholder="Tanggal Daftar" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="masa_berlaku_pkb">Masa berlaku</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="masa_berlaku_pkb" id="masa_berlaku_pkb" placeholder="Masa Berlaku PKB" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="pkb_diberikan_ke_setiap_buruh">Apakah PKB diberikan ke setiap buruh ?</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="pkb_diberikan_ke_setiap_buruh" id="pkb_diberikan_ke_setiap_buruh" placeholder="Jelaskan" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="bagaimana_pelaksanaan_pkb">Bagaimana pelaksanaan PKB?</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="bagaimana_pelaksanaan_pkb" id="bagaimana_pelaksanaan_pkb" placeholder="Jelaskan" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row-fluid">
+                                    <h3>7. Apakah ada perusahaan pemborong pekerjaan :</h3>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="nama_perusahaan_pemborong">Nama Perusahaan Pemborong</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="nama_perusahaan_pemborong" id="nama_perusahaan_pemborong" placeholder="Nama Perusahaan" />
                                     </div>
                                 </div>
                             </div>
