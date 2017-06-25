@@ -1152,14 +1152,183 @@
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-3">
-                                        <label for="persyaratan_kerja_malam">Apakah persyaratan kerja malam dipenuhi : pengusaha ? uraikan secara lengkap !</label>
+                                        <label for="alamat_pemborong_pekerjaan">Alamat Perusahaan Pemborong Pekerjaan</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="text" class="form-control" name="persyaratan_kerja_malam" id="persyaratan_kerja_malam" placeholder="Apakah persyaratan kerja malam dipenuhi : pengusaha ?" />
+                                        <input type="text" class="form-control" name="alamat_pemborong_pekerjaan" id="alamat_pemborong_pekerjaan" placeholder="Alamat Perusahaan" />
                                     </div>
                                 </div>
                             </div>
-                            
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="jenis_pekerjaan_borongan">Jenis pekerjaan yang diborongkan ?</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="jenis_pekerjaan_borongan" id="jenis_pekerjaan_borongan" placeholder="Coba Jelaskan" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="nomor_perjanjian_pemborong">Nomor pemborongan pekerjaan</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="nomor_perjanjian_pemborong" id="nomor_perjanjian_pemborong" placeholder="Nomor Pemborongan" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="tanggal_pemborongan">Tanggal Pemborongan Pekerjaan</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="tanggal_pemborongan" id="tanggal_pemborongan" placeholder="Tanggal Pemborongan" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="nama_pemilik_pemborong">Nama pemilik perusahaan pemborong </label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="nama_pemilik_pemborong" id="nama_pemilik_pemborong" placeholder="Nama Pemilik Perusahaan Pemborong" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="alamat_pemilik_pemborong">Alamat pemilik perusahaan pemborong </label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="alamat_pemilik_pemborong" id="alamat_pemilik_pemborong" placeholder="Alamat Pemilik Perusahaan Pemborong" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="nomor_akta_pendirian_perusahaan">Nomor Akta Pendirian Perusahaan </label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="nomor_akta_pendirian_perusahaan" id="nomor_akta_pendirian_perusahaan" placeholder="Nomor Akta Pendirian Perusahaan" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="jumlah_buruh_perusahaan_pemborong">Jumlah buruh perusahaan pemborong</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="jumlah_buruh_perusahaan_pemborong" id="jumlah_buruh_perusahaan_pemborong" placeholder="Jumlah Pekerja Perusahaan Pemborong" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row-fluid">
+                                    <h3>8. Apakah ada perusahaan penyedia jasa pekerja/buruh :</h3>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="nama_perusahaan_penyedia_jasa">Nama Perusahaan Penyedia Jasa</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="nama_perusahaan_penyedia_jasa" id="nama_perusahaan_penyedia_jasa" placeholder="Nama Perusahaan" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="alamat_perusahaan_penyedia_jasa">Alamat Perusahaan Penyedia Jasa</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="alamat_perusahaan_penyedia_jasa" id="alamat_perusahaan_penyedia_jasa" placeholder="Alamat Perusahaan" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="nomor_perjanjian_penyediaan_jasa_pekerja">Nomor Perjanjian Penyedia Jasa</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="nomor_perjanjian_penyediaan_jasa_pekerja" id="nomor_perjanjian_penyediaan_jasa_pekerja" placeholder="Nomor Perjanjian" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="tanggal_penyedia_jasa">Tanggal Perjanjian Penyedia Jasa</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="tanggal_penyedia_jasa" id="tanggal_penyedia_jasa" placeholder="Tanggal Perjanjian Perusahaan" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="nama_pemilik_perusahaan_penyedia_jasa">Nama Pemilik Perusahaan Penyedia Jasa</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="nama_pemilik_perusahaan_penyedia_jasa" id="nama_pemilik_perusahaan_penyedia_jasa" placeholder="Nama Pemilik Perusahaan" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="alamat_pemilik_perusahaan_penyedia_jasa">Alamat Pemilik Perusahaan Penyedia Jasa</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="tanggal_penyedia_jasa" id="tanggal_penyedia_jasa" placeholder="Tanggal Perjanjian Perusahaan" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="nomor_akta_pendirian_perusahaan_penyedia_jasa">Nomor Akta Pendirian Perusahaan</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="nomor_akta_pendirian_perusahaan_penyedia_jasa" id="nomor_akta_pendirian_perusahaan_penyedia_jasa" placeholder="Nomor Akta Pendirian" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="jumlah_buruh_perusahaan_penyedia_pekerjaan">Jumlah Pekerja Buruh Yang dipekerjakan</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="jumlah_buruh_perusahaan_penyedia_pekerjaan" id="jumlah_buruh_perusahaan_penyedia_pekerjaan" placeholder="Jumlah Pekerja" />
+                                    </div>
+                                </div>
+                            </div>
                             <!--div class="form-group">
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
