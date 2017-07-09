@@ -23,7 +23,7 @@ class Pengaduan extends CI_Controller {
     redirect('main/index/pembuatan-surat-perintah-tugas?success');
   }
   function downloadPDF(){
-    $this->load->library('Pdf');
+    $this->load->library('Cpdf');
     // set document variable
     $nomor_spt = $id_spt."/".$id_jenis_keluhan."/".date('d.m/Y');
     $dasar1 = "Undang-undang nomor 3 tahun 1951 tentang pernyataan berlakunya undang-undang pengawasan perburuhan tahun 1948 No. 23 dari Republik Indonesia untuk seluruh Indonesia";
