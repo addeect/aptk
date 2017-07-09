@@ -353,7 +353,7 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                        <form method="POST" id="form_pembuatan_spt" action="<?php echo site_url('pengaduan/pembuatan_SPT') ?>">
+                        <form target="_blank" method="POST" id="form_pembuatan_spt" action="<?php echo site_url('pengaduan/pembuatan_SPT') ?>">
                             <input type="hidden" name="id_jenis_keluhan" id="id_jenis_keluhan">
                             <div class="form-group">
                                 <div class="row">
@@ -457,7 +457,7 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-sm-4"></div>
-                            <div class="col-sm-2 form-group"><input type="submit" class="btn btn-md btn-success" value="SIMPAN"/></div>
+                            <div class="col-sm-2 form-group"><input onclick="setTimeout(function(){ window.location='<?php echo site_url('main/index/pembuatan-surat-perintah-tugas?success')?>'; }, 3000);" type="submit" class="btn btn-md btn-success" value="SIMPAN"/></div>
                             <div class="col-sm-2 form-group"><button class="btn btn-md btn-danger">TIDAK</button></div>
                         </div>
                     </div>

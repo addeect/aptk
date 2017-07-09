@@ -18,8 +18,12 @@ class Pengaduan extends CI_Controller {
     $this->m_tk->insertCaseSPT($id_spt,$id_jenis_keluhan);
 
     // Download PDF Document
-    $this->load->library('Pdf');
+    $this->downloadPDF();
 
+    redirect('main/index/pembuatan-surat-perintah-tugas?success');
+  }
+  function downloadPDF(){
+    $this->load->library('Pdf');
     // set document variable
     $nomor_spt = $id_spt."/".$id_jenis_keluhan."/".date('d.m/Y');
     $dasar1 = "Undang-undang nomor 3 tahun 1951 tentang pernyataan berlakunya undang-undang pengawasan perburuhan tahun 1948 No. 23 dari Republik Indonesia untuk seluruh Indonesia";
@@ -79,8 +83,6 @@ class Pengaduan extends CI_Controller {
     //$pdf->lastPage();
     //$pdf->Write(5, 'Some sample text');
     $pdf->Output('SPT-'.$nomor_spt.'.pdf', 'I');
-
-    redirect('main/index/pembuatan-surat-perintah-tugas?success');
   }
   function getDataSPT(){
     // $id_spt = $this->input->post('id');
