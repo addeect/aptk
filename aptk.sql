@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Inang: 127.0.0.1
--- Waktu pembuatan: 16 Jun 2017 pada 19.54
+-- Waktu pembuatan: 09 Jul 2017 pada 12.15
 -- Versi Server: 5.5.27
 -- Versi PHP: 5.4.7
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `admin_pengawas` (
   KEY `RELATION_201_FK` (`IDPENGGUNA`),
   KEY `RELATION_208_FK` (`ID_SPT`),
   KEY `RELATION_209_FK` (`ID_KARYAWAN`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
 
 --
 -- Dumping data untuk tabel `admin_pengawas`
@@ -44,20 +44,21 @@ CREATE TABLE IF NOT EXISTS `admin_pengawas` (
 
 INSERT INTO `admin_pengawas` (`ID_ADMIN_PENGAWAS`, `IDPENGGUNA`, `ID_SPT`, `ID_KARYAWAN`, `ID_KELUHAN`) VALUES
 (1, 'venny', 1, '201700001', 5),
-(2, 'maudy', 1, '201700002', 5),
-(3, 'raisa', 1, '201700003', 5),
-(4, 'maudy', 2, '201700002', 1),
-(5, 'venny', 2, '201700001', 1),
-(6, 'raisa', 2, '201700003', 1),
-(7, 'venny', 3, '201700001', 2),
-(8, 'maudy', 3, '201700002', 2),
-(9, 'raisa', 3, '201700003', 2),
-(10, 'venny', 4, '201700001', 5),
-(11, 'maudy', 4, '201700002', 5),
-(12, 'raisa', 4, '201700003', 5),
-(13, 'venny', 5, '201700001', 5),
-(14, 'maudy', 5, '201700002', 5),
-(15, 'raisa', 5, '201700003', 5);
+(2, 'venny', 2, '201700001', 1),
+(3, 'maudy', 2, '201700002', 1),
+(4, 'raisa', 2, '201700003', 1),
+(5, 'venny', 3, '201700001', 8),
+(6, 'maudy', 3, '201700002', 8),
+(7, 'raisa', 3, '201700003', 8),
+(8, 'venny', 4, '201700001', 9),
+(9, 'maudy', 4, '201700002', 9),
+(10, 'raisa', 4, '201700003', 9),
+(11, 'raisa', 5, '201700003', 10),
+(12, 'venny', 5, '201700001', 10),
+(13, 'maudy', 5, '201700002', 10),
+(14, 'wahyuningsih', 6, '19631101.199602.2.002', 10),
+(15, 'sofyan', 6, '19580119.198903.1.004', 10),
+(16, 'endah', 6, '19580624.198303.2.011', 10);
 
 -- --------------------------------------------------------
 
@@ -83,21 +84,27 @@ CREATE TABLE IF NOT EXISTS `jenis_keluhan` (
   `ID_TK` int(11) DEFAULT NULL,
   `ID_KELUHAN_TK` int(11) DEFAULT NULL,
   `ID_KELUHAN_SERIKAT` int(11) DEFAULT NULL,
+  `STATUS_PENYELESAIAN` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID_JENIS_KELUHAN`),
   KEY `RELATION_205_FK` (`ID_TK`),
   KEY `RELATION_206_FK` (`ID_KELUHAN_TK`),
   KEY `RELATION_207_FK` (`ID_KELUHAN_SERIKAT`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data untuk tabel `jenis_keluhan`
 --
 
-INSERT INTO `jenis_keluhan` (`ID_JENIS_KELUHAN`, `ID_TK`, `ID_KELUHAN_TK`, `ID_KELUHAN_SERIKAT`) VALUES
-(1, 30, 1, NULL),
-(2, 1, 2, NULL),
-(5, 1, 5, NULL),
-(6, 30, 6, NULL);
+INSERT INTO `jenis_keluhan` (`ID_JENIS_KELUHAN`, `ID_TK`, `ID_KELUHAN_TK`, `ID_KELUHAN_SERIKAT`, `STATUS_PENYELESAIAN`) VALUES
+(1, 30, 1, NULL, 0),
+(2, 1, 2, NULL, 0),
+(5, 1, 5, NULL, 0),
+(6, 30, 6, NULL, 0),
+(7, 1, 7, NULL, 20),
+(8, 32, 8, NULL, 30),
+(9, 33, 9, NULL, 30),
+(10, 34, 10, NULL, 10),
+(11, 34, 11, NULL, 10);
 
 -- --------------------------------------------------------
 
@@ -123,9 +130,21 @@ CREATE TABLE IF NOT EXISTS `karyawan` (
 --
 
 INSERT INTO `karyawan` (`ID_KARYAWAN`, `ID_KABID`, `NAMA_KARYAWAN`, `ALAMAT_KARYAWAN`, `JENIS_KELAMIN`, `TELP_KARYAWAN`, `PENDIDIKAN`, `SPESIALISASI`) VALUES
-('201700001', 5, 'Venny', 'Jl. Jemur Andayani No. 35 Komplek Calours', 'Perempuan', '085543569980', 'D3 KOMPUTERISASI PERKANTORAN & KESEKRETARIATAN', 'Sekretariatan'),
-('201700002', 3, 'Maudy', 'Jl. Kedung Baruk no. 100', 'Perempuan', '068262953', 'D3 Komputerisasi', 'Sekretariat'),
-('201700003', 4, 'Raisa', 'Jl. Kedung Baruk no. 10', 'Perempuan', '083482653', 'D3 Komputerisasi', 'Sekretariat');
+('101700001', 6, 'Sulton Prakasa', 'Jl. Kedung Durian XI-GP/20 Sidoarjo', 'Laki-laki', '08847582643', 'D3 Teknik Elektro', 'Elektronika Arus Rendah'),
+('101800001', 5, 'Aries Prabowo', 'Jl. Suko Semolo No.69 Surabaya', 'Laki-laki', '06845485635', 'D3 Hukum', NULL),
+('19580119.198903.1.004', 26, 'Drs. Moch. Sofyan H.', 'Jl. Rajwali II/32 Sidoarjo', 'Laki-laki', '087694653', 'S1 Hubungan Internasional', 'Hubungan Internasional'),
+('19580624.198303.2.011', 17, 'Endah Setyowati, SE', 'Jl. Wonocolo Selatan XI/44 Surabaya', 'Perempuan', '0896769574', 'S1 Ekonomi', 'Ekonomi'),
+('19600306.198903.1.008', 12, 'Drs. Bambang Teguh S.', 'Jl. Merak IX/11 Gresik', 'Laki-laki', '0867575846', 'S1 Teknik Sipil', 'Konstruksi Bangunan'),
+('19610527.198603.2.009', 30, 'Dra. Widya Lestari S.', 'Jl. Kutilang II-OB/2 Gresik', 'Perempuan', '0867455639', 'S1 Pendidikan Kewarganegaraan', 'Kewarganegaraan'),
+('19610720.198603.2.008', 18, 'Etty Panca Trisyowati, SE', 'Jl. Baruk Timur III-RQ/55 Surabaya', 'Perempuan', '984760273', 'S1 Akuntansi', 'Ekonomi & Akuntansi'),
+('19620602.199003.2.002', 25, 'Sita Edi Soeryawati, SH', 'Jl. Merak VII-TVE/4 Gresik', 'Perempuan', '08675846447', 'S1 Hukum', 'Hukum'),
+('19631101.199602.2.002', 29, 'Dra. Wahyuningsih, MM', 'Jl. Beton V-R/33 Surabaya', 'Perempuan', '0867483658', 'S2 Magister Manajemen', 'Manajemen'),
+('19651012.198603.2.013', 23, 'Nurlely K. Siregar, SH. MH.', 'Jl. Kasuari V/112 Gresik', 'Perempuan', '08867586385', 'S1 Hukum', 'Hukum'),
+('19670620.199803.1.003', 24, 'Ir. Prastowo', 'Jl. Baruk Selatan XI-UU/32 Surabaya', 'Laki-laki', '045639363', 'S1 Teknik Sipil', 'Konstruksi Bangunan'),
+('19680816.199703.2.000', 22, 'Nuky Dewayani, SH', 'Jl. Baruk Utara XI-B/36 Surabaya', 'Perempuan', '0587749573', 'S1 Hukum', 'Hukum'),
+('201700001', 2, 'Venny', 'Jl. Jemur Andayani No. 35 Komplek Calours', 'Perempuan', '085543569980', 'D3 KOMPUTERISASI PERKANTORAN & KESEKRETARIATAN', 'Sekretariatan'),
+('201700002', 3, 'Maudy Laura', 'Jl. Wonocolo No. 3 Surabaya', 'Perempuan', '05482634', 'D3 KOMPUTERISASI PERKANTORAN & KESEKRETARIATAN', 'Sekretariatan'),
+('201700003', 4, 'Raisa Fitriyani', 'Jl. Wonokoyo No. 10 Surabaya', 'Perempuan', '02386382', 'D3 KOMPUTERISASI PERKANTORAN & KESEKRETARIATAN', 'Sekretariatan');
 
 -- --------------------------------------------------------
 
@@ -157,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `keluhan_tk` (
   `ISI_KELUHAN` varchar(500) DEFAULT NULL,
   `BUKTI_FILE` text,
   PRIMARY KEY (`ID_KELUHAN_TK`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data untuk tabel `keluhan_tk`
@@ -169,7 +188,12 @@ INSERT INTO `keluhan_tk` (`ID_KELUHAN_TK`, `JENIS_KELUHAN`, `TANGGAL_MASUK`, `TA
 (3, 'Pelanggaran Normatif', '2017-06-04 10:19:29', NULL, 'asdq asda qwdas Lorem ipsum', NULL),
 (4, 'Pelanggaran Normatif', '2017-06-04 10:21:14', NULL, 'asdq asda qwdas Lorem ipsum', NULL),
 (5, 'Pelanggaran K3', '2017-06-04 10:39:34', NULL, 'asda', NULL),
-(6, 'Pelanggaran K3', '2017-06-04 15:29:06', NULL, 'Lorem Ipsum ...', NULL);
+(6, 'Pelanggaran K3', '2017-06-04 15:29:06', NULL, 'Lorem Ipsum ...', NULL),
+(7, 'Pelanggaran K3', '2017-07-09 05:19:21', NULL, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\r\ntempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\r\nquis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\r\nconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\r\ncillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\r\nproident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL),
+(8, 'Pelanggaran Normatif', '2017-07-09 06:29:35', NULL, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\r\ntempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\r\nquis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\r\nconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\r\ncillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\r\nproident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL),
+(9, 'Pelanggaran Normatif', '2017-07-09 06:35:04', NULL, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\r\ntempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\r\nquis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\r\nconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\r\ncillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\r\nproident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL),
+(10, 'Pelanggaran Normatif', '2017-07-09 06:53:48', NULL, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\r\ntempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\r\nquis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\r\nconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\r\ncillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\r\nproident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL),
+(11, 'Pelanggaran Normatif', '2017-07-09 09:12:45', NULL, 'Upah dibawah standar', NULL);
 
 -- --------------------------------------------------------
 
@@ -180,20 +204,46 @@ INSERT INTO `keluhan_tk` (`ID_KELUHAN_TK`, `JENIS_KELUHAN`, `TANGGAL_MASUK`, `TA
 CREATE TABLE IF NOT EXISTS `kepala_bidang` (
   `ID_KABID` int(11) NOT NULL AUTO_INCREMENT,
   `IDPENGGUNA` varchar(100) DEFAULT NULL,
+  `IS_CHILD` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`ID_KABID`),
   KEY `RELATION_199_FK` (`IDPENGGUNA`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=31 ;
 
 --
 -- Dumping data untuk tabel `kepala_bidang`
 --
 
-INSERT INTO `kepala_bidang` (`ID_KABID`, `IDPENGGUNA`) VALUES
-(1, 'admin'),
-(2, 'admin_pengawas'),
-(3, 'maudy'),
-(4, 'raisa'),
-(5, 'venny');
+INSERT INTO `kepala_bidang` (`ID_KABID`, `IDPENGGUNA`, `IS_CHILD`) VALUES
+(1, 'admin', 1),
+(2, 'venny', 1),
+(3, 'maudy', 1),
+(4, 'raisa', 1),
+(5, 'aries', 1),
+(6, 'sulton', 0),
+(7, 'ahmadmuksoni', 1),
+(8, 'aminwahjoe', 1),
+(9, 'amsar', 1),
+(10, 'andri', 1),
+(11, 'aries', 1),
+(12, 'bambang', 1),
+(13, 'boing', 1),
+(14, 'desitri', 1),
+(15, 'diahprihatmini', 1),
+(16, 'dwiretna', 1),
+(17, 'endah', 1),
+(18, 'etty', 1),
+(19, 'gatot', 1),
+(20, 'hariwanto', 1),
+(21, 'khafidz', 1),
+(22, 'nuky', 1),
+(23, 'nurlely', 1),
+(24, 'prastowo', 1),
+(25, 'sita', 1),
+(26, 'sofyan', 1),
+(27, 'srihartini', 1),
+(28, 'sucipto', 1),
+(29, 'wahyuningsih', 1),
+(30, 'widya', 1);
 
 -- --------------------------------------------------------
 
@@ -241,11 +291,36 @@ CREATE TABLE IF NOT EXISTS `pengguna` (
 INSERT INTO `pengguna` (`IDPENGGUNA`, `PASSWORD`, `STATUS_PENGGUNA`) VALUES
 ('admin', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
 ('admin_pengawas', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('ahmadmuksoni', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('aminwahjoe', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('amsar', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('andri', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('aries', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('bambang', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('boing', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('desitri', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('diahprihatmini', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('dwiretna', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('endah', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('etty', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('gatot', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('hariwanto', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
 ('kabid_pengawas', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('khafidz', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
 ('maudy', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('nuky', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('nurlely', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
 ('pengawas', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('prastowo', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
 ('raisa', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
-('venny', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF');
+('sita', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('sofyan', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('srihartini', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('sucipto', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('sulton', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('venny', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('wahyuningsih', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF'),
+('widya', '46f94c8de14fb36680850768ff1b7f2a', 'AKTIF');
 
 -- --------------------------------------------------------
 
@@ -280,23 +355,24 @@ CREATE TABLE IF NOT EXISTS `petugas_pengawas` (
 
 CREATE TABLE IF NOT EXISTS `surat_perintah_tugas` (
   `ID_SPT` int(11) NOT NULL AUTO_INCREMENT,
-  `TGL_SPT` datetime DEFAULT NULL,
-  `ISI_SPT` varchar(500) DEFAULT NULL,
   `STATUS_SPT` int(11) DEFAULT '1',
   `IS_ACTIVE_SPT` int(11) DEFAULT '0',
+  `TGL_SPT` datetime DEFAULT NULL,
+  `ISI_SPT` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`ID_SPT`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data untuk tabel `surat_perintah_tugas`
 --
 
-INSERT INTO `surat_perintah_tugas` (`ID_SPT`, `TGL_SPT`, `ISI_SPT`, `STATUS_SPT`, `IS_ACTIVE_SPT`) VALUES
-(1, '2017-06-06 06:38:59', NULL, 0, 1),
-(2, '2017-06-06 06:41:10', 'LOREM IPSUM', 0, 1),
-(3, '2017-06-16 19:16:42', 'Lorem ipsum dolor sit amet.', 0, 1),
-(4, '2017-06-16 19:48:15', 'Lorem ipsum 2', 0, 1),
-(5, '2017-06-16 19:51:28', 'bla lba', 0, 1);
+INSERT INTO `surat_perintah_tugas` (`ID_SPT`, `STATUS_SPT`, `IS_ACTIVE_SPT`, `TGL_SPT`, `ISI_SPT`) VALUES
+(1, 0, 0, '2017-06-10 01:36:54', NULL),
+(2, 1, 0, '2017-06-10 01:38:31', NULL),
+(3, 0, 1, '2017-07-09 06:46:29', '1. Melaksanakan pembinaan, pemeriksaan dan pengawasan pelaksanaan peraturan perundang-undangan di bidang ketenagakerjaan di perusahaan PT. Sritex Solution, Jl. Raya Kebon Jeruk No. 112 Surabaya\r\n2. Dilaksanakan mulai tanggal 14 Juli 2017 sampai dengan selesai\r\n3. Melaporkan hasilnya kepada Kepala Dinas'),
+(4, 0, 1, '2017-07-09 06:46:42', '1. Melaksanakan pembinaan, pemeriksaan dan pengawasan pelaksanaan peraturan perundang-undangan di bidang ketenagakerjaan di perusahaan PT. Solindo, Jl. Diponegoro No. 35 Surabaya\r\n2. Dilaksanakan mulai tanggal 13 Juli 2017 sampai dengan selesai\r\n3. Melaporkan hasilnya kepada Kepala Dinas'),
+(5, 1, 0, '2017-07-09 06:54:41', NULL),
+(6, 0, 1, '2017-07-09 09:13:33', '1. Melaksanakan pembinaan, pemeriksaan dan pengawasan pelaksanaan peraturan perundang-undangan di bidang ketenagakerjaan di perusahaan PT. Fintego Indonesia, Jl. Demak No. 23 Surabaya\n2. Dilaksanakan mulai tanggal 14 Juli 2017 sampai dengan selesai\n3. Melaporkan hasilnya kepada Kepala Dinas');
 
 -- --------------------------------------------------------
 
@@ -332,7 +408,7 @@ CREATE TABLE IF NOT EXISTS `tenaga_kerja` (
   `LAMA_KERJA` varchar(5) DEFAULT NULL,
   `JENIS_USAHA` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`ID_TK`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=35 ;
 
 --
 -- Dumping data untuk tabel `tenaga_kerja`
@@ -340,8 +416,11 @@ CREATE TABLE IF NOT EXISTS `tenaga_kerja` (
 
 INSERT INTO `tenaga_kerja` (`ID_TK`, `NO_KTP`, `EMAIL`, `NAMA_TK`, `ALAMAT_TK`, `TEMPAT_LAHIR`, `TANGGAL_LAHIR`, `JENIS_KEL`, `AGAMA`, `STATUS_KAWIN`, `PEKERJAAN`, `KEWARGANEGARAAN`, `PASSWORD_TK`, `NAMA_SERIKAT`, `ALAMAT_SERIKAT`, `TELP_SERIKAT`, `NAMA_PERUSAHAAN`, `ALAMAT_PERUSAHAAN`, `TELP_PERUSAHAAN`, `TELP_HRD_SERIKAT`, `TOKEN_REG`, `USER_STS`, `USER_TYPE`, `JABATAN`, `LAMA_KERJA`, `JENIS_USAHA`) VALUES
 (1, '3525101009930002', 'gl145@gmail.com', 'M. Adam Triamukti', 'Jl. Siwalankerto No. 100', 'Jogja', '2000-05-10 00:00:00', 'Laki-laki', 'Islam', 'Belum Kawin', 'Wiraswasta', 'WNI', '46f94c8de14fb36680850768ff1b7f2a', NULL, NULL, NULL, 'Addeect Code Works', 'Jl. Rajawali IV No. 2', '59137518', '2257382', '', 1, 'perseorangan', '', '', 'IT Company'),
-(30, '32604386', 'gl14555@gmail.com', 'Adam Triamukti', 'Jl. Rajawali IV No. 2 GKA', 'Jakarta', '1993-03-10 00:00:00', 'Laki-laki', 'Islam', 'Belum Kawin', 'Karyawan Swasta', 'WNI', '46f94c8de14fb36680850768ff1b7f2a', '', NULL, NULL, 'Ittron Global Teknologi', 'Jl. GKB Lama No. 166', '0532577', '483246', NULL, 1, 'perseorangan', 'Support Programmer', '0', 'IT Company'),
-(31, NULL, 'addeect64@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '46f94c8de14fb36680850768ff1b7f2a', 'SPSI', 'Jl. Kasuari NO. 34', '027263582', 'CV. Lucky Star', 'Jl. Ronggolawe No. 103 Cepu Blora Jawa Tengah', '0532577', '032853252', NULL, 1, 'perserikatan', NULL, NULL, NULL);
+(30, '32604386', 'gl14555@gmail.com', 'Adam Triamukti', 'Jl. Rajawali IV No. 2 GKA', 'Jakarta', '1993-03-10 00:00:00', 'Laki-laki', 'Islam', 'Belum Kawin', 'Karyawan Swasta', 'WNI', '46f94c8de14fb36680850768ff1b7f2a', NULL, NULL, NULL, 'Ittron Global Teknologi', 'Jl. GKB Lama No. 166', '0532577', '483246', NULL, 1, 'perseorangan', 'Support Programmer', '0', 'IT Company'),
+(31, NULL, 'addeect64@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '46f94c8de14fb36680850768ff1b7f2a', 'SPSI', 'Jl. Kasuari NO. 34', '027263582', 'CV. Lucky Star', 'Jl. Ronggolawe No. 103 Cepu Blora Jawa Tengah', '0532577', '032853252', NULL, 1, 'perserikatan', NULL, NULL, NULL),
+(32, '84692262839', 'bayu@gmail.com', 'Bayu Wicaksono', 'Jl. Sidosermo No.45 Sidoarjo', 'Purwokerto', '1993-07-10 00:00:00', 'Laki-laki', 'Budha', 'Belum Kawin', 'Karyawan Swasta', 'WNI', '46f94c8de14fb36680850768ff1b7f2a', NULL, NULL, NULL, 'PT. Sritex Solution', 'Jl. Raya Kebon Jeruk No. 112 Surabaya', '0317564846', '0318673758', NULL, 1, 'perseorangan', 'Staff Keuangan', '2', 'Eksportir Importir Barang Elektronik'),
+(33, '52658658185', 'shanti@hotmail.com', 'Shanti Vermilion', 'Jl. Raya Jagir Wonokromo No. 29 Surabaya', 'Jakarta', '1994-10-12 00:00:00', 'Perempuan', 'Kristen', 'Belum Kawin', 'Karyawan Swasta', 'WNI', '46f94c8de14fb36680850768ff1b7f2a', NULL, NULL, NULL, 'PT. Solindo', 'Jl. Diponegoro No. 35 Surabaya', '0318678358', '0318663837', NULL, 1, 'perseorangan', 'Staff Desain', '3', 'Media Massa Elektronik'),
+(34, '5937562026', 'felani@hotmail.com', 'Felani Sinaga', 'Jl. Klampis Jaya No. 123 Sidoajo', 'Ambon', '1993-01-08 00:00:00', 'Perempuan', 'Kristen', 'Belum Kawin', 'Karyawan Swasta', 'WNI', '46f94c8de14fb36680850768ff1b7f2a', NULL, NULL, NULL, 'PT. Fintego Indonesia', 'Jl. Demak No. 23 Surabaya', '0315727256', '0318578262', NULL, 1, 'perseorangan', 'Staff General Affair', '1', 'Bidang Jasa Ekspedisi');
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
