@@ -1,3 +1,12 @@
+USERLIST
+========
+Password untuk semua user sama.
+Password = 123qwe
+1. Admin Pengawas. Username = aries
+2. Kabid. Username = sulton
+3. Pengawas. Username = venny, maudy, raisa
+4. Pengadu. Username = bayu@gmail.com, shanti@hotmail.com
+
 Tenaga Kerja (Individu)
 =======================
 

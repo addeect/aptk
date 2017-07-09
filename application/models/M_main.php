@@ -4,7 +4,7 @@ class M_main extends CI_Model{
 		$this->load->database();
 	}
 	function getDataSPT($id_spt){
-		$this->db->select("ap.*,tk.*,k.*");
+		$this->db->select("ap.*,tk.*,k.*,jk.*");
 		$this->db->from("admin_pengawas ap");
 		$this->db->join("jenis_keluhan jk","ap.ID_KELUHAN = jk.ID_JENIS_KELUHAN");
 		$this->db->join("tenaga_kerja tk","jk.ID_TK = tk.ID_TK");
@@ -220,10 +220,10 @@ class M_main extends CI_Model{
 		$this -> db -> from('tenaga_kerja tk');
 		$this -> db -> join('jenis_keluhan jk','jk.ID_TK=tk.ID_TK');
 		$this -> db -> join('keluhan_tk kt','kt.ID_KELUHAN_TK=jk.ID_KELUHAN_TK');
-		$this -> db -> join('admin_pengawas ap','ap.ID_KELUHAN=jk.ID_JENIS_KELUHAN');
-		$this -> db -> join('surat_perintah_tugas spt','spt.ID_SPT=ap.ID_SPT');
+		// $this -> db -> join('admin_pengawas ap','ap.ID_KELUHAN=jk.ID_JENIS_KELUHAN');
+		// $this -> db -> join('surat_perintah_tugas spt','spt.ID_SPT=ap.ID_SPT');
 		$this -> db -> order_by("jk.ID_JENIS_KELUHAN DESC");
-		$this -> db -> where('spt.STATUS_SPT', "1");
+		$this -> db -> where('jk.STATUS_PENYELESAIAN', 10);
 		//$this -> db -> where('PASSWORD', $pass);
 		// $this -> db -> limit(1);
 							

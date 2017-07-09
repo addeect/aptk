@@ -3,7 +3,8 @@ class M_tk extends CI_Model{
 	// function __construct(){
 	// 	$this->load->database();
 	// }
-	function insertCaseSPT($id_spt){
+	function insertCaseSPT($id_spt,$id_jenis_keluhan){
+		$status_penyelesaian = 30;
 		$data_spt=array(
 			'ISI_SPT' => $this->input->post('kasus'),
 			'IS_ACTIVE_SPT' => '1',
@@ -11,6 +12,11 @@ class M_tk extends CI_Model{
 		);
 		$this->db->where('ID_SPT', $id_spt);
 		$this->db->update('surat_perintah_tugas',$data_spt);
+		$data_status=array(
+			'STATUS_PENYELESAIAN' => $status_penyelesaian
+		);
+		$this->db->where('ID_JENIS_KELUHAN', $id_jenis_keluhan);
+		$this->db->update('jenis_keluhan',$data_status);
 	}
 	function getSPT(){
 		$this->db->select("max(ID_SPT) 'ID_SPT'");
@@ -68,7 +74,7 @@ class M_tk extends CI_Model{
 	   	return $query->result();
 	}
 	function insertPengaduan1(){
-		
+		$status_penyelesaian = 10;
 		$simpan_data=array(
             'JENIS_KELUHAN'  => $this->input->post('jenis_keluhan'),
             'TANGGAL_MASUK'  => date('Y-m-d H:i:s'),
@@ -78,7 +84,8 @@ class M_tk extends CI_Model{
 		$id_keluhan_tk = ((floatval($id_keluhan_tk_max)) + 1);
 		$data_keluhan=array(
             'ID_TK'  => $this->input->post('id'),
-            'ID_KELUHAN_TK'  => $id_keluhan_tk
+            'ID_KELUHAN_TK'  => $id_keluhan_tk,
+            'STATUS_PENYELESAIAN'  => $status_penyelesaian
        );
         $this->db->insert('keluhan_tk', $simpan_data);
         $this->db->insert('jenis_keluhan', $data_keluhan);

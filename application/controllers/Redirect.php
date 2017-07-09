@@ -33,7 +33,7 @@ class Redirect extends CI_Controller {
 						'user_id'=> $user_id
 					);
 					$x=$this->session->set_userdata($data);			
-					redirect('main/index/pengaduan-serikat-pekerja',$x);
+					redirect('main/index/edit-pengadu?id='.$user_id,$x);
 				}
 				elseif($user_type==="perseorangan"){
 					// Get Data Tenaga Kerja

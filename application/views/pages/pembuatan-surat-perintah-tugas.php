@@ -354,6 +354,7 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                         <form method="POST" id="form_pembuatan_spt" action="<?php echo site_url('pengaduan/pembuatan_SPT') ?>">
+                            <input type="hidden" name="id_jenis_keluhan" id="id_jenis_keluhan">
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
@@ -517,9 +518,11 @@
               else{
                 var nama_perorangan = data[0].NAMA_TK;
                 var nama_serikat = data[0].NAMA_SERIKAT;
+                var id_jenis_keluhan = data[0].ID_JENIS_KELUHAN;
                 $('input#petugas_1').val(data[0].NAMA_KARYAWAN);
                 $('input#petugas_2').val(data[1].NAMA_KARYAWAN);
                 $('input#petugas_3').val(data[2].NAMA_KARYAWAN);
+                $('input#id_jenis_keluhan').val(id_jenis_keluhan);
                 // alert(nama_perorangan+nama_serikat);
                 if(nama_perorangan == null && nama_serikat == null){
                     $('input#nama_pengadu').val("Petugas Tidak Ditemukan");

@@ -276,11 +276,10 @@ $status_kawin='';
                             <!-- /input-group -->
                         <!--/li-->
                         <li>
-                            <a href="index.html" class="hitam"><i class="fa fa-home fa-fw"></i> Beranda</a>
+                            <a href="<?php if($_SESSION['role']==='Perseorangan'){echo site_url('main/index/status-pengaduan');}else if($_SESSION['role']==='Perserikatan'){echo site_url('main/index/status-pengaduan-serikat-pekerja');}  ?>" class="hitam"><i class="fa fa-home fa-fw"></i> Beranda</a>
                         </li>
                         <li>
                             <a href="#" class="aktif"><i class="fa fa-files-o fa-fw"></i> Pengaduan</a>
-                            
                             <!-- /.nav-second-level -->
                         </li>
                         

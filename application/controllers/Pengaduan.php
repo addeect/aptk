@@ -13,8 +13,73 @@ class Pengaduan extends CI_Controller {
 	}
   function pembuatan_SPT(){
     $id_spt = $this->input->post("no_spt");
+    $id_jenis_keluhan = $this->input->post("id_jenis_keluhan");
     $this->load->model('m_tk');
-    $this->m_tk->insertCaseSPT($id_spt);
+    $this->m_tk->insertCaseSPT($id_spt,$id_jenis_keluhan);
+
+    // Download PDF Document
+    $this->load->library('Pdf');
+
+    // set document variable
+    $nomor_spt = $id_spt."/".$id_jenis_keluhan."/".date('d.m/Y');
+    $dasar1 = "Undang-undang nomor 3 tahun 1951 tentang pernyataan berlakunya undang-undang pengawasan perburuhan tahun 1948 No. 23 dari Republik Indonesia untuk seluruh Indonesia";
+    $dasar2 = "Undang-undang No. 1 tahun 1970 tentang Keselamatan Kerja";
+    $dasar3 = "Undang-undang No. 13 tahun 2003 tentang Ketenagakerjaan";
+    $dasar4 = "Undang-undang No. 32 tahun 2004 tentang Pemerintah Daerah";
+
+    $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+    // set document information
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor('Disnaker Surabaya');
+    $pdf->SetTitle('Surat Perintah Tugas');
+    $pdf->SetSubject('Disnaker');
+    $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+    // set default header data
+    $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, 'SURAT PERINTAH TUGAS', PDF_HEADER_STRING);
+
+    // set header and footer fonts
+    $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+    $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+    // set default monospaced font
+    $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+    // set margins
+    $pdf->SetMargins(PDF_MARGIN_LEFT, '43', PDF_MARGIN_RIGHT);
+    $pdf->SetHeaderMargin('50');
+    $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+    // set auto page breaks
+    $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+    // set image scale factor
+    $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+    // set font
+    $pdf->SetFont('dejavusans', '', 10);
+
+    $pdf->AddPage();
+    
+    $html = '<span style="font-weight: bold;">Nomor : '.$nomor_spt.'</span><br/><br/>';
+    /*$query1 = "SELECT NAMA_LOKASI, WITEL FROM master_access_point WHERE ID_LOKASI='".$id_lokasi."'";
+    $result1 = mysql_query($query1);
+    while($row1 = mysql_fetch_array($result1)){
+        $nama_lokasi = $row1[0];
+        $witel = $row1[1];
+        $html .= '<span style="font-weight: normal;">ID Lokasi : '.$id_lokasi.' </span><br/>';
+        $html .= '<span style="font-weight: normal;">Nama Lokasi : '.$nama_lokasi.' </span><br/>';
+        $html .= '<span style="font-weight: normal;">Witel : '.$witel.' </span><br/><br/>';
+    }*/
+    $html .='';
+    
+    // output the HTML content
+    $pdf->writeHTML($html, true, false, true, false, '');
+
+    //$pdf->lastPage();
+    //$pdf->Write(5, 'Some sample text');
+    $pdf->Output('SPT-'.$nomor_spt.'.pdf', 'I');
+
     redirect('main/index/pembuatan-surat-perintah-tugas?success');
   }
   function getDataSPT(){
