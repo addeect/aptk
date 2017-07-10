@@ -3,6 +3,31 @@ class M_main extends CI_Model{
 	function __construct(){
 		$this->load->database();
 	}
+	function insert_hasil_temuan($id_spt){
+		$data=array(
+            'TGL_TEMUAN'  => date('Y-m-d H:i:s'),
+            'ISI_HASIL_TEMUAN'  => $this->input->post("pelanggaran"),
+            'JENIS_PELANGGARAN'  => $this->input->post("jenis_pelanggaran"),
+            'ID_SPT'  => $id_spt,
+            'ID_PASAL'  => $this->input->post("id_pasal")
+       );
+        $this->db->insert('hasil_temuan', $data);
+	}
+	function getDataPasal(){
+		$this->db->select("p.*");
+		$this->db->from("pasal p");
+		// $this->db->where("ht.ID_SPT",$id_spt);
+		$query = $this->db->get();
+		return $query->result();
+	}
+	function getDataTemuan($id_spt){
+		$this->db->select("ht.*,p.*");
+		$this->db->from("hasil_temuan ht");
+		$this->db->join("pasal p","p.ID_PASAL = ht.ID_PASAL");
+		$this->db->where("ht.ID_SPT",$id_spt);
+		$query = $this->db->get();
+		return $query->result();
+	}
 	function getDataPengadu($id_tk){
 		$this->db->select("ap.*,tk.*,k.*,jk.*");
 		$this->db->from("admin_pengawas ap");

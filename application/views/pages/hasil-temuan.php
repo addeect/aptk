@@ -1,3 +1,4 @@
+<link href="<?php echo base_url('assets/css/selectize.bootstrap3.css') ?>" rel="stylesheet">
 <div id="wrapper">
 
         <!-- Navigation -->
@@ -59,7 +60,10 @@
                             <a href="#" class="hitam"><i class="fa fa-files-o fa-fw"></i> Pemeriksaan Lapangan<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse in" aria-expanded="true">
                                 <li>
-                                    <a class="aktif">Daftar Pengaduan</a>
+                                    <a class="aktif">Hasil Temuan</a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('main/index/daftar-pengaduan') ?>" class="">Daftar Pengaduan</a>
                                 </li>
                                 <!--<li>
                                     <a href="<?php // echo site_url('main/index/pemeriksaan-lapangan') ?>">Pemeriksaan Lapangan</a>
@@ -148,13 +152,44 @@
 
         <div id="page-wrapper">
             <div class="row">
+            <form method="post" action="<?php echo site_url('pengaduan/tambah_pasal') ?>" id="form_hasil_temuan">
+            <input type="hidden" name="id_spt" value="<?php echo $_GET['id_spt'] ?>">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Daftar Pengaduan</h1>
-                    <!--<div class="form-group">
-                        <input type="button" value="+ TAMBAH BARU" class="btn btn-primary btn-sm" />
-                    </div>-->
+                    <h1 class="page-header">Hasil Temuan</h1>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>Pelanggaran</label>
+                                <input class="form-control" type="text" name="pelanggaran" placeholder="Pelanggaran">
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>Jenis Pelanggaran</label>
+                                <select class="form-control" name="jenis_pelanggaran">
+                                    <option value="Pelanggaran Normatif">Pelanggaran Normatif</option>
+                                    <option value="Pelanggaran K3">Pelanggaran K3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Pasal</label>
+                                <select class="form-control" name="id_pasal" id="id_pasal">
+                                    <?php foreach ($pasal as $key) { ?>
+                                        <option value="<?php echo $key->ID_PASAL; ?>"><?php echo $key->KETERANGAN_PASAL; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="submit" value="+ TAMBAH BARU" class="btn btn-primary btn-sm" />
+                    </div>
                     
                 </div>
+                </form>
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
@@ -162,7 +197,7 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading" style="color: #fff;background-color: #ec6b4d;">
-                            Daftar Perusahaan dan Pengadu Yang Diawasi
+                            Daftar Pasal Yang Sesuai
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -170,32 +205,18 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>No. SPT</th>
-                                        <th>Nama Pengadu</th>
-                                        <th>Jenis Kelamin</th>
-                                        <th>Nama Perusahaan</th>
-                                        <th>Alamat Perusahaan</th>
-                                        <th>Hasil Temuan</th>
-                                        <th>Menu</th>
+                                        <th>Pelanggaran</th>
+                                        <th>Jenis Pelanggaran</th>
+                                        <th>Pasal</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php $count=1; foreach ($spt_list as $key) { ?>
                                         <tr>
                                             <td><?php echo $count++; ?></td>
-                                            <td><?php echo $key->NO_SPT; ?></td>
-                                            <td><?php echo $key->NAMA_TK; ?></td>
-                                            <td><?php echo $key->JENIS_KEL; ?></td>
-                                            <td><?php echo $key->NAMA_PERUSAHAAN; ?></td>
-                                            <td><?php echo $key->ALAMAT_PERUSAHAAN; ?></td>
-                                            <td><a class="btn btn-sm btn-warning" href="<?php echo site_url('main/index/hasil-temuan') ?>?id_spt=<?php echo $key->ID_SPT; ?>">Temuan</a></td>
-                                            <td><?php if($key->STATUS_SPT==1) { ?>
-                                            <a class="btn btn-success btn-sm" target="_blank"  href="<?php echo site_url('pengaduan/cetak_laporan_pemeriksaan') ?>?id=<?php echo $key->ID_SPT;?>&id_tk=<?php echo $key->ID_TK ?>&id_jenis_keluhan=<?php echo $key->ID_JENIS_KELUHAN ?>&no_spt=<?php echo $key->NO_SPT; ?>" class="btn btn-sm btn-warning" >Dokumen</a>
-                                            <?php } else if($key->STATUS_SPT==0) { ?>
-                                                <a class="btn btn-primary btn-sm" href="<?php echo site_url('main/index/pemeriksaan-lapangan') ?>?id=<?php echo $key->ID_SPT;?>&id_tk=<?php echo $key->ID_TK ?>&id_jenis_keluhan=<?php echo $key->ID_JENIS_KELUHAN ?>" class="btn btn-sm btn-warning">Periksa</a>
-                                            <?php } ?>
-                                            
-                                            </td>
+                                            <td><?php echo $key->ISI_HASIL_TEMUAN; ?></td>
+                                            <td><?php echo $key->JENIS_PELANGGARAN; ?></td>
+                                            <td><?php echo $key->KETERANGAN_PASAL; ?></td>
                                         </tr>
                                     <?php } ?>
                                     
@@ -226,6 +247,7 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="<?php echo base_url('assets/js/bootstrap.js') ?>"></script>
+    <script src="<?php echo base_url('assets/js/selectize.js') ?>"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="<?php echo base_url('assets/js/metisMenu.js') ?>"></script>
@@ -241,6 +263,9 @@
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
     $(document).ready(function() {
+        $('select#id_pasal').selectize({
+            sortField: 'text'
+        });
         $('#dataTables-example').DataTable({
             "language": {
                 "sSearch": "Cari:",

@@ -11,6 +11,12 @@ class Pengaduan extends CI_Controller {
 		$this->load->view('pages/registrasi');
 		$this->load->view('default/footer');
 	}
+    function tambah_pasal(){
+        $id_spt=$this->input->post("id_spt");
+        $this->load->model('m_main');
+        $this->m_main->insert_hasil_temuan($id_spt);
+        redirect('main/index/hasil-temuan?id_spt='.$id_spt);
+    }
     function cetak_laporan_pemeriksaan(){
     $this->load->model('m_main');
     $id_spt = $this->input->get("id");
