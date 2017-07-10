@@ -187,7 +187,13 @@
                                             <td><?php echo $key->JENIS_KEL; ?></td>
                                             <td><?php echo $key->NAMA_PERUSAHAAN; ?></td>
                                             <td><?php echo $key->ALAMAT_PERUSAHAAN; ?></td>
-                                            <td><a href="<?php echo site_url('main/index/pemeriksaan-lapangan') ?>?id=<?php echo $key->ID_SPT;?>" class="btn btn-sm btn-warning">Periksa</a></td>
+                                            <td><?php if($key->STATUS_SPT==1) { ?>
+                                            <a class="btn btn-success btn-sm" target="_blank"  href="<?php echo site_url('pengaduan/cetak_laporan_pemeriksaan') ?>?id=<?php echo $key->ID_SPT;?>&id_tk=<?php echo $key->ID_TK ?>&id_jenis_keluhan=<?php echo $key->ID_JENIS_KELUHAN ?>&no_spt=<?php echo $key->NO_SPT; ?>" class="btn btn-sm btn-warning" >Dokumen</a>
+                                            <?php } else if($key->STATUS_SPT==0) { ?>
+                                                <a class="btn btn-primary btn-sm" href="<?php echo site_url('main/index/pemeriksaan-lapangan') ?>?id=<?php echo $key->ID_SPT;?>&id_tk=<?php echo $key->ID_TK ?>&id_jenis_keluhan=<?php echo $key->ID_JENIS_KELUHAN ?>" class="btn btn-sm btn-warning">Periksa</a>
+                                            <?php } ?>
+                                            
+                                            </td>
                                         </tr>
                                     <?php } ?>
                                     

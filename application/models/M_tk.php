@@ -3,6 +3,21 @@ class M_tk extends CI_Model{
 	// function __construct(){
 	// 	$this->load->database();
 	// }
+	function insertCasePemeriksaan($id_spt,$jumlah_pegawai,$keterangan,$id_jenis_keluhan){
+		$status_penyelesaian = 40;
+		$data_spt=array(
+			'JUMLAH_PEGAWAI' => $jumlah_pegawai,
+			'PEMERIKSAAN' => $keterangan,
+			'STATUS_SPT' => 1
+		);
+		$this->db->where('ID_SPT', $id_spt);
+		$this->db->update('surat_perintah_tugas',$data_spt);
+		$data_status=array(
+			'STATUS_PENYELESAIAN' => $status_penyelesaian
+		);
+		$this->db->where('ID_JENIS_KELUHAN', $id_jenis_keluhan);
+		$this->db->update('jenis_keluhan',$data_status);
+	}
 	function insertCaseSPT($id_spt,$id_jenis_keluhan){
 		$status_penyelesaian = 30;
 		$nomor_spt = $id_spt."/".$id_jenis_keluhan."/".date('d.m/Y');

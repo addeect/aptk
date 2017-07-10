@@ -3,6 +3,18 @@ class M_main extends CI_Model{
 	function __construct(){
 		$this->load->database();
 	}
+	function getDataPengadu($id_tk){
+		$this->db->select("ap.*,tk.*,k.*,jk.*");
+		$this->db->from("admin_pengawas ap");
+		$this->db->join("jenis_keluhan jk","ap.ID_KELUHAN = jk.ID_JENIS_KELUHAN");
+		$this->db->join("tenaga_kerja tk","jk.ID_TK = tk.ID_TK");
+		$this->db->join("karyawan k","k.ID_KARYAWAN = ap.ID_KARYAWAN");
+		$this->db->where("tk.ID_TK",$id_tk);
+		$this->db->limit("1");
+		// $this->db->order_by("ID_SPT ASC");
+		$query = $this -> db -> get();
+		return $query->result();
+	}
 	function getSPT_List($id_karyawan){
 		$this->db->select("ap.*,tk.*,k.*,jk.*,spt.*");
 		$this->db->from("admin_pengawas ap");

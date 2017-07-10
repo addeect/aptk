@@ -64,6 +64,15 @@ class Main extends CI_Controller {
 			'page_name' => $page_name
 			);
 		}
+		elseif($page_name=='pemeriksaan-lapangan'){
+			$this->load->model('m_main');
+			$id_tk=$_GET['id_tk'];
+			$data=array(
+			'spt_list' => $this->m_main->getDataPengadu($id_tk),
+			'title' => ucwords($title),
+			'page_name' => $page_name
+			);
+		}
 		
 
 		$this->load->view('default/header',$data);

@@ -41,3 +41,7 @@ if (strlen($name) > 30) {
                     $new_name = $name;
                 }
 ?>
+
+2. ADD FK . Query :
+ALTER TABLE surat_perintah_tugas ADD FOREIGN KEY (ID_PASAL) REFERENCES pasal(ID_PASAL);
+ALTER TABLE hasil_temuan ADD FOREIGN KEY (ID_SPT) REFERENCES surat_perintah_tugas(ID_SPT);

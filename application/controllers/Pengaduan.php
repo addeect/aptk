@@ -11,6 +11,154 @@ class Pengaduan extends CI_Controller {
 		$this->load->view('pages/registrasi');
 		$this->load->view('default/footer');
 	}
+    function cetak_laporan_pemeriksaan(){
+    $this->load->model('m_main');
+    $id_spt = $this->input->get("id");
+    $id_jenis_keluhan = $this->input->get("id_jenis_keluhan");
+    $data_spt = $this->m_main->getDataSPT($id_spt);
+    $this->load->library('Pdf');
+    // set document variable
+    // $nomor_spt = $this->input->get("no_spt");
+    $nomor_spt = $this->input->get("no_spt");
+    $dasar1 = "Undang-undang nomor 3 tahun 1951 tentang pernyataan berlakunya undang-undang pengawasan perburuhan tahun 1948 No. 23 dari Republik Indonesia untuk seluruh Indonesia";
+    $dasar2 = "Undang-undang No. 1 tahun 1970 tentang Keselamatan Kerja";
+    $dasar3 = "Undang-undang No. 13 tahun 2003 tentang Ketenagakerjaan";
+    $dasar4 = "Undang-undang No. 32 tahun 2004 tentang Pemerintah Daerah";
+
+    $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+    // set document information
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor('Disnaker Surabaya');
+    $pdf->SetTitle('Surat Perintah Tugas');
+    $pdf->SetSubject('Disnaker');
+    $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+    // set default header data
+    $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, 'SURAT PERINTAH TUGAS', PDF_HEADER_STRING);
+
+    // set header and footer fonts
+    $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+    $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+    // set default monospaced font
+    $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+    // set margins
+    $pdf->SetMargins(PDF_MARGIN_LEFT, '43', PDF_MARGIN_RIGHT);
+    $pdf->SetHeaderMargin('50');
+    $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+    // set auto page breaks
+    $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+    // set image scale factor
+    $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+    // set font
+    $pdf->SetFont('dejavusans', '', 10);
+
+    $pdf->AddPage();
+    // Section 1
+    $html = '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;">LAPORAN PEMERIKSAAN</span></div>';
+    $html .= '<div style="width:300px;text-align:left;border:none;line-height:1px"><span style="font-weight: normal;">NOMOR : '.$nomor_spt.'</span></div>';
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+
+    // Section 2
+    $html .= '<div style="width:300px;text-align:left;border:none;line-height:1px"><p style="font-weight: normal;">KEPADA YTH</p>';
+    $html .= '<p style="font-weight:normal">Bapak Kepala Dinas Sulton Prakasa</p>';
+    $html .= '<p style="font-weight:normal">di tempat.</p>';
+    $html .= '</div>';
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+
+    // Section 3
+    foreach ($data_spt as $key) {
+        $nama_perusahaan=$key->NAMA_PERUSAHAAN;
+        $html .= '<div style="width:300px;text-align:justify;border:none;line-height:1px"><p style="font-weight: normal;"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Berdasarkan Surat Perintah Tugas Nomor '.$nomor_spt.' telah dilakukan pemeriksaan di '.$nama_perusahaan.' dengan hasil pemeriksa sebagai berikut:</p></div>';
+    }
+    
+
+    // // Section 2
+    // $html .= '<table border="0" >';
+    // $html .= '<tr>';
+    // $html .= '<td rowspan="4" width="80px">Dasar</td>';
+    // $html .= '<td rowspan="4" width="20px">:</td>';
+    // $html .= '<td width="20px">1. </td>';
+    // $html .= '<td width="500px">'.$dasar1.'</td>';
+    // $html .= '</tr>';
+    // $html .= '<tr>';
+    // $html .= '<td width="20px">2. </td>';
+    // $html .= '<td width="500px">'.$dasar2.'</td>';
+    // $html .= '</tr>';
+    // $html .= '<tr>';
+    // $html .= '<td width="20px">3. </td>';
+    // $html .= '<td width="500px">'.$dasar3.'</td>';
+    // $html .= '</tr>';
+    // $html .= '<tr>';
+    // $html .= '<td width="20px">4. </td>';
+    // $html .= '<td width="500px">'.$dasar4.'</td>';
+    // $html .= '</tr>';
+    // $html .= '</table>';
+
+    // Spacing
+    // $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+
+    // // Section 3
+    // $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;">MENUGASKAN</span></div>';
+
+    // // Spacing
+    // $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+
+    // // Section 4
+    // $html .= '<table border="0" width="200px">';
+    // $html .= '<tr>';
+    // $html .= '<td width="80px">Kepada</td>';
+    // $html .= '<td width="20px">:</td>';
+    // $html .= '</tr>';
+    // $html .= '</table>';
+    // Get data petugas pengawas
+    // foreach ($data_pengawas as $key) {
+      
+    // }
+    
+    // $html .= '<table border="0" width="400px">';
+    // $html .= '<tr>';
+    // $html .= '<td width="20px">1. </td>';
+    // $html .= '<td width="90px">Nama</td>';
+    // $html .= '<td width="20px">:</td>';
+    // $html .= '<td width="300px">'.$dasar1.'</td>';
+    // $html .= '</tr>';
+    // $html .= '</table>';
+    /*$query1 = "SELECT NAMA_LOKASI, WITEL FROM master_access_point WHERE ID_LOKASI='".$id_lokasi."'";
+    $result1 = mysql_query($query1);
+    while($row1 = mysql_fetch_array($result1)){
+        $nama_lokasi = $row1[0];
+        $witel = $row1[1];
+        $html .= '<span style="font-weight: normal;">ID Lokasi : '.$id_lokasi.' </span><br/>';
+        $html .= '<span style="font-weight: normal;">Nama Lokasi : '.$nama_lokasi.' </span><br/>';
+        $html .= '<span style="font-weight: normal;">Witel : '.$witel.' </span><br/><br/>';
+    }*/
+    $html .='';
+    
+    // output the HTML content
+    $pdf->writeHTML($html, true, false, true, false, '');
+
+    //$pdf->lastPage();
+    //$pdf->Write(5, 'Some sample text');
+    $pdf->Output('Lap-pemeriksaan-'.$nomor_spt.'.pdf', 'I');
+  }
+    function insert_pemeriksaan(){
+    $id_spt = $this->input->post("id_spt");
+    $id_jenis_keluhan = $this->input->post("id_jenis_keluhan");
+    $jumlah_pegawai = $this->input->post("jumlah_pegawai");
+    $keterangan = $this->input->post("keterangan");
+    $this->load->model('m_tk');
+    $this->m_tk->insertCasePemeriksaan($id_spt,$jumlah_pegawai,$keterangan,$id_jenis_keluhan);
+    redirect('main/index/daftar-pengaduan');
+    }
   function pembuatan_SPT(){
     $id_spt = $this->input->get("no_spt");
     $id_jenis_keluhan = $this->input->get("id_jenis_keluhan");
