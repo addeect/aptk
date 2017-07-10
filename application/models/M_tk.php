@@ -5,8 +5,10 @@ class M_tk extends CI_Model{
 	// }
 	function insertCaseSPT($id_spt,$id_jenis_keluhan){
 		$status_penyelesaian = 30;
+		$nomor_spt = $id_spt."/".$id_jenis_keluhan."/".date('d.m/Y');
 		$data_spt=array(
 			'ISI_SPT' => $this->input->post('kasus'),
+			'NO_SPT' => $nomor_spt,
 			'IS_ACTIVE_SPT' => '1',
 			'STATUS_SPT' => '0'
 		);

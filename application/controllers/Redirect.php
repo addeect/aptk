@@ -86,7 +86,8 @@ class Redirect extends CI_Controller {
 						$default_page = "pembuatan-surat-perintah-tugas";
 					}
 					else if($user_type=="2"){
-						$user_type_name = "pemeriksaan-lapangan";
+						$user_type_name = "petugas pengawas";
+						$default_page = "daftar-pengaduan";
 					}
 					$data=array(
 						'nama_user'=>$nama_user,
@@ -95,7 +96,7 @@ class Redirect extends CI_Controller {
 						'user_id'=> $user_id
 					);
 					$x=$this->session->set_userdata($data);			
-					redirect('main/index/pembuatan-surat-perintah-tugas',$x);
+					redirect('main/index/'.$default_page,$x);
 				}
 			}
 			

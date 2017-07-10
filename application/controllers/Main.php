@@ -55,6 +55,15 @@ class Main extends CI_Controller {
 			'page_name' => "beranda"
 			);
 		}
+		elseif($page_name=='daftar-pengaduan'){
+			$this->load->model('m_main');
+			$id_karyawan=$_SESSION['nik'];
+			$data=array(
+			'spt_list' => $this->m_main->getSPT_List($id_karyawan),
+			'title' => ucwords($title),
+			'page_name' => $page_name
+			);
+		}
 		
 
 		$this->load->view('default/header',$data);

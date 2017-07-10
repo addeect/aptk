@@ -1,4 +1,3 @@
-<link href="<?php echo base_url('assets/css/selectize.bootstrap3.css') ?>" rel="stylesheet">
 <div id="wrapper">
 
         <!-- Navigation -->
@@ -55,13 +54,16 @@
                             </div-->
                             <!-- /input-group -->
                         <!--/li-->
+                        
                         <li class="active">
-                            <a href="#" class="hitam"><i class="fa fa-tasks fa-fw"></i> Surat Perintah Tugas<span class="fa arrow"></span></a>
+                            <a href="#" class="hitam"><i class="fa fa-files-o fa-fw"></i> Pemeriksaan Lapangan<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse in" aria-expanded="true">
-                                
                                 <li>
-                                    <a class="aktif">Admin Pengawas</a>
+                                    <a class="aktif">Daftar Pengaduan</a>
                                 </li>
+                                <!--<li>
+                                    <a href="<?php // echo site_url('main/index/pemeriksaan-lapangan') ?>">Pemeriksaan Lapangan</a>
+                                </li>-->
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
@@ -147,115 +149,50 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Halaman Pembuatan Surat Perintah Tugas</h1>
+                    <h1 class="page-header">Daftar Pengawasan</h1>
+                    <!--<div class="form-group">
+                        <input type="button" value="+ TAMBAH BARU" class="btn btn-primary btn-sm" />
+                    </div>-->
+                    
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
             <div class="row">
                 <div class="col-lg-12">
-                <?php if(isset($_GET['success'])){
-                        echo '<div class="alert alert-success"><strong>Sukses!</strong> Pembuatan Surat Perintah Tugas Berhasil Disimpan.</div>';
-                    }
-                    elseif (isset($_GET['failed'])) {
-                         echo '<div class="alert alert-danger"><strong>Gagal!</strong> Pembuatan Surat Perintah Tugas Gagal Disimpan.</div>';
-                     } ?>
                     <div class="panel panel-default">
                         <div class="panel-heading" style="color: #fff;background-color: #ec6b4d;">
-                            Form Surat Perintah Tugas
+                            Daftar Perusahaan dan Pengadu Yang Diawasi
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                        <form target="_blank" method="GET" id="form_pembuatan_spt" action="<?php echo site_url('pengaduan/pembuatan_SPT') ?>">
-                            <input type="hidden" name="id_jenis_keluhan" id="id_jenis_keluhan">
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-1">&nbsp;</div>
-                                    <div class="col-sm-3">
-                                        <label for="no_spt">ID SPT</label>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <select class="form-control" name="no_spt" id="no_spt">
-                                            <option selected hidden value="">Pilih Nomor SPT</option>
-                                            <?php foreach ($id_spt as $key1) { ?>
-                                                <option value="<?php echo $key1->ID_SPT;?>"><?php echo $key1->ID_SPT; ?></option>
-                                            <?php } ?>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-1">&nbsp;</div>
-                                    <div class="col-sm-3">
-                                        <label for="petugas_1">Nama Petugas Pengawas 1</label>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" readonly class="form-control" name="petugas_1" id="petugas_1" placeholder="Nama Petugas Pengawas" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-1">&nbsp;</div>
-                                    <div class="col-sm-3">
-                                        <label for="petugas_2">Nama Petugas Pengawas 2</label>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" readonly class="form-control" name="petugas_2" id="petugas_2" placeholder="Nama Petugas Pengawas" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-1">&nbsp;</div>
-                                    <div class="col-sm-3">
-                                        <label for="petugas_3">Nama Petugas Pengawas 3</label>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" readonly class="form-control" name="petugas_3" id="petugas_3" placeholder="Nama Petugas Pengawas" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-1">&nbsp;</div>
-                                    <div class="col-sm-3">
-                                        <label for="nama_pengadu">Nama Pengadu</label>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" readonly class="form-control" name="nama_pengadu" id="nama_pengadu" placeholder="Nama Pengadu" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-1">&nbsp;</div>
-                                    <div class="col-sm-3">
-                                        <label for="kasus">Kasus<span style="color:red">*</span></label>
-                                        <p class="help-block">*Isi pembahasan peruntukan Surat Perintah Tugas</p>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <textarea required style="resize:none;height:200px" class="form-control" name="kasus" id="kasus" placeholder="Ketik Penjelasan Kasus"/></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!--div class="col-lg-6 col-sm-6 col-12">
-                                <h4>MP3 / WAV</h4>
-                                <div class="input-group">
-                                    <label class="input-group-btn">
-                                        <span class="btn btn-primary">
-                                            Browse&hellip; <input type="file" name="file" style="display: none;" accept="audio/*">
-                                        </span>
-                                    </label>
-                                    <input type="text" class="form-control" readonly>
-                                </div>
-                                <span class="help-block">
-                                    File rekaman harus dalam bentuk format <strong>.mp3</strong> atau <strong>.wav</strong>
-                                </span>
-                            </div-->
-                            
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>No. SPT</th>
+                                        <th>Nama Pengadu</th>
+                                        <th>Jenis Kelamin</th>
+                                        <th>Nama Perusahaan</th>
+                                        <th>Alamat Perusahaan</th>
+                                        <th>Menu</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $count=1; foreach ($spt_list as $key) { ?>
+                                        <tr>
+                                            <td><?php echo $count++; ?></td>
+                                            <td><?php echo $key->NO_SPT; ?></td>
+                                            <td><?php echo $key->NAMA_TK; ?></td>
+                                            <td><?php echo $key->JENIS_KEL; ?></td>
+                                            <td><?php echo $key->NAMA_PERUSAHAAN; ?></td>
+                                            <td><?php echo $key->ALAMAT_PERUSAHAAN; ?></td>
+                                            <td><a href="<?php echo site_url('main/index/pemeriksaan-lapangan') ?>?id=<?php echo $key->ID_SPT;?>" class="btn btn-sm btn-warning">Periksa</a></td>
+                                        </tr>
+                                    <?php } ?>
+                                    
+                                </tbody>
+                            </table>
                             <!-- /.table-responsive -->
                             <!--div class="well">
                                 <h4>DataTables Usage Information</h4>
@@ -265,16 +202,7 @@
                         </div>
                         <!-- /.panel-body -->
                     </div>
-                    
                     <!-- /.panel -->
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-sm-4"></div>
-                            <div class="col-sm-2 form-group"><input onclick="setTimeout(function(){ window.location='<?php echo site_url('main/index/pembuatan-surat-perintah-tugas?success')?>'; }, 3000);" type="submit" class="btn btn-md btn-success" value="SIMPAN"/></div>
-                            <div class="col-sm-2 form-group"><button class="btn btn-md btn-danger">TIDAK</button></div>
-                        </div>
-                    </div>
-                    </form>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -290,8 +218,6 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="<?php echo base_url('assets/js/bootstrap.js') ?>"></script>
-    <!-- Autocomplete - Bootstrap Plugin -->
-    <script src="<?php echo base_url('assets/js/selectize.js') ?>"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="<?php echo base_url('assets/js/metisMenu.js') ?>"></script>
@@ -307,56 +233,20 @@
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
     $(document).ready(function() {
-
-        $('select#no_spt').selectize({
-            sortField: 'text'
+        $('#dataTables-example').DataTable({
+            "language": {
+                "sSearch": "Cari:",
+            "lengthMenu": "Tampilkan _MENU_ baris",
+            "zeroRecords": "Data Tidak Ditemukan",
+            "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
+            "infoEmpty": "Data Tidak Ada",
+            "infoFiltered": "(difilter dari _MAX_ data yang ada)",
+            "paginate": {
+              "previous": "<",
+              "next": ">"
+            }
+        },
+            responsive: true
         });
-        $('select#no_spt').change(function(){
-            var id_spt = this.value;
-            // AJAX START
-            var request = $.ajax({
-              url: "<?php echo site_url('pengaduan/getDataSPT') ?>",
-              method: "POST",
-              data: { id : id_spt },
-              dataType: "json"
-            });
-             
-            request.done(function( data ) {
-              if ($.isEmptyObject(data)){
-                    $('input#petugas_1').val("Petugas Tidak Ditemukan");
-                    $('input#petugas_2').val("Petugas Tidak Ditemukan");
-                    $('input#petugas_3').val("Petugas Tidak Ditemukan");
-                    $('input#nama_pengadu').val("Pengadu Tidak Ditemukan");
-                }
-              else{
-                var nama_perorangan = data[0].NAMA_TK;
-                var nama_serikat = data[0].NAMA_SERIKAT;
-                var id_jenis_keluhan = data[0].ID_JENIS_KELUHAN;
-                $('input#petugas_1').val(data[0].NAMA_KARYAWAN);
-                $('input#petugas_2').val(data[1].NAMA_KARYAWAN);
-                $('input#petugas_3').val(data[2].NAMA_KARYAWAN);
-                $('input#id_jenis_keluhan').val(id_jenis_keluhan);
-                // alert(nama_perorangan+nama_serikat);
-                if(nama_perorangan == null && nama_serikat == null){
-                    $('input#nama_pengadu').val("Petugas Tidak Ditemukan");
-                }
-                else if(nama_perorangan == null){
-                    $('input#nama_pengadu').val(nama_serikat);
-                }
-                else if(nama_serikat == null){
-                    $('input#nama_pengadu').val(nama_perorangan);
-                }
-                else{
-                    $('input#nama_pengadu').val(nama_serikat+" - "+nama_perorangan);
-                }
-              }
-              
-            });
-             
-            request.fail(function( jqXHR, textStatus ) {
-              alert( "Request failed: " + textStatus );
-            });
-        });
-
     });
     </script>
