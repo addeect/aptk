@@ -12,18 +12,17 @@ class Pengaduan extends CI_Controller {
 		$this->load->view('default/footer');
 	}
   function pembuatan_SPT(){
-    $id_spt = $this->input->post("no_spt");
-    $id_jenis_keluhan = $this->input->post("id_jenis_keluhan");
+    $id_spt = $this->input->get("no_spt");
+    $id_jenis_keluhan = $this->input->get("id_jenis_keluhan");
+    $isi_spt = $this->input->get("kasus");
     $this->load->model('m_tk');
+    $this->load->model('m_main');
     $this->m_tk->insertCaseSPT($id_spt,$id_jenis_keluhan);
 
     // Download PDF Document
-    $this->downloadPDF();
-
-    redirect('main/index/pembuatan-surat-perintah-tugas?success');
-  }
-  function downloadPDF(){
-    $this->load->library('Cpdf');
+    $data_pengawas = $this->m_main->getDataSPT_PDF($id_spt);
+    $data_spt = $this->m_main->getIsiSPT($id_spt);
+    $this->load->library('Pdf');
     // set document variable
     $nomor_spt = $id_spt."/".$id_jenis_keluhan."/".date('d.m/Y');
     $dasar1 = "Undang-undang nomor 3 tahun 1951 tentang pernyataan berlakunya undang-undang pengawasan perburuhan tahun 1948 No. 23 dari Republik Indonesia untuk seluruh Indonesia";
@@ -64,8 +63,242 @@ class Pengaduan extends CI_Controller {
     $pdf->SetFont('dejavusans', '', 10);
 
     $pdf->AddPage();
+    // Section 1
+    $html = '<div style="width:300px;text-align:center;border:none;line-height:1"><span style="font-weight: bold;">SURAT PERINTAH TUGAS</span></div>';
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1"><span style="font-weight: bold;">Nomor : '.$nomor_spt.'</span></div>';
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1"><span style="font-weight: bold;"></span></div>';
+
+    // Section 2
+    $html .= '<table border="0" >';
+    $html .= '<tr>';
+    $html .= '<td rowspan="4" width="80px">Dasar</td>';
+    $html .= '<td rowspan="4" width="20px">:</td>';
+    $html .= '<td width="20px">1. </td>';
+    $html .= '<td width="500px"><p style="text-align:justify">'.$dasar1.'</p></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="20px">2. </td>';
+    $html .= '<td width="500px"><p style="text-align:justify">'.$dasar2.'</p></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="20px">3. </td>';
+    $html .= '<td width="500px"><p style="text-align:justify">'.$dasar3.'</p></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="20px">4. </td>';
+    $html .= '<td width="500px"><p style="text-align:justify">'.$dasar4.'</p></td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1"><span style="font-weight: bold;"></span></div>';
+
+    // Section 3
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1"><span style="font-weight: bold;">MENUGASKAN</span></div>';
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1"><span style="font-weight: bold;"></span></div>';
+
+    // Section 4
+    $html .= '<table border="0" width="200px">';
+    $html .= '<tr>';
+    $html .= '<td rowspan="15" width="80px">Kepada</td>';
+    $html .= '<td rowspan="15" width="20px">:</td>';
+    $html .= '<td width="400px">';
+    $html .= '<table border="0">';
+
+    // Get data petugas pengawas
+    $count = 1;
+    foreach ($data_pengawas as $key) {
+      $html .= '<tr>';
+      $html .= '<td width="20px" rowspan="5">'.$count++.'. </td>';
+      $html .= '<td width="100px">Nama</td>';
+      $html .= '<td width="20px">:</td>';
+      $html .= '<td width="200px">'.$key->NAMA_KARYAWAN.'</td>';
+      $html .= '</tr>';
+      $html .= '<tr>';
+      $html .= '<td>Pangkat/Gol</td>';
+      $html .= '<td>:</td>';
+      $html .= '<td>'.$key->GOLONGAN.'</td>';
+      $html .= '</tr>';
+      $html .= '<tr>';
+      $html .= '<td>Nip</td>';
+      $html .= '<td>:</td>';
+      $html .= '<td>'.$key->ID_KARYAWAN.'</td>';
+      $html .= '</tr>';
+      $html .= '<tr>';
+      $html .= '<td>Jabatan</td>';
+      $html .= '<td>:</td>';
+      $html .= '<td>Pengawas Ketenagakerjaan</td>';
+      $html .= '</tr>';
+      $html .= '<tr>';
+      $html .= '<td>&nbsp;</td>';
+      $html .= '<td>&nbsp;</td>';
+      $html .= '<td>&nbsp;</td>';
+      $html .= '</tr>';
+      
+    }
+
+    $html .= '</table>';
+    $html .= '</td>';
+    $html .= '</tr>';
+    $html .= '</table>';
     
-    $html = '<span style="font-weight: bold;">Nomor : '.$nomor_spt.'</span><br/><br/>';
+    // Section 5
+    $html .= '<table border="0" >';
+    $html .= '<tr>';
+    $html .= '<td  width="80px">Untuk</td>';
+    $html .= '<td  width="20px">:</td>';
+    $html .= '<td width="600px">';
+    $html .= '<table border="0">';
+
+    // Get data isi spt
+    
+    $html .= '<tr>';
+    $html .= '<td width="550px" ><p style="text-align:justify">'.nl2br($isi_spt).'</p></td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+    $html .= '</td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1"><span style="font-weight: bold;"></span></div>';
+
+    // Section 6
+    $html .= '<div style="width:300px;text-align:left;border:none;line-height:1.5"><p style="font-weight: normal;"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Demikian Surat Perintah Tugas ini diberikan kepada yang bersangkutan untuk dilaksanakan dengan penuh tanggung jawab.</p></div>';
+    // $html .= '<table border="0" width="400px">';
+    // $html .= '<tr>';
+    // $html .= '<td width="20px">1. </td>';
+    // $html .= '<td width="90px">Nama</td>';
+    // $html .= '<td width="20px">:</td>';
+    // $html .= '<td width="300px">'.$dasar1.'</td>';
+    // $html .= '</tr>';
+    // $html .= '</table>';
+    /*$query1 = "SELECT NAMA_LOKASI, WITEL FROM master_access_point WHERE ID_LOKASI='".$id_lokasi."'";
+    $result1 = mysql_query($query1);
+    while($row1 = mysql_fetch_array($result1)){
+        $nama_lokasi = $row1[0];
+        $witel = $row1[1];
+        $html .= '<span style="font-weight: normal;">ID Lokasi : '.$id_lokasi.' </span><br/>';
+        $html .= '<span style="font-weight: normal;">Nama Lokasi : '.$nama_lokasi.' </span><br/>';
+        $html .= '<span style="font-weight: normal;">Witel : '.$witel.' </span><br/><br/>';
+    }*/
+    $html .='';
+    
+    // output the HTML content
+    $pdf->writeHTML($html, true, false, true, false, '');
+
+    //$pdf->lastPage();
+    //$pdf->Write(5, 'Some sample text');
+    $pdf->Output('SPT-'.$nomor_spt.'.pdf', 'I');
+
+    redirect('main/index/pembuatan-surat-perintah-tugas?success');
+  }
+  function downloadPDF_SPT($id_spt){
+    // $this->load->model('m_tk');
+    $data_pengawas = $this->m_main->getDataSPT($id_spt);
+    $this->load->library('Pdf');
+    // set document variable
+    $nomor_spt = $id_spt."/".$id_jenis_keluhan."/".date('d.m/Y');
+    $dasar1 = "Undang-undang nomor 3 tahun 1951 tentang pernyataan berlakunya undang-undang pengawasan perburuhan tahun 1948 No. 23 dari Republik Indonesia untuk seluruh Indonesia";
+    $dasar2 = "Undang-undang No. 1 tahun 1970 tentang Keselamatan Kerja";
+    $dasar3 = "Undang-undang No. 13 tahun 2003 tentang Ketenagakerjaan";
+    $dasar4 = "Undang-undang No. 32 tahun 2004 tentang Pemerintah Daerah";
+
+    $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+    // set document information
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor('Disnaker Surabaya');
+    $pdf->SetTitle('Surat Perintah Tugas');
+    $pdf->SetSubject('Disnaker');
+    $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+    // set default header data
+    $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, 'SURAT PERINTAH TUGAS', PDF_HEADER_STRING);
+
+    // set header and footer fonts
+    $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+    $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+    // set default monospaced font
+    $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+    // set margins
+    $pdf->SetMargins(PDF_MARGIN_LEFT, '43', PDF_MARGIN_RIGHT);
+    $pdf->SetHeaderMargin('50');
+    $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+    // set auto page breaks
+    $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+    // set image scale factor
+    $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+    // set font
+    $pdf->SetFont('dejavusans', '', 10);
+
+    $pdf->AddPage();
+    // Section 1
+    $html = '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;">SURAT PERINTAH TUGAS</span></div>';
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;">Nomor : '.$nomor_spt.'</span></div>';
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+
+    // Section 2
+    $html .= '<table border="0" >';
+    $html .= '<tr>';
+    $html .= '<td rowspan="4" width="80px">Dasar</td>';
+    $html .= '<td rowspan="4" width="20px">:</td>';
+    $html .= '<td width="20px">1. </td>';
+    $html .= '<td width="500px">'.$dasar1.'</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="20px">2. </td>';
+    $html .= '<td width="500px">'.$dasar2.'</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="20px">3. </td>';
+    $html .= '<td width="500px">'.$dasar3.'</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="20px">4. </td>';
+    $html .= '<td width="500px">'.$dasar4.'</td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+
+    // Section 3
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;">MENUGASKAN</span></div>';
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+
+    // Section 4
+    $html .= '<table border="0" width="200px">';
+    $html .= '<tr>';
+    $html .= '<td width="80px">Kepada</td>';
+    $html .= '<td width="20px">:</td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+    // Get data petugas pengawas
+    // foreach ($data_pengawas as $key) {
+      
+    // }
+    
+    // $html .= '<table border="0" width="400px">';
+    // $html .= '<tr>';
+    // $html .= '<td width="20px">1. </td>';
+    // $html .= '<td width="90px">Nama</td>';
+    // $html .= '<td width="20px">:</td>';
+    // $html .= '<td width="300px">'.$dasar1.'</td>';
+    // $html .= '</tr>';
+    // $html .= '</table>';
     /*$query1 = "SELECT NAMA_LOKASI, WITEL FROM master_access_point WHERE ID_LOKASI='".$id_lokasi."'";
     $result1 = mysql_query($query1);
     while($row1 = mysql_fetch_array($result1)){

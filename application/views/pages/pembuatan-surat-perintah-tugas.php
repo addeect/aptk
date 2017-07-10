@@ -353,7 +353,7 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                        <form target="_blank" method="POST" id="form_pembuatan_spt" action="<?php echo site_url('pengaduan/pembuatan_SPT') ?>">
+                        <form target="_blank" method="GET" id="form_pembuatan_spt" action="<?php echo site_url('pengaduan/pembuatan_SPT') ?>">
                             <input type="hidden" name="id_jenis_keluhan" id="id_jenis_keluhan">
                             <div class="form-group">
                                 <div class="row">

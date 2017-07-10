@@ -14,6 +14,27 @@ class M_main extends CI_Model{
 		$query = $this -> db -> get();
 		return $query->result();
 	}
+	function getDataSPT_PDF($id_spt){
+    	// $id_spt = $this->input->post("no_spt");
+		$this->db->select("ap.*,tk.*,k.ID_KARYAWAN,k.GOLONGAN,k.NAMA_KARYAWAN,jk.*");
+		$this->db->from("admin_pengawas ap");
+		$this->db->join("jenis_keluhan jk","ap.ID_KELUHAN = jk.ID_JENIS_KELUHAN");
+		$this->db->join("tenaga_kerja tk","jk.ID_TK = tk.ID_TK");
+		$this->db->join("karyawan k","k.ID_KARYAWAN = ap.ID_KARYAWAN");
+		$this->db->where("ap.ID_SPT",$id_spt);
+		// $this->db->order_by("ID_SPT ASC");
+		$query = $this -> db -> get();
+		return $query->result();
+	}
+	function getIsiSPT($id_spt){
+    	// $id_spt = $this->input->post("no_spt");
+		$this->db->select("ISI_SPT");
+		$this->db->from("surat_perintah_tugas");
+		$this->db->where("ID_SPT","13");
+		// $this->db->order_by("ID_SPT ASC");
+		$query = $this -> db -> get();
+		return $query->result();
+	}
 	function getSPT_ID(){
 		$this->db->select("*");
 		$this->db->from("surat_perintah_tugas");
