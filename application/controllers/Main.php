@@ -46,6 +46,15 @@ class Main extends CI_Controller {
 			'page_name' => $page_name
 			);
 		}
+		elseif($page_name=='status-pengaduan'){
+			$this->load->model('m_main');
+			// $id_tk=$_SESSION['user_id'];
+			$data=array(
+			'id_spt' => $this->m_main->getSPT_ID(),
+			'title' => ucwords("beranda"),
+			'page_name' => "beranda"
+			);
+		}
 		
 
 		$this->load->view('default/header',$data);

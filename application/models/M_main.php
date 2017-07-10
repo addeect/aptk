@@ -203,7 +203,7 @@ class M_main extends CI_Model{
 		return $q->result();
 	}
 	function getDataPerEmployee($user_id){
-		$this -> db -> select('k.ID_KARYAWAN, K.NAMA_KARYAWAN, k.TELP_KARYAWAN, p.IDPENGGUNA');
+		$this -> db -> select('kb.IS_CHILD, k.ID_KARYAWAN, K.NAMA_KARYAWAN, k.TELP_KARYAWAN, p.IDPENGGUNA');
 		$this -> db -> from('karyawan k');
 		$this -> db -> join('kepala_bidang kb','kb.ID_KABID=k.ID_KABID');
 		$this -> db -> join('pengguna p','p.IDPENGGUNA=kb.IDPENGGUNA');
@@ -219,13 +219,16 @@ class M_main extends CI_Model{
 		// }
 		return $q->result();
 	}
-	function employeeCheck($user_id){
+	function employeeCheck($user_id,$pass){
+		$status="AKTIF";
 		$this -> db -> select('k.ID_KARYAWAN, K.NAMA_KARYAWAN, k.TELP_KARYAWAN, p.IDPENGGUNA');
 		$this -> db -> from('karyawan k');
 		$this -> db -> join('kepala_bidang kb','kb.ID_KABID=k.ID_KABID');
 		$this -> db -> join('pengguna p','p.IDPENGGUNA=kb.IDPENGGUNA');
 		// $this -> db -> order_by("k.NAMA_KARYAWAN ASC");
 		$this -> db -> where('p.IDPENGGUNA', $user_id);
+		$this -> db -> where('p.PASSWORD', md5($pass));
+		$this -> db -> where('p.STATUS_PENGGUNA', $status);
 		//$this -> db -> where('PASSWORD', $pass);
 		// $this -> db -> limit(1);
 							

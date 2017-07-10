@@ -21,7 +21,15 @@ Urutan Alur Sistem :
 11. Pengajuan surat BAP ke polrestabes/kejaksaan
 
 Note :
-*Macam laporan yang ada :
-1. Kartu Pemeriksaan
-2. Laporan Pemeriksaan
-3. Surat perintah tugas
+* Macam laporan yang ada :
+# Dokumen
+1. Kartu Pemeriksaan - [UNDONE]
+2. Laporan Pemeriksaan - [CANCELED]
+3. Surat perintah tugas - [DONE]
+4. Nota Pemeriksaan - [UNDONE]
+5. Nota Peringatan II - [UNDONE]
+6. Nota Peringatan III - [UNDONE]
+7. Laporan Kejadian - [UNDONE]
+
+# Dashboard
+1. Total Data Pengaduan - [DONE]

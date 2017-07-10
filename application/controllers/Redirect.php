@@ -33,7 +33,7 @@ class Redirect extends CI_Controller {
 						'user_id'=> $user_id
 					);
 					$x=$this->session->set_userdata($data);			
-					redirect('main/index/edit-pengadu?id='.$user_id,$x);
+					redirect('main/index/status-pengaduan-serikat-pekerja',$x);
 				}
 				elseif($user_type==="perseorangan"){
 					// Get Data Tenaga Kerja
@@ -50,7 +50,7 @@ class Redirect extends CI_Controller {
 						'user_id'=> $user_id
 					);
 					$x=$this->session->set_userdata($data);			
-					redirect('main/index/edit-pengadu?id='.$user_id,$x);
+					redirect('main/index/status-pengaduan',$x);
 				}
 				else{
 					redirect("login/error");
@@ -60,27 +60,42 @@ class Redirect extends CI_Controller {
 			}
 			else{ // NOT OK
 				// Cek Data Petugas Internal
-				$cek_internal = $this->m_main->employeeCheck($email);
-				if(strlen($cek_internal) > 0){
-					$user_type = "petugas";
+				$cek_internal = $this->m_main->employeeCheck($email,$pass);
+				// var_dump($cek_internal);exit;
+				if($cek_internal === 0){
+					redirect("login/error");	
+				}
+				else{
+					$user_type = "";
+					$user_type_name = "";
+					$default_page = "";
 					// Get Data Petugas Internal
 					$user_info=$this->m_main->getDataPerEmployee($email);
 					foreach ($user_info as $key ) {
 						$nama_user=$key->NAMA_KARYAWAN;
 						$nik=$key->ID_KARYAWAN;
 						$user_id=$key->IDPENGGUNA;
+						$user_type=$key->IS_CHILD;
+					}
+					if($user_type=="0"){
+						$user_type_name = "kabid";
+						$default_page = "pemilihan-petugas-pengawas";
+					}
+					else if($user_type=="1"){
+						$user_type_name = "admin pengawas";
+						$default_page = "pembuatan-surat-perintah-tugas";
+					}
+					else if($user_type=="2"){
+						$user_type_name = "pemeriksaan-lapangan";
 					}
 					$data=array(
 						'nama_user'=>$nama_user,
 						'nik'=>$nik,
-						'role'=> ucwords($user_type),
+						'role'=> ucwords($user_type_name),
 						'user_id'=> $user_id
 					);
 					$x=$this->session->set_userdata($data);			
 					redirect('main/index/pembuatan-surat-perintah-tugas',$x);
-				}
-				else{
-					redirect("login/error");	
 				}
 			}
 			
