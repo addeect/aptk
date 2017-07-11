@@ -17,6 +17,100 @@ class Pengaduan extends CI_Controller {
         $this->m_main->insert_hasil_temuan($id_spt);
         redirect('main/index/hasil-temuan?id_spt='.$id_spt);
     }
+    function cetak_nota_1(){
+        $this->load->model('m_main');
+        $id_spt = $this->input->get("id_spt");
+        $id_jenis_keluhan = $this->input->get("id_jenis_keluhan");
+        $data_spt = $this->m_main->getDataSPT($id_spt);
+        $this->load->library('Pdf');
+
+        $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+    // set document information
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor('Disnaker Surabaya');
+    $pdf->SetTitle('Nota Pemeriksaan I');
+    $pdf->SetSubject('Disnaker');
+    $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+    // set default header data
+    $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, 'SURAT PERINTAH TUGAS', PDF_HEADER_STRING);
+
+    // set header and footer fonts
+    $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+    $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+    // set default monospaced font
+    $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+    // set margins
+    $pdf->SetMargins(PDF_MARGIN_LEFT, '43', PDF_MARGIN_RIGHT);
+    $pdf->SetHeaderMargin('50');
+    $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+    // set auto page breaks
+    $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+    // set image scale factor
+    $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+    // set font
+    $pdf->SetFont('dejavusans', '', 10);
+
+    $pdf->AddPage();
+    // Section 1
+    $html = '<div style="width:300px;text-align:right;border:none;line-height:1px"><span style="font-weight: normal;">Surabaya, '.date('d M Y').'</span></div>';
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+    $html .= '<table border="0">';
+    $html .= '<tr>';
+    $html .= '<td width="100px">Nomor</td>';
+    $html .= '<td width="10px">:</td>';
+    $html .= '<td width="150px">'.$id_spt.'/'.$id_jenis_keluhan.'/'.date('d.m/Y').'</td>';
+    $html .= '<td width="150px">&nbsp;</td>';
+    $html .= '<td width="200px">Kepada :</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="100px">Sifat</td>';
+    $html .= '<td width="10px">:</td>';
+    $html .= '<td width="150px">Penting</td>';
+    $html .= '<td width="150px">&nbsp;</td>';
+    $html .= '<td width="200px">Yth. Pimpinan Perusahaan</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="100px">Lampiran</td>';
+    $html .= '<td width="10px">:</td>';
+    $html .= '<td width="150px">-</td>';
+    $html .= '<td width="150px">&nbsp;</td>';
+    $html .= '<td width="200px"></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="100px">Hal</td>';
+    $html .= '<td width="10px">:</td>';
+    $html .= '<td width="150px">Nota Pemeriksaan</td>';
+    $html .= '<td width="150px">&nbsp;</td>';
+    $html .= '<td width="200px">Jl. </td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+
+    // Section 2
+    
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+
+    // Section 3
+    $html .='';
+    
+    // output the HTML content
+    $pdf->writeHTML($html, true, false, true, false, '');
+
+    //$pdf->lastPage();
+    //$pdf->Write(5, 'Some sample text');
+    $pdf->Output('Nota-Pemeriksaan-'.$nomor_spt.'.pdf', 'I');
+    }
     function cetak_laporan_pemeriksaan(){
     $this->load->model('m_main');
     $id_spt = $this->input->get("id");

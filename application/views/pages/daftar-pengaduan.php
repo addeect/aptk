@@ -176,6 +176,7 @@
                                         <th>Nama Perusahaan</th>
                                         <th>Alamat Perusahaan</th>
                                         <th>Hasil Temuan</th>
+                                        <th>Nota Pemeriksaan / Nota Peringatan</th>
                                         <th>Menu</th>
                                     </tr>
                                 </thead>
@@ -189,6 +190,7 @@
                                             <td><?php echo $key->NAMA_PERUSAHAAN; ?></td>
                                             <td><?php echo $key->ALAMAT_PERUSAHAAN; ?></td>
                                             <td><a class="btn btn-sm btn-warning" href="<?php echo site_url('main/index/hasil-temuan') ?>?id_spt=<?php echo $key->ID_SPT; ?>">Temuan</a></td>
+                                            <td><a target="_blank" class="btn btn-sm btn-danger" href="<?php echo site_url('pengaduan/cetak_nota_1') ?>?id_spt=<?php echo $key->ID_SPT; ?>&id_jenis_keluhan=<?php echo $key->ID_JENIS_KELUHAN; ?>">Nota I</a></td>
                                             <td><?php if($key->STATUS_SPT==1) { ?>
                                             <a class="btn btn-success btn-sm" target="_blank"  href="<?php echo site_url('pengaduan/cetak_laporan_pemeriksaan') ?>?id=<?php echo $key->ID_SPT;?>&id_tk=<?php echo $key->ID_TK ?>&id_jenis_keluhan=<?php echo $key->ID_JENIS_KELUHAN ?>&no_spt=<?php echo $key->NO_SPT; ?>" class="btn btn-sm btn-warning" >Dokumen</a>
                                             <?php } else if($key->STATUS_SPT==0) { ?>
