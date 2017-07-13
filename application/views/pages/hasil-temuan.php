@@ -154,6 +154,8 @@
             <div class="row">
             <form method="post" action="<?php echo site_url('pengaduan/tambah_pasal') ?>" id="form_hasil_temuan">
             <input type="hidden" name="id_spt" value="<?php echo $_GET['id_spt'] ?>">
+            <input type="hidden" name="id_jenis_keluhan" value="<?php echo $_GET['id_jenis_keluhan'] ?>">
+            <input type="hidden" name="status" value="<?php echo $_GET['status'] ?>">
                 <div class="col-lg-12">
                     <h1 class="page-header">Hasil Temuan</h1>
                     <div class="row">

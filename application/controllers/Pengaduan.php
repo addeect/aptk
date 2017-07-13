@@ -13,9 +13,11 @@ class Pengaduan extends CI_Controller {
 	}
     function tambah_pasal(){
         $id_spt=$this->input->post("id_spt");
+        $id_jenis_keluhan=$this->input->post("id_jenis_keluhan");
+        $status=$this->input->post("status");
         $this->load->model('m_main');
-        $this->m_main->insert_hasil_temuan($id_spt);
-        redirect('main/index/hasil-temuan?id_spt='.$id_spt);
+        $this->m_main->insert_hasil_temuan($id_spt,$id_jenis_keluhan,$status);
+        redirect('main/index/hasil-temuan?id_spt='.$id_spt.'&id_jenis_keluhan='.$id_jenis_keluhan.'&status='.$status);
     }
     function cetak_nota_3(){
         $this->load->model('m_main');
@@ -26,7 +28,7 @@ class Pengaduan extends CI_Controller {
         $nota_ke = 3;
         $data_nota4 = $this->m_main->cekNotaPemeriksaan1($id_spt,$nota_ke);
         if($data_nota4 < 1){
-            $this->m_main->insert_nota_pemeriksaan($id_spt,$nota_ke);
+            $this->m_main->insert_nota_pemeriksaan($id_spt,$nota_ke,$id_jenis_keluhan);
         }
         $data_nota1 = $this->m_main->getNotaPemeriksaan1($id_jenis_keluhan);
         $data_nota2 = $this->m_main->getNotaPemeriksaan2($id_spt);
@@ -190,7 +192,7 @@ class Pengaduan extends CI_Controller {
         $nota_ke = 2;
         $data_nota4 = $this->m_main->cekNotaPemeriksaan1($id_spt,$nota_ke);
         if($data_nota4 < 1){
-            $this->m_main->insert_nota_pemeriksaan($id_spt,$nota_ke);
+            $this->m_main->insert_nota_pemeriksaan($id_spt,$nota_ke,$id_jenis_keluhan);
         }
         $data_nota1 = $this->m_main->getNotaPemeriksaan1($id_jenis_keluhan);
         $data_nota2 = $this->m_main->getNotaPemeriksaan2($id_spt);
@@ -352,7 +354,7 @@ class Pengaduan extends CI_Controller {
         $nota_ke = 1;
         $data_nota4 = $this->m_main->cekNotaPemeriksaan1($id_spt,$nota_ke);
         if($data_nota4 < $nota_ke){
-            $this->m_main->insert_nota_pemeriksaan($id_spt,$nota_ke);
+            $this->m_main->insert_nota_pemeriksaan($id_spt,$nota_ke,$id_jenis_keluhan);
         }
         $data_nota1 = $this->m_main->getNotaPemeriksaan1($id_jenis_keluhan);
         $data_nota2 = $this->m_main->getNotaPemeriksaan2($id_spt);

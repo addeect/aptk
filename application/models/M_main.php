@@ -55,7 +55,28 @@ class M_main extends CI_Model{
 		$query = $this->db->get();
 		return $query->result();
 	}
-	function insert_nota_pemeriksaan($id_spt,$nota_ke){
+	function insert_nota_pemeriksaan($id_spt,$nota_ke,$id_jenis_keluhan){
+		if($nota_ke == 1){
+			$simpan_data=array(
+	        	'STATUS_PENYELESAIAN' => 70
+	        );
+	        $this->db->where('id_jenis_keluhan', $id_jenis_keluhan);
+			$this->db->update('jenis_keluhan', $simpan_data);
+		}
+		else if($nota_ke == 2){
+			$simpan_data=array(
+	        	'STATUS_PENYELESAIAN' => 80
+	        );
+	        $this->db->where('id_jenis_keluhan', $id_jenis_keluhan);
+			$this->db->update('jenis_keluhan', $simpan_data);
+		}
+		else if($nota_ke == 3){
+			$simpan_data=array(
+	        	'STATUS_PENYELESAIAN' => 90
+	        );
+	        $this->db->where('id_jenis_keluhan', $id_jenis_keluhan);
+			$this->db->update('jenis_keluhan', $simpan_data);
+		}
 		$data=array(
             'TGL_NOTA_PEMERIKSAAN'  => date('Y-m-d H:i:s'),
             'ISI_NOTA_PEMERIKSAAN'  => $nota_ke,
@@ -63,7 +84,14 @@ class M_main extends CI_Model{
        );
         $this->db->insert('nota_pemeriksaan', $data);
 	}
-	function insert_hasil_temuan($id_spt){
+	function insert_hasil_temuan($id_spt,$id_jenis_keluhan,$status){
+		if($status<50){
+        	$simpan_data=array(
+	        	'STATUS_PENYELESAIAN' => 50
+	        );
+	        $this->db->where('id_jenis_keluhan', $id_jenis_keluhan);
+			$this->db->update('jenis_keluhan', $simpan_data);
+        }
 		$data=array(
             'TGL_TEMUAN'  => date('Y-m-d H:i:s'),
             'ISI_HASIL_TEMUAN'  => $this->input->post("pelanggaran"),
@@ -72,6 +100,8 @@ class M_main extends CI_Model{
             'ID_PASAL'  => $this->input->post("id_pasal")
        );
         $this->db->insert('hasil_temuan', $data);
+
+        
 	}
 	function getDataPasal(){
 		$this->db->select("p.*");

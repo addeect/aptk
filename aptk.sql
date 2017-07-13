@@ -2,10 +2,10 @@
 -- version 3.5.2.2
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Jul 10, 2017 at 10:26 PM
--- Server version: 5.5.27
--- PHP Version: 5.4.7
+-- Inang: 127.0.0.1
+-- Waktu pembuatan: 13 Jul 2017 pada 19.32
+-- Versi Server: 5.5.27
+-- Versi PHP: 5.4.7
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `aptk`
+-- Basis data: `aptk`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admin_pengawas`
+-- Struktur dari tabel `admin_pengawas`
 --
 
 CREATE TABLE IF NOT EXISTS `admin_pengawas` (
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `admin_pengawas` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
 
 --
--- Dumping data for table `admin_pengawas`
+-- Dumping data untuk tabel `admin_pengawas`
 --
 
 INSERT INTO `admin_pengawas` (`ID_ADMIN_PENGAWAS`, `IDPENGGUNA`, `ID_SPT`, `ID_KARYAWAN`, `ID_KELUHAN`) VALUES
@@ -87,7 +87,7 @@ INSERT INTO `admin_pengawas` (`ID_ADMIN_PENGAWAS`, `IDPENGGUNA`, `ID_SPT`, `ID_K
 -- --------------------------------------------------------
 
 --
--- Table structure for table `hasil_temuan`
+-- Struktur dari tabel `hasil_temuan`
 --
 
 CREATE TABLE IF NOT EXISTS `hasil_temuan` (
@@ -100,20 +100,24 @@ CREATE TABLE IF NOT EXISTS `hasil_temuan` (
   PRIMARY KEY (`ID_HASIL_TEMUAN`),
   KEY `ID_SPT` (`ID_SPT`),
   KEY `ID_PASAL` (`ID_PASAL`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
--- Dumping data for table `hasil_temuan`
+-- Dumping data untuk tabel `hasil_temuan`
 --
 
 INSERT INTO `hasil_temuan` (`ID_HASIL_TEMUAN`, `TGL_TEMUAN`, `ISI_HASIL_TEMUAN`, `ID_SPT`, `ID_PASAL`, `JENIS_PELANGGARAN`) VALUES
-(1, '2017-07-10 22:15:14', 'Jam Kerja', 6, 2, 'Pelanggaran Normatif'),
-(2, '2017-07-10 22:22:04', 'Perangkat Kerja', 6, 4, 'Pelanggaran K3');
+(1, '2017-07-10 22:15:14', 'Saudara tidak melaporkan secara berkala kondisi ketenagakerjaan di perusahaan kepada Dinas Tenaga Kerja Kota Surabaya', 6, 2, 'Pelanggaran Normatif'),
+(2, '2017-07-10 22:22:04', 'Saudara mempekerjakan tenaga kerja lebih dari 10 (sepuluh) orang. tetapi belum memiliki Peraturan Perusahaan yang disahkan Menteri atau Pejabay yang ditunjuk.', 6, 4, 'Pelanggaran K3'),
+(3, '2017-07-13 19:09:09', '16 (enam belas) pekerja berdasarkan data yang Saudara berikan masih menerima upah dibawah ketentuan upah minimum tahun 2015 yang berlaku di Surabaya', 10, 6, 'Pelanggaran Normatif'),
+(4, '2017-07-13 19:12:30', 'Saudara tidak melaporkan secara berkala kondisi ketenagakerjaan di perusahaan kepada Dinas Tenaga Kerja Kota Surabaya', 10, 2, 'Pelanggaran Normatif'),
+(5, '2017-07-13 19:13:31', '  16 (enam belas) pekerja berdasarkan data yang Saudara berikan masih menerima upah dibawah ketentuan upah minimum tahun 2015 yang berlaku di Surabaya', 6, 6, 'Pelanggaran Normatif'),
+(6, '2017-07-13 19:14:49', '16 (enam belas) pekerja berdasarkan data yang Saudara berikan masih menerima upah dibawah ketentuan upah minimum tahun 2015 yang berlaku di Surabaya', 11, 6, 'Pelanggaran Normatif');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jenis_keluhan`
+-- Struktur dari tabel `jenis_keluhan`
 --
 
 CREATE TABLE IF NOT EXISTS `jenis_keluhan` (
@@ -129,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `jenis_keluhan` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
 --
--- Dumping data for table `jenis_keluhan`
+-- Dumping data untuk tabel `jenis_keluhan`
 --
 
 INSERT INTO `jenis_keluhan` (`ID_JENIS_KELUHAN`, `ID_TK`, `ID_KELUHAN_TK`, `ID_KELUHAN_SERIKAT`, `STATUS_PENYELESAIAN`) VALUES
@@ -140,12 +144,12 @@ INSERT INTO `jenis_keluhan` (`ID_JENIS_KELUHAN`, `ID_TK`, `ID_KELUHAN_TK`, `ID_K
 (7, 1, 7, NULL, 20),
 (8, 32, 8, NULL, 30),
 (9, 33, 9, NULL, 30),
-(10, 34, 10, NULL, 40),
+(10, 34, 10, NULL, 90),
 (11, 34, 11, NULL, 30),
 (12, 35, 12, NULL, 30),
 (13, 36, 13, NULL, 30),
-(14, 37, 14, NULL, 30),
-(15, 35, 15, NULL, 30),
+(14, 37, 14, NULL, 50),
+(15, 35, 15, NULL, 90),
 (16, 35, 16, NULL, 30),
 (17, 37, 17, NULL, 30),
 (18, 39, 18, NULL, 30);
@@ -153,7 +157,7 @@ INSERT INTO `jenis_keluhan` (`ID_JENIS_KELUHAN`, `ID_TK`, `ID_KELUHAN_TK`, `ID_K
 -- --------------------------------------------------------
 
 --
--- Table structure for table `karyawan`
+-- Struktur dari tabel `karyawan`
 --
 
 CREATE TABLE IF NOT EXISTS `karyawan` (
@@ -171,7 +175,7 @@ CREATE TABLE IF NOT EXISTS `karyawan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `karyawan`
+-- Dumping data untuk tabel `karyawan`
 --
 
 INSERT INTO `karyawan` (`ID_KARYAWAN`, `ID_KABID`, `NAMA_KARYAWAN`, `ALAMAT_KARYAWAN`, `JENIS_KELAMIN`, `TELP_KARYAWAN`, `PENDIDIKAN`, `SPESIALISASI`, `GOLONGAN`) VALUES
@@ -194,7 +198,7 @@ INSERT INTO `karyawan` (`ID_KARYAWAN`, `ID_KABID`, `NAMA_KARYAWAN`, `ALAMAT_KARY
 -- --------------------------------------------------------
 
 --
--- Table structure for table `keluhan_serikat`
+-- Struktur dari tabel `keluhan_serikat`
 --
 
 CREATE TABLE IF NOT EXISTS `keluhan_serikat` (
@@ -210,7 +214,7 @@ CREATE TABLE IF NOT EXISTS `keluhan_serikat` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `keluhan_tk`
+-- Struktur dari tabel `keluhan_tk`
 --
 
 CREATE TABLE IF NOT EXISTS `keluhan_tk` (
@@ -224,7 +228,7 @@ CREATE TABLE IF NOT EXISTS `keluhan_tk` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
 --
--- Dumping data for table `keluhan_tk`
+-- Dumping data untuk tabel `keluhan_tk`
 --
 
 INSERT INTO `keluhan_tk` (`ID_KELUHAN_TK`, `JENIS_KELUHAN`, `TANGGAL_MASUK`, `TANGGAL_SESUAI`, `ISI_KELUHAN`, `BUKTI_FILE`) VALUES
@@ -250,7 +254,7 @@ INSERT INTO `keluhan_tk` (`ID_KELUHAN_TK`, `JENIS_KELUHAN`, `TANGGAL_MASUK`, `TA
 -- --------------------------------------------------------
 
 --
--- Table structure for table `kepala_bidang`
+-- Struktur dari tabel `kepala_bidang`
 --
 
 CREATE TABLE IF NOT EXISTS `kepala_bidang` (
@@ -262,7 +266,7 @@ CREATE TABLE IF NOT EXISTS `kepala_bidang` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=31 ;
 
 --
--- Dumping data for table `kepala_bidang`
+-- Dumping data untuk tabel `kepala_bidang`
 --
 
 INSERT INTO `kepala_bidang` (`ID_KABID`, `IDPENGGUNA`, `IS_CHILD`) VALUES
@@ -300,7 +304,7 @@ INSERT INTO `kepala_bidang` (`ID_KABID`, `IDPENGGUNA`, `IS_CHILD`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `laporan_kejadian`
+-- Struktur dari tabel `laporan_kejadian`
 --
 
 CREATE TABLE IF NOT EXISTS `laporan_kejadian` (
@@ -313,20 +317,34 @@ CREATE TABLE IF NOT EXISTS `laporan_kejadian` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `nota_pemeriksaan`
+-- Struktur dari tabel `nota_pemeriksaan`
 --
 
 CREATE TABLE IF NOT EXISTS `nota_pemeriksaan` (
   `ID_NOTA_PEMERIKSAAN` int(11) NOT NULL AUTO_INCREMENT,
   `TGL_NOTA_PEMERIKSAAN` datetime DEFAULT NULL,
   `ISI_NOTA_PEMERIKSAAN` varchar(500) DEFAULT NULL,
-  PRIMARY KEY (`ID_NOTA_PEMERIKSAAN`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `ID_SPT` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID_NOTA_PEMERIKSAAN`),
+  KEY `ID_SPT` (`ID_SPT`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+
+--
+-- Dumping data untuk tabel `nota_pemeriksaan`
+--
+
+INSERT INTO `nota_pemeriksaan` (`ID_NOTA_PEMERIKSAAN`, `TGL_NOTA_PEMERIKSAAN`, `ISI_NOTA_PEMERIKSAAN`, `ID_SPT`) VALUES
+(1, '2017-07-13 17:30:31', '1', 6),
+(6, '2017-07-13 18:18:36', '2', 6),
+(7, '2017-07-13 18:20:49', '3', 6),
+(8, '2017-07-13 19:28:45', '1', 11),
+(9, '2017-07-13 19:28:59', '2', 11),
+(11, '2017-07-13 19:30:22', '3', 11);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pasal`
+-- Struktur dari tabel `pasal`
 --
 
 CREATE TABLE IF NOT EXISTS `pasal` (
@@ -337,7 +355,7 @@ CREATE TABLE IF NOT EXISTS `pasal` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
--- Dumping data for table `pasal`
+-- Dumping data untuk tabel `pasal`
 --
 
 INSERT INTO `pasal` (`ID_PASAL`, `NOMOR_PASAL`, `KETERANGAN_PASAL`) VALUES
@@ -352,7 +370,7 @@ INSERT INTO `pasal` (`ID_PASAL`, `NOMOR_PASAL`, `KETERANGAN_PASAL`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pengguna`
+-- Struktur dari tabel `pengguna`
 --
 
 CREATE TABLE IF NOT EXISTS `pengguna` (
@@ -363,7 +381,7 @@ CREATE TABLE IF NOT EXISTS `pengguna` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `pengguna`
+-- Dumping data untuk tabel `pengguna`
 --
 
 INSERT INTO `pengguna` (`IDPENGGUNA`, `PASSWORD`, `STATUS_PENGGUNA`) VALUES
@@ -403,7 +421,7 @@ INSERT INTO `pengguna` (`IDPENGGUNA`, `PASSWORD`, `STATUS_PENGGUNA`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `petugas_pengawas`
+-- Struktur dari tabel `petugas_pengawas`
 --
 
 CREATE TABLE IF NOT EXISTS `petugas_pengawas` (
@@ -428,7 +446,7 @@ CREATE TABLE IF NOT EXISTS `petugas_pengawas` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `surat_perintah_tugas`
+-- Struktur dari tabel `surat_perintah_tugas`
 --
 
 CREATE TABLE IF NOT EXISTS `surat_perintah_tugas` (
@@ -446,7 +464,7 @@ CREATE TABLE IF NOT EXISTS `surat_perintah_tugas` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
 
 --
--- Dumping data for table `surat_perintah_tugas`
+-- Dumping data untuk tabel `surat_perintah_tugas`
 --
 
 INSERT INTO `surat_perintah_tugas` (`ID_SPT`, `NO_SPT`, `STATUS_SPT`, `IS_ACTIVE_SPT`, `TGL_SPT`, `ISI_SPT`, `PEMERIKSAAN`, `ID_PASAL`, `JUMLAH_PEGAWAI`) VALUES
@@ -468,7 +486,7 @@ INSERT INTO `surat_perintah_tugas` (`ID_SPT`, `NO_SPT`, `STATUS_SPT`, `IS_ACTIVE
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tenaga_kerja`
+-- Struktur dari tabel `tenaga_kerja`
 --
 
 CREATE TABLE IF NOT EXISTS `tenaga_kerja` (
@@ -502,7 +520,7 @@ CREATE TABLE IF NOT EXISTS `tenaga_kerja` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=40 ;
 
 --
--- Dumping data for table `tenaga_kerja`
+-- Dumping data untuk tabel `tenaga_kerja`
 --
 
 INSERT INTO `tenaga_kerja` (`ID_TK`, `NO_KTP`, `EMAIL`, `NAMA_TK`, `ALAMAT_TK`, `TEMPAT_LAHIR`, `TANGGAL_LAHIR`, `JENIS_KEL`, `AGAMA`, `STATUS_KAWIN`, `PEKERJAAN`, `KEWARGANEGARAAN`, `PASSWORD_TK`, `NAMA_SERIKAT`, `ALAMAT_SERIKAT`, `TELP_SERIKAT`, `NAMA_PERUSAHAAN`, `ALAMAT_PERUSAHAAN`, `TELP_PERUSAHAAN`, `TELP_HRD_SERIKAT`, `TOKEN_REG`, `USER_STS`, `USER_TYPE`, `JABATAN`, `LAMA_KERJA`, `JENIS_USAHA`) VALUES
@@ -519,11 +537,11 @@ INSERT INTO `tenaga_kerja` (`ID_TK`, `NO_KTP`, `EMAIL`, `NAMA_TK`, `ALAMAT_TK`, 
 (39, '482682763', 'arif@gmail.com', 'Arif Rahman Hakim', 'Jl. Kasuari III No. 155 Surabaya', 'Surabaya', '1990-09-12 00:00:00', 'Laki-laki', 'Islam', 'Kawin', 'Karyawan Swasta', 'WNI', '46f94c8de14fb36680850768ff1b7f2a', NULL, NULL, NULL, 'PT. Solindo', 'Jl. Diponegoro No. 44 Surabaya', '0318643767', '0315827627', NULL, 1, 'perseorangan', 'Staff GA', '1', 'Importir Barang Fashion');
 
 --
--- Constraints for dumped tables
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
 --
--- Constraints for table `admin_pengawas`
+-- Ketidakleluasaan untuk tabel `admin_pengawas`
 --
 ALTER TABLE `admin_pengawas`
   ADD CONSTRAINT `FK_ADMIN_PE_RELATION__KARYAWAN` FOREIGN KEY (`ID_KARYAWAN`) REFERENCES `karyawan` (`ID_KARYAWAN`),
@@ -531,14 +549,14 @@ ALTER TABLE `admin_pengawas`
   ADD CONSTRAINT `FK_ADMIN_PE_RELATION__SURAT_PE` FOREIGN KEY (`ID_SPT`) REFERENCES `surat_perintah_tugas` (`ID_SPT`);
 
 --
--- Constraints for table `hasil_temuan`
+-- Ketidakleluasaan untuk tabel `hasil_temuan`
 --
 ALTER TABLE `hasil_temuan`
   ADD CONSTRAINT `hasil_temuan_ibfk_1` FOREIGN KEY (`ID_SPT`) REFERENCES `surat_perintah_tugas` (`ID_SPT`),
   ADD CONSTRAINT `hasil_temuan_ibfk_2` FOREIGN KEY (`ID_PASAL`) REFERENCES `pasal` (`ID_PASAL`);
 
 --
--- Constraints for table `jenis_keluhan`
+-- Ketidakleluasaan untuk tabel `jenis_keluhan`
 --
 ALTER TABLE `jenis_keluhan`
   ADD CONSTRAINT `FK_JENIS_KE_RELATION_KELUHAN_1` FOREIGN KEY (`ID_KELUHAN_SERIKAT`) REFERENCES `keluhan_serikat` (`ID_KELUHAN_SERIKAT`),
@@ -546,19 +564,25 @@ ALTER TABLE `jenis_keluhan`
   ADD CONSTRAINT `FK_JENIS_KE_RELATION__TENAGA_K` FOREIGN KEY (`ID_TK`) REFERENCES `tenaga_kerja` (`ID_TK`);
 
 --
--- Constraints for table `karyawan`
+-- Ketidakleluasaan untuk tabel `karyawan`
 --
 ALTER TABLE `karyawan`
   ADD CONSTRAINT `FK_KARYAWAN_RELATION__KEPALA_B` FOREIGN KEY (`ID_KABID`) REFERENCES `kepala_bidang` (`ID_KABID`);
 
 --
--- Constraints for table `kepala_bidang`
+-- Ketidakleluasaan untuk tabel `kepala_bidang`
 --
 ALTER TABLE `kepala_bidang`
   ADD CONSTRAINT `FK_KEPALA_B_RELATION__PENGGUNA` FOREIGN KEY (`IDPENGGUNA`) REFERENCES `pengguna` (`IDPENGGUNA`);
 
 --
--- Constraints for table `petugas_pengawas`
+-- Ketidakleluasaan untuk tabel `nota_pemeriksaan`
+--
+ALTER TABLE `nota_pemeriksaan`
+  ADD CONSTRAINT `nota_pemeriksaan_ibfk_1` FOREIGN KEY (`ID_SPT`) REFERENCES `surat_perintah_tugas` (`ID_SPT`);
+
+--
+-- Ketidakleluasaan untuk tabel `petugas_pengawas`
 --
 ALTER TABLE `petugas_pengawas`
   ADD CONSTRAINT `FK_PETUGAS_RELATION__KELUHAN_1` FOREIGN KEY (`ID_KELUHAN_SERIKAT`) REFERENCES `keluhan_serikat` (`ID_KELUHAN_SERIKAT`),
@@ -570,7 +594,7 @@ ALTER TABLE `petugas_pengawas`
   ADD CONSTRAINT `FK_PETUGAS__RELATION__PENGGUNA` FOREIGN KEY (`IDPENGGUNA`) REFERENCES `pengguna` (`IDPENGGUNA`);
 
 --
--- Constraints for table `surat_perintah_tugas`
+-- Ketidakleluasaan untuk tabel `surat_perintah_tugas`
 --
 ALTER TABLE `surat_perintah_tugas`
   ADD CONSTRAINT `surat_perintah_tugas_ibfk_1` FOREIGN KEY (`ID_PASAL`) REFERENCES `pasal` (`ID_PASAL`);
