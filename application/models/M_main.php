@@ -3,6 +3,66 @@ class M_main extends CI_Model{
 	function __construct(){
 		$this->load->database();
 	}
+	function getNotaSebelum($id_spt,$nota_sebelum){
+		$this->db->select("np.*");
+		$this->db->from("nota_pemeriksaan np");
+		$this->db->where("np.ID_SPT",$id_spt);
+		$this->db->where("np.ISI_NOTA_PEMERIKSAAN",$nota_sebelum);
+		$this->db->limit("1");
+
+		$query = $this->db->get();
+		return $query->result();
+	}
+	function cekNotaPemeriksaan1($id_spt,$nota_ke){
+		$this->db->select("np.*");
+		$this->db->from("nota_pemeriksaan np");
+		$this->db->where("np.ID_SPT",$id_spt);
+		$this->db->where("np.ISI_NOTA_PEMERIKSAAN",$nota_ke);
+		// $this->db->limit("1");
+
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
+	function getNotaPemeriksaan3($id_spt){
+		$this->db->select("ht.*");
+		$this->db->from("hasil_temuan ht");
+		$this->db->where("ht.ID_SPT",$id_spt);
+		// $this->db->limit("1");
+
+		$query = $this->db->get();
+		return $query->result();
+	}
+	function getNotaPemeriksaan2($id_spt){
+		$this->db->select("ap.*,tk.*,jk.*,spt.*");
+		$this->db->from("admin_pengawas ap");
+		$this->db->join("jenis_keluhan jk","ap.ID_KELUHAN = jk.ID_JENIS_KELUHAN");
+		$this->db->join("tenaga_kerja tk","jk.ID_TK = tk.ID_TK");
+		$this->db->join("surat_perintah_tugas spt","spt.ID_SPT = ap.ID_SPT");
+		$this->db->where("ap.ID_SPT",$id_spt);
+		$this->db->limit("1");
+
+		$query = $this->db->get();
+		return $query->result();
+	}
+	function getNotaPemeriksaan1($id_keluhan){
+		$this->db->select("ap.*,tk.*,jk.*");
+		$this->db->from("admin_pengawas ap");
+		$this->db->join("jenis_keluhan jk","ap.ID_KELUHAN = jk.ID_JENIS_KELUHAN");
+		$this->db->join("tenaga_kerja tk","jk.ID_TK = tk.ID_TK");
+		$this->db->where("ap.ID_KELUHAN",$id_keluhan);
+		$this->db->limit("1");
+
+		$query = $this->db->get();
+		return $query->result();
+	}
+	function insert_nota_pemeriksaan($id_spt,$nota_ke){
+		$data=array(
+            'TGL_NOTA_PEMERIKSAAN'  => date('Y-m-d H:i:s'),
+            'ISI_NOTA_PEMERIKSAAN'  => $nota_ke,
+            'ID_SPT'  => $id_spt
+       );
+        $this->db->insert('nota_pemeriksaan', $data);
+	}
 	function insert_hasil_temuan($id_spt){
 		$data=array(
             'TGL_TEMUAN'  => date('Y-m-d H:i:s'),

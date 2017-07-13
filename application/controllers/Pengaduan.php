@@ -17,11 +17,347 @@ class Pengaduan extends CI_Controller {
         $this->m_main->insert_hasil_temuan($id_spt);
         redirect('main/index/hasil-temuan?id_spt='.$id_spt);
     }
+    function cetak_nota_3(){
+        $this->load->model('m_main');
+        $id_spt = $this->input->get("id_spt");
+        $id_jenis_keluhan = $this->input->get("id_jenis_keluhan");
+        $no_spt = $this->input->get("no_spt");
+        $nota_sebelum = 2;
+        $nota_ke = 3;
+        $data_nota4 = $this->m_main->cekNotaPemeriksaan1($id_spt,$nota_ke);
+        if($data_nota4 < 1){
+            $this->m_main->insert_nota_pemeriksaan($id_spt,$nota_ke);
+        }
+        $data_nota1 = $this->m_main->getNotaPemeriksaan1($id_jenis_keluhan);
+        $data_nota2 = $this->m_main->getNotaPemeriksaan2($id_spt);
+        $data_nota3 = $this->m_main->getNotaPemeriksaan3($id_spt);
+        $data_nota_sebelum = $this->m_main->getNotaSebelum($id_spt,$nota_sebelum);
+        
+        $this->load->library('Pdf');
+
+        $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+    // set document information
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor('Disnaker Surabaya');
+    $pdf->SetTitle('Nota Peringatan III');
+    $pdf->SetSubject('Disnaker');
+    $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+    // set default header data
+    $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, 'SURAT PERINTAH TUGAS', PDF_HEADER_STRING);
+
+    // set header and footer fonts
+    $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+    $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+    // set default monospaced font
+    $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+    // set margins
+    $pdf->SetMargins(PDF_MARGIN_LEFT, '43', PDF_MARGIN_RIGHT);
+    $pdf->SetHeaderMargin('50');
+    $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+    // set auto page breaks
+    $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+    // set image scale factor
+    $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+    // set font
+    $pdf->SetFont('dejavusans', '', 10);
+
+    $pdf->AddPage();
+    // Section 1
+    $html = '<div style="width:300px;text-align:right;border:none;line-height:1px"><span style="font-weight: normal;">Surabaya, '.date('d F Y').'</span></div>';
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+    $html .= '<table border="0">';
+    $html .= '<tr>';
+    $html .= '<td width="100px">Nomor</td>';
+    $html .= '<td width="10px">:</td>';
+    $html .= '<td width="150px">'.$id_spt.'/'.$id_jenis_keluhan.'/'.date('d.m/Y').'</td>';
+    $html .= '<td width="150px">&nbsp;</td>';
+    $html .= '<td width="200px">Kepada :</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="100px">Sifat</td>';
+    $html .= '<td width="10px">:</td>';
+    $html .= '<td width="150px">Penting</td>';
+    $html .= '<td width="150px">&nbsp;</td>';
+    $html .= '<td width="200px">Yth. Pimpinan Perusahaan</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="100px">Lampiran</td>';
+    $html .= '<td width="10px">:</td>';
+    $html .= '<td width="150px">-</td>';
+    $html .= '<td width="150px">&nbsp;</td>';
+    foreach ($data_nota1 as $key) {
+        $html .= '<td width="200px">'.$key->NAMA_PERUSAHAAN.'</td>';
+    }
+    
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="100px">Hal</td>';
+    $html .= '<td width="10px">:</td>';
+    $html .= '<td width="150px">Nota Peringatan III</td>';
+    $html .= '<td width="150px">&nbsp;</td>';
+    foreach ($data_nota1 as $key) {
+        $html .= '<td width="200px">'.$key->ALAMAT_PERUSAHAAN.'</td>';
+    }
+    
+    $html .= '</tr>';
+    $html .= '</table>';
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+
+    // Section 2
+    foreach ($data_nota_sebelum as $key2) {
+    $html .= '<div style="text-align:justify;border:none;line-height:1.5"><p style="font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Menindaklanjuti surat kami nomor : '.$no_spt.' tanggal '.date('d F Y', strtotime($key2->TGL_NOTA_PEMERIKSAAN)).' perihal Nota Peringatan II, ternyata masih ada yang belum Saudara laksanakan / menindaklanjutinya.</p></div>';
+    }
+    $html .= '<div style="text-align:justify;border:none;line-height:1.5"><p style="font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Oleh karena itu sekali lagi kami ingatkan agar Saudara segera menindaklanjuti surat tersebut, dan apabila dalam batas waktu 3 (tiga) hari setelah menerima surat ini  Saudara tetap tidak melaksanakan dan melaporkan pelaksanaannya, maka akan diambil tindakan sesuai dengan ketentuan yang berlaku.</p></div>';
+    $html .= '<div style="text-align:justify;border:none;line-height:1.5"><p style="font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Demikian untuk menjadi perhatian.</p></div>';
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+
+    // Section 3
+    $html .= '<table>';
+    $html .= '<tr>';
+    $html .= '<td width="50px">&nbsp;</td>';
+    $html .= '<td>';
+    $html .= '<table border="0">';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">Kepala Dinas</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:underline">Sulton Prakasa</font></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:none">Pembina Utama Muda</font></td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+    $html .= '</td>';
+    $html .= '<td width="200px">&nbsp;</td>';
+    $html .= '<td>';
+    $html .= '<table border="0">';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">Pegawai Pengawas</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">Yang memeriksa</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:underline">'.$_SESSION["nama_user"].'</font></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:none">Nip. '.$_SESSION["nik"].'</font></td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+    $html .= '</td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+    
+    // output the HTML content
+    $pdf->writeHTML($html, true, false, true, false, '');
+
+    //$pdf->lastPage();
+    //$pdf->Write(5, 'Some sample text');
+    $pdf->Output('Nota-Peringatan-III-'.$nomor_spt.'.pdf', 'I');
+    }
+    function cetak_nota_2(){
+        $this->load->model('m_main');
+        $id_spt = $this->input->get("id_spt");
+        $id_jenis_keluhan = $this->input->get("id_jenis_keluhan");
+        $no_spt = $this->input->get("no_spt");
+        $nota_sebelum = 1;
+        $nota_ke = 2;
+        $data_nota4 = $this->m_main->cekNotaPemeriksaan1($id_spt,$nota_ke);
+        if($data_nota4 < 1){
+            $this->m_main->insert_nota_pemeriksaan($id_spt,$nota_ke);
+        }
+        $data_nota1 = $this->m_main->getNotaPemeriksaan1($id_jenis_keluhan);
+        $data_nota2 = $this->m_main->getNotaPemeriksaan2($id_spt);
+        $data_nota3 = $this->m_main->getNotaPemeriksaan3($id_spt);
+        $data_nota_sebelum = $this->m_main->getNotaSebelum($id_spt,$nota_sebelum);
+        
+        $this->load->library('Pdf');
+
+        $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+    // set document information
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor('Disnaker Surabaya');
+    $pdf->SetTitle('Nota Peringatan II');
+    $pdf->SetSubject('Disnaker');
+    $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+    // set default header data
+    $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, 'SURAT PERINTAH TUGAS', PDF_HEADER_STRING);
+
+    // set header and footer fonts
+    $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+    $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+    // set default monospaced font
+    $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+    // set margins
+    $pdf->SetMargins(PDF_MARGIN_LEFT, '43', PDF_MARGIN_RIGHT);
+    $pdf->SetHeaderMargin('50');
+    $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+    // set auto page breaks
+    $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+    // set image scale factor
+    $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+    // set font
+    $pdf->SetFont('dejavusans', '', 10);
+
+    $pdf->AddPage();
+    // Section 1
+    $html = '<div style="width:300px;text-align:right;border:none;line-height:1px"><span style="font-weight: normal;">Surabaya, '.date('d F Y').'</span></div>';
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+    $html .= '<table border="0">';
+    $html .= '<tr>';
+    $html .= '<td width="100px">Nomor</td>';
+    $html .= '<td width="10px">:</td>';
+    $html .= '<td width="150px">'.$id_spt.'/'.$id_jenis_keluhan.'/'.date('d.m/Y').'</td>';
+    $html .= '<td width="150px">&nbsp;</td>';
+    $html .= '<td width="200px">Kepada :</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="100px">Sifat</td>';
+    $html .= '<td width="10px">:</td>';
+    $html .= '<td width="150px">Penting</td>';
+    $html .= '<td width="150px">&nbsp;</td>';
+    $html .= '<td width="200px">Yth. Pimpinan Perusahaan</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="100px">Lampiran</td>';
+    $html .= '<td width="10px">:</td>';
+    $html .= '<td width="150px">-</td>';
+    $html .= '<td width="150px">&nbsp;</td>';
+    foreach ($data_nota1 as $key) {
+        $html .= '<td width="200px">'.$key->NAMA_PERUSAHAAN.'</td>';
+    }
+    
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="100px">Hal</td>';
+    $html .= '<td width="10px">:</td>';
+    $html .= '<td width="150px">Nota Peringatan II</td>';
+    $html .= '<td width="150px">&nbsp;</td>';
+    foreach ($data_nota1 as $key) {
+        $html .= '<td width="200px">'.$key->ALAMAT_PERUSAHAAN.'</td>';
+    }
+    
+    $html .= '</tr>';
+    $html .= '</table>';
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+
+    // Section 2
+    foreach ($data_nota_sebelum as $key2) {
+    $html .= '<div style="text-align:justify;border:none;line-height:1.5"><p style="font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Menindaklanjuti surat kami nomor : '.$no_spt.' tanggal '.date('d F Y', strtotime($key2->TGL_NOTA_PEMERIKSAAN)).' perihal Nota Pemeriksaan, ternyata masih ada yang belum Saudara laksanakan / menindaklanjutinya.</p></div>';
+    }
+    $html .= '<div style="text-align:justify;border:none;line-height:1.5"><p style="font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Oleh karena itu sekali lagi kami ingatkan agar Saudara segera menindaklanjuti surat tersebut, dan apabila dalam batas waktu 5 (lima) hari setelah menerima surat ini  Saudara tetap tidak melaksanakan dan melaporkan pelaksanaannya, maka akan diambil tindakan sesuai dengan ketentuan yang berlaku.</p></div>';
+    $html .= '<div style="text-align:justify;border:none;line-height:1.5"><p style="font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Demikian untuk menjadi perhatian.</p></div>';
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+
+    // Section 3
+    $html .= '<table>';
+    $html .= '<tr>';
+    $html .= '<td width="50px">&nbsp;</td>';
+    $html .= '<td>';
+    $html .= '<table border="0">';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">Kepala Dinas</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:underline">Sulton Prakasa</font></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:none">Pembina Utama Muda</font></td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+    $html .= '</td>';
+    $html .= '<td width="200px">&nbsp;</td>';
+    $html .= '<td>';
+    $html .= '<table border="0">';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">Pegawai Pengawas</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">Yang memeriksa</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:underline">'.$_SESSION["nama_user"].'</font></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:none">Nip. '.$_SESSION["nik"].'</font></td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+    $html .= '</td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+    
+    // output the HTML content
+    $pdf->writeHTML($html, true, false, true, false, '');
+
+    //$pdf->lastPage();
+    //$pdf->Write(5, 'Some sample text');
+    $pdf->Output('Nota-Peringatan-II-'.$nomor_spt.'.pdf', 'I');
+    }
     function cetak_nota_1(){
         $this->load->model('m_main');
         $id_spt = $this->input->get("id_spt");
         $id_jenis_keluhan = $this->input->get("id_jenis_keluhan");
-        $data_spt = $this->m_main->getDataSPT($id_spt);
+        $nota_ke = 1;
+        $data_nota4 = $this->m_main->cekNotaPemeriksaan1($id_spt,$nota_ke);
+        if($data_nota4 < $nota_ke){
+            $this->m_main->insert_nota_pemeriksaan($id_spt,$nota_ke);
+        }
+        $data_nota1 = $this->m_main->getNotaPemeriksaan1($id_jenis_keluhan);
+        $data_nota2 = $this->m_main->getNotaPemeriksaan2($id_spt);
+        $data_nota3 = $this->m_main->getNotaPemeriksaan3($id_spt);
+        
         $this->load->library('Pdf');
 
         $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
@@ -58,7 +394,7 @@ class Pengaduan extends CI_Controller {
 
     $pdf->AddPage();
     // Section 1
-    $html = '<div style="width:300px;text-align:right;border:none;line-height:1px"><span style="font-weight: normal;">Surabaya, '.date('d M Y').'</span></div>';
+    $html = '<div style="width:300px;text-align:right;border:none;line-height:1px"><span style="font-weight: normal;">Surabaya, '.date('d F Y').'</span></div>';
     // Spacing
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
     $html .= '<table border="0">';
@@ -81,14 +417,20 @@ class Pengaduan extends CI_Controller {
     $html .= '<td width="10px">:</td>';
     $html .= '<td width="150px">-</td>';
     $html .= '<td width="150px">&nbsp;</td>';
-    $html .= '<td width="200px"></td>';
+    foreach ($data_nota1 as $key) {
+        $html .= '<td width="200px">'.$key->NAMA_PERUSAHAAN.'</td>';
+    }
+    
     $html .= '</tr>';
     $html .= '<tr>';
     $html .= '<td width="100px">Hal</td>';
     $html .= '<td width="10px">:</td>';
     $html .= '<td width="150px">Nota Pemeriksaan</td>';
     $html .= '<td width="150px">&nbsp;</td>';
-    $html .= '<td width="200px">Jl. </td>';
+    foreach ($data_nota1 as $key) {
+        $html .= '<td width="200px">'.$key->ALAMAT_PERUSAHAAN.'</td>';
+    }
+    
     $html .= '</tr>';
     $html .= '</table>';
 
@@ -96,13 +438,19 @@ class Pengaduan extends CI_Controller {
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
 
     // Section 2
-    
+    foreach ($data_nota2 as $key2) {
+    $html .= '<div style="text-align:justify;border:none;line-height:1.5"><p style="font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sehubungan dengan pemeriksaan di perusahaan Saudara pada tanggal '.date('d F Y', strtotime($key2->TGL_SPT)).' tentang pelaksanaan peraturan perundang-undangan di bidang ketenagakerjaan dan berdasarkan data yang Saudara berikan, maka diminta agar memperhatikan hal-hal di bawah ini :</p></div>';
+    }
 
     // Spacing
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
 
     // Section 3
-    $html .='';
+    $nota3 = 1;
+    foreach ($data_nota3 as $key3) {
+    $html .= '<div style="text-align:justify;border:none;line-height:1.5"><font style="font-weight: normal;">'.$nota3.'. '.$key3->ISI_HASIL_TEMUAN.'</font></div>';
+    $nota3++;
+    }
     
     // output the HTML content
     $pdf->writeHTML($html, true, false, true, false, '');
@@ -111,6 +459,7 @@ class Pengaduan extends CI_Controller {
     //$pdf->Write(5, 'Some sample text');
     $pdf->Output('Nota-Pemeriksaan-'.$nomor_spt.'.pdf', 'I');
     }
+
     function cetak_laporan_pemeriksaan(){
     $this->load->model('m_main');
     $id_spt = $this->input->get("id");
