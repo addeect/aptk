@@ -60,6 +60,8 @@ class M_tk extends CI_Model{
 		$data_petugas_2 = explode('-', $d2);
 		$d3 = $this->input->post('id_petugas_3');
 		$data_petugas_3 = explode('-', $d3);
+		$status_penyelesaian = 20;
+		$id_jenis_keluhan = $this->input->post('id_pengadu');
 
 		$data_pengawas1=array(
             'IDPENGGUNA'  => $data_petugas_1[1],
@@ -82,6 +84,10 @@ class M_tk extends CI_Model{
 		$this->db->insert('admin_pengawas', $data_pengawas1);
         $this->db->insert('admin_pengawas', $data_pengawas2);
         $this->db->insert('admin_pengawas', $data_pengawas3);
+        
+        $data_status = array('STATUS_PENYELESAIAN' => $status_penyelesaian );
+        $this->db->where('ID_JENIS_KELUHAN', $id_jenis_keluhan);
+		$this->db->update('jenis_keluhan', $data_status);
 	}
 	function getIdKeluhanTK(){
 		$this->db->select("max(ID_KELUHAN_TK) 'ID_KELUHAN_TK'");
