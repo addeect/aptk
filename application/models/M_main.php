@@ -142,6 +142,20 @@ class M_main extends CI_Model{
 		$query = $this -> db -> get();
 		return $query->result();
 	}
+	function getLaporanPemeriksaan($id_spt){
+		$this->db->select("k.ID_KARYAWAN,k.NAMA_KARYAWAN,spt.PEMERIKSAAN,tk.JENIS_USAHA,tk.TELP_HRD_SERIKAT,tk.TELP_PERUSAHAAN,tk.ALAMAT_PERUSAHAAN,spt.NO_SPT,spt.TGL_SPT,spt.TGL_PEMERIKSAAN,tk.NAMA_PERUSAHAAN");
+		$this->db->from("admin_pengawas ap");
+		$this->db->join("jenis_keluhan jk","ap.ID_KELUHAN = jk.ID_JENIS_KELUHAN");
+		$this->db->join("tenaga_kerja tk","jk.ID_TK = tk.ID_TK");
+		$this->db->join("karyawan k","k.ID_KARYAWAN = ap.ID_KARYAWAN");
+		$this->db->join("surat_perintah_tugas spt","spt.ID_SPT = ap.ID_SPT");
+		$this->db->where("ap.ID_SPT",$id_spt);
+		$this->db->limit("1");
+		// $this->db->order_by("ID_SPT ASC");
+		$query = $this -> db -> get();
+		return $query->result();
+		
+	}
 	function getDataSPT($id_spt){
 		$this->db->select("ap.*,tk.*,k.*,jk.*");
 		$this->db->from("admin_pengawas ap");

@@ -8,6 +8,7 @@ class M_tk extends CI_Model{
 		$data_spt=array(
 			'JUMLAH_PEGAWAI' => $jumlah_pegawai,
 			'PEMERIKSAAN' => $keterangan,
+			'TGL_PEMERIKSAAN' => date('Y-m-d H:i:s'),
 			'STATUS_SPT' => 1
 		);
 		$this->db->where('ID_SPT', $id_spt);

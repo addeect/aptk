@@ -466,21 +466,17 @@ class Pengaduan extends CI_Controller {
     $this->load->model('m_main');
     $id_spt = $this->input->get("id");
     $id_jenis_keluhan = $this->input->get("id_jenis_keluhan");
-    $data_spt = $this->m_main->getDataSPT($id_spt);
+    $data_spt = $this->m_main->getLaporanPemeriksaan($id_spt);
     $this->load->library('Pdf');
     // set document variable
     // $nomor_spt = $this->input->get("no_spt");
     $nomor_spt = $this->input->get("no_spt");
-    $dasar1 = "Undang-undang nomor 3 tahun 1951 tentang pernyataan berlakunya undang-undang pengawasan perburuhan tahun 1948 No. 23 dari Republik Indonesia untuk seluruh Indonesia";
-    $dasar2 = "Undang-undang No. 1 tahun 1970 tentang Keselamatan Kerja";
-    $dasar3 = "Undang-undang No. 13 tahun 2003 tentang Ketenagakerjaan";
-    $dasar4 = "Undang-undang No. 32 tahun 2004 tentang Pemerintah Daerah";
 
     $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
     // set document information
     $pdf->SetCreator(PDF_CREATOR);
     $pdf->SetAuthor('Disnaker Surabaya');
-    $pdf->SetTitle('Surat Perintah Tugas');
+    $pdf->SetTitle('Laporan Pemeriksaan');
     $pdf->SetSubject('Disnaker');
     $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
@@ -527,73 +523,135 @@ class Pengaduan extends CI_Controller {
 
     // Section 3
     foreach ($data_spt as $key) {
+        $no_spt=$key->NO_SPT;
+        $tgl_spt=$key->TGL_SPT;
+        $tgl_pemeriksaan=$key->TGL_PEMERIKSAAN;
         $nama_perusahaan=$key->NAMA_PERUSAHAAN;
-        $html .= '<div style="width:300px;text-align:justify;border:none;line-height:1px"><p style="font-weight: normal;"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Berdasarkan Surat Perintah Tugas Nomor '.$nomor_spt.' telah dilakukan pemeriksaan di '.$nama_perusahaan.' dengan hasil pemeriksa sebagai berikut:</p></div>';
-    }
+        $html .= '<div style="width:300px;text-align:justify;border:none;line-height:1.5"><p style="font-weight: normal;"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Berdasarkan Surat Perintah Tugas Nomor '.$no_spt.' tanggal '.date('d F Y', strtotime($tgl_spt)).', pada tanggal '.date('d F Y', strtotime($tgl_pemeriksaan)).' telah dilakukan pemeriksaan di '.$nama_perusahaan.' dengan hasil pemeriksa sebagai berikut:</p></div>';
     
-
-    // // Section 2
-    // $html .= '<table border="0" >';
-    // $html .= '<tr>';
-    // $html .= '<td rowspan="4" width="80px">Dasar</td>';
-    // $html .= '<td rowspan="4" width="20px">:</td>';
-    // $html .= '<td width="20px">1. </td>';
-    // $html .= '<td width="500px">'.$dasar1.'</td>';
-    // $html .= '</tr>';
-    // $html .= '<tr>';
-    // $html .= '<td width="20px">2. </td>';
-    // $html .= '<td width="500px">'.$dasar2.'</td>';
-    // $html .= '</tr>';
-    // $html .= '<tr>';
-    // $html .= '<td width="20px">3. </td>';
-    // $html .= '<td width="500px">'.$dasar3.'</td>';
-    // $html .= '</tr>';
-    // $html .= '<tr>';
-    // $html .= '<td width="20px">4. </td>';
-    // $html .= '<td width="500px">'.$dasar4.'</td>';
-    // $html .= '</tr>';
-    // $html .= '</table>';
+    
+    $html .='<table border="0">';
+    $html .='<tr>';
+    $html .='<td width="15px" height="25px">I.</td>';
+    $html .='<td height="25px" colspan="4" width="600px">DATA PERUSAHAAN</td>';
+    $html .='</tr>';
+    $html .='<tr>';
+    $html .='<td height="25px" width="15px">&nbsp;</td>';
+    $html .='<td height="25px" width="15px">1.</td>';
+    $html .='<td height="25px" width="250px">Perusahaan</td>';
+    $html .='<td height="25px" width="15px">:</td>';
+    $html .='<td height="25px" width="320px">'.$nama_perusahaan.'</td>';
+    $html .='</tr>';
+    $html .='<tr>';
+    $html .='<td height="25px" width="15px">&nbsp;</td>';
+    $html .='<td height="25px" width="15px">2.</td>';
+    $html .='<td height="25px" width="250px">Alamat dan No. Telepon Perusahaan</td>';
+    $html .='<td height="25px" width="15px">:</td>';
+    $html .='<td height="25px" width="320px">'.$key->ALAMAT_PERUSAHAAN.' '.$key->TELP_PERUSAHAAN.'</td>';
+    $html .='</tr>';
+    $html .='<tr>';
+    $html .='<td height="25px" width="15px">&nbsp;</td>';
+    $html .='<td height="25px" width="15px">3.</td>';
+    $html .='<td height="25px" width="250px">No. Telepon HRD Perusahaan</td>';
+    $html .='<td height="25px" width="15px">:</td>';
+    $html .='<td height="25px" width="320px">'.$key->TELP_HRD_SERIKAT.'</td>';
+    $html .='</tr>';
+    $html .='<tr>';
+    $html .='<td height="25px" width="15px">&nbsp;</td>';
+    $html .='<td height="25px" width="15px">4.</td>';
+    $html .='<td height="25px" width="250px">Jenis Usaha</td>';
+    $html .='<td height="25px" width="15px">:</td>';
+    $html .='<td height="25px" width="320px">'.$key->JENIS_USAHA.'</td>';
+    $html .='</tr>';
+    $html .='</table>';
 
     // Spacing
-    // $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;">&nbsp;</span></div>';
 
-    // // Section 3
-    // $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;">MENUGASKAN</span></div>';
+    $html .='<table border="0">';
+    $html .='<tr>';
+    $html .='<td width="15px" height="25px">II.</td>';
+    $html .='<td height="25px" colspan="4" width="600px">Hasil Pemeriksaan :</td>';
+    $html .='</tr>';
+    $html .='<tr>';
+    $html .='<td height="25px" width="15px">&nbsp;</td>';
+    $html .='<td height="25px" width="15px">1.</td>';
+    $html .='<td height="25px" width="250px">Tanggal Pemeriksaan</td>';
+    $html .='<td height="25px" width="15px">:</td>';
+    $html .='<td height="25px" width="320px">'.date('d F Y', strtotime($tgl_pemeriksaan)).'</td>';
+    $html .='</tr>';
+    $html .='<tr>';
+    $html .='<td height="25px" width="15px">&nbsp;</td>';
+    $html .='<td height="25px" width="15px">2.</td>';
+    $html .='<td height="25px" width="250px">Waktu Pemeriksaan</td>';
+    $html .='<td height="25px" width="15px">:</td>';
+    $html .='<td height="25px" width="320px">'.date('H:i', strtotime($tgl_pemeriksaan)).' WIB</td>';
+    $html .='</tr>';
+    $html .='<tr>';
+    $html .='<td height="25px" width="15px">&nbsp;</td>';
+    $html .='<td height="25px" width="15px">3.</td>';
+    $html .='<td height="25px" width="250px">Keterangan Pemeriksaan</td>';
+    $html .='<td height="25px" width="15px">:</td>';
+    $html .='<td height="25px" width="320px">'.$key->PEMERIKSAAN.'</td>';
+    $html .='</tr>';
+    $html .='</table>';
 
-    // // Spacing
-    // $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;">&nbsp;</span></div>';
 
-    // // Section 4
-    // $html .= '<table border="0" width="200px">';
-    // $html .= '<tr>';
-    // $html .= '<td width="80px">Kepada</td>';
-    // $html .= '<td width="20px">:</td>';
-    // $html .= '</tr>';
-    // $html .= '</table>';
-    // Get data petugas pengawas
-    // foreach ($data_pengawas as $key) {
-      
-    // }
-    
-    // $html .= '<table border="0" width="400px">';
-    // $html .= '<tr>';
-    // $html .= '<td width="20px">1. </td>';
-    // $html .= '<td width="90px">Nama</td>';
-    // $html .= '<td width="20px">:</td>';
-    // $html .= '<td width="300px">'.$dasar1.'</td>';
-    // $html .= '</tr>';
-    // $html .= '</table>';
-    /*$query1 = "SELECT NAMA_LOKASI, WITEL FROM master_access_point WHERE ID_LOKASI='".$id_lokasi."'";
-    $result1 = mysql_query($query1);
-    while($row1 = mysql_fetch_array($result1)){
-        $nama_lokasi = $row1[0];
-        $witel = $row1[1];
-        $html .= '<span style="font-weight: normal;">ID Lokasi : '.$id_lokasi.' </span><br/>';
-        $html .= '<span style="font-weight: normal;">Nama Lokasi : '.$nama_lokasi.' </span><br/>';
-        $html .= '<span style="font-weight: normal;">Witel : '.$witel.' </span><br/><br/>';
-    }*/
-    $html .='';
-    
+    $html .='<table border="0">';
+    $html .='<tr>';
+    $html .='<td width="20px" height="25px">III.</td>';
+    $html .='<td height="25px" >Kesimpulan Hasil Pemeriksaan</td>';
+    $html .='</tr>';
+    $html .='</table>'; 
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;">&nbsp;</span></div>';
+
+    $html .='<table border="0">';
+    $html .='<tr>';
+    $html .='<td width="570px" colspan="4" height="25px" style="text-align:right">........, ..........................</td>';
+    $html .='<td width="50px">&nbsp;</td>';
+    $html .='</tr>';
+    $html .='<tr>';
+    $html .='<td width="80px">&nbsp;</td>';
+    $html .='<td width="200px" style="text-align:center">Mengetahui</td>';
+    $html .='<td width="100px">&nbsp;</td>';
+    $html .='<td width="200px" style="text-align:center">Pengawas Ketenagakerjaan</td>';
+    $html .='<td width="20px">&nbsp;</td>';
+    $html .='</tr>';
+    $html .='<tr>';
+    $html .='<td width="80px">&nbsp;</td>';
+    $html .='<td width="200px" style="text-align:center">Kepala Dinas</td>';
+    $html .='<td width="100px" style="text-align:center">&nbsp;</td>';
+    $html .='<td width="200px" style="text-align:center">Yang memeriksa</td>';
+    $html .='<td width="20px">&nbsp;</td>';
+    $html .='</tr>';
+    $html .='<tr>';
+    $html .='<td height="70px" width="80px">&nbsp;</td>';
+    $html .='<td height="70px" width="70px">&nbsp;</td>';
+    $html .='<td height="70px" width="200px">&nbsp;</td>';
+    $html .='<td height="70px" width="200px">&nbsp;</td>';
+    $html .='<td height="70px" width="20px">&nbsp;</td>';
+    $html .='</tr>';
+    $html .='<tr>';
+    $html .='<td width="80px">&nbsp;</td>';
+    $html .='<td width="200px" style="text-align:center">Sulton Prakasa</td>';
+    $html .='<td width="100px" style="text-align:center">&nbsp;</td>';
+    $html .='<td width="200px" style="text-align:center">'.$key->NAMA_KARYAWAN.'</td>';
+    $html .='<td width="20px">&nbsp;</td>';
+    $html .='</tr>';
+    $html .='<tr>';
+    $html .='<td width="80px">&nbsp;</td>';
+    $html .='<td width="200px" style="text-align:center">NIP. 10170001.189423.1.001</td>';
+    $html .='<td width="100px" style="text-align:center">&nbsp;</td>';
+    $html .='<td width="200px" style="text-align:center">NIP. '.$key->ID_KARYAWAN.'</td>';
+    $html .='<td width="20px">&nbsp;</td>';
+    $html .='</tr>';
+    $html .='</table>';
+
+    }
     // output the HTML content
     $pdf->writeHTML($html, true, false, true, false, '');
 
