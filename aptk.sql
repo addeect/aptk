@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Inang: 127.0.0.1
--- Waktu pembuatan: 13 Jul 2017 pada 19.32
+-- Waktu pembuatan: 16 Jul 2017 pada 05.04
 -- Versi Server: 5.5.27
 -- Versi PHP: 5.4.7
 
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `hasil_temuan` (
   PRIMARY KEY (`ID_HASIL_TEMUAN`),
   KEY `ID_SPT` (`ID_SPT`),
   KEY `ID_PASAL` (`ID_PASAL`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data untuk tabel `hasil_temuan`
@@ -112,7 +112,9 @@ INSERT INTO `hasil_temuan` (`ID_HASIL_TEMUAN`, `TGL_TEMUAN`, `ISI_HASIL_TEMUAN`,
 (3, '2017-07-13 19:09:09', '16 (enam belas) pekerja berdasarkan data yang Saudara berikan masih menerima upah dibawah ketentuan upah minimum tahun 2015 yang berlaku di Surabaya', 10, 6, 'Pelanggaran Normatif'),
 (4, '2017-07-13 19:12:30', 'Saudara tidak melaporkan secara berkala kondisi ketenagakerjaan di perusahaan kepada Dinas Tenaga Kerja Kota Surabaya', 10, 2, 'Pelanggaran Normatif'),
 (5, '2017-07-13 19:13:31', '  16 (enam belas) pekerja berdasarkan data yang Saudara berikan masih menerima upah dibawah ketentuan upah minimum tahun 2015 yang berlaku di Surabaya', 6, 6, 'Pelanggaran Normatif'),
-(6, '2017-07-13 19:14:49', '16 (enam belas) pekerja berdasarkan data yang Saudara berikan masih menerima upah dibawah ketentuan upah minimum tahun 2015 yang berlaku di Surabaya', 11, 6, 'Pelanggaran Normatif');
+(6, '2017-07-13 19:14:49', '16 (enam belas) pekerja berdasarkan data yang Saudara berikan masih menerima upah dibawah ketentuan upah minimum tahun 2015 yang berlaku di Surabaya', 11, 6, 'Pelanggaran Normatif'),
+(7, '2017-07-16 02:41:03', '16 (enam belas) pekerja berdasarkan data yang Saudara berikan masih menerima upah dibawah ketentuan upah minimum tahun 2015 yang berlaku di Surabaya', 12, 6, 'Pelanggaran Normatif'),
+(8, '2017-07-16 02:42:20', 'Saudara mempekerjakan tenaga kerja lebih dari 10 (sepuluh) orang. tetapi belum memiliki Peraturan Perusahaan yang disahkan Menteri atau Pejabat yang ditunjuk.', 10, 4, 'Pelanggaran Normatif');
 
 -- --------------------------------------------------------
 
@@ -146,13 +148,13 @@ INSERT INTO `jenis_keluhan` (`ID_JENIS_KELUHAN`, `ID_TK`, `ID_KELUHAN_TK`, `ID_K
 (9, 33, 9, NULL, 30),
 (10, 34, 10, NULL, 90),
 (11, 34, 11, NULL, 30),
-(12, 35, 12, NULL, 30),
+(12, 35, 12, NULL, 40),
 (13, 36, 13, NULL, 30),
 (14, 37, 14, NULL, 50),
 (15, 35, 15, NULL, 90),
-(16, 35, 16, NULL, 30),
+(16, 35, 16, NULL, 50),
 (17, 37, 17, NULL, 30),
-(18, 39, 18, NULL, 30);
+(18, 39, 18, NULL, 40);
 
 -- --------------------------------------------------------
 
@@ -179,7 +181,7 @@ CREATE TABLE IF NOT EXISTS `karyawan` (
 --
 
 INSERT INTO `karyawan` (`ID_KARYAWAN`, `ID_KABID`, `NAMA_KARYAWAN`, `ALAMAT_KARYAWAN`, `JENIS_KELAMIN`, `TELP_KARYAWAN`, `PENDIDIKAN`, `SPESIALISASI`, `GOLONGAN`) VALUES
-('101700001', 6, 'Sulton Prakasa', 'Jl. Kedung Durian XI-GP/20 Sidoarjo', 'Laki-laki', '08847582643', 'D3 Teknik Elektro', 'Elektronika Arus Rendah', NULL),
+('10170001.189423.1.001', 6, 'Sulton Prakasa', 'Jl. Kedung Durian XI-GP/20 Sidoarjo', 'Laki-laki', '08847582643', 'D3 Teknik Elektro', 'Elektronika Arus Rendah', NULL),
 ('101800001', 5, 'Aries Prabowo', 'Jl. Suko Semolo No.69 Surabaya', 'Laki-laki', '06845485635', 'D3 Hukum', NULL, NULL),
 ('19580119.198903.1.004', 26, 'Drs. Moch. Sofyan H.', 'Jl. Rajwali II/32 Sidoarjo', 'Laki-laki', '087694653', 'S1 Hubungan Internasional', 'Hubungan Internasional', 'Penata (III/c)'),
 ('19580624.198303.2.011', 17, 'Endah Setyowati, SE', 'Jl. Wonocolo Selatan XI/44 Surabaya', 'Perempuan', '0896769574', 'S1 Ekonomi', 'Ekonomi', 'Penata Muda Tk. I (III/b)'),
@@ -459,6 +461,7 @@ CREATE TABLE IF NOT EXISTS `surat_perintah_tugas` (
   `PEMERIKSAAN` text,
   `ID_PASAL` int(11) DEFAULT NULL,
   `JUMLAH_PEGAWAI` varchar(50) DEFAULT NULL,
+  `TGL_PEMERIKSAAN` datetime DEFAULT NULL,
   PRIMARY KEY (`ID_SPT`),
   KEY `ID_PASAL` (`ID_PASAL`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
@@ -467,21 +470,21 @@ CREATE TABLE IF NOT EXISTS `surat_perintah_tugas` (
 -- Dumping data untuk tabel `surat_perintah_tugas`
 --
 
-INSERT INTO `surat_perintah_tugas` (`ID_SPT`, `NO_SPT`, `STATUS_SPT`, `IS_ACTIVE_SPT`, `TGL_SPT`, `ISI_SPT`, `PEMERIKSAAN`, `ID_PASAL`, `JUMLAH_PEGAWAI`) VALUES
-(1, '1/18/10.07/2017', 0, 0, '2017-06-10 01:36:54', NULL, NULL, NULL, NULL),
-(2, '2/18/10.07/2017', 0, 1, '2017-06-10 01:38:31', 'Tes 123', NULL, NULL, NULL),
-(3, '3/18/10.07/2017', 0, 1, '2017-07-09 06:46:29', '1. Melaksanakan pembinaan, pemeriksaan dan pengawasan pelaksanaan peraturan perundang-undangan di bidang ketenagakerjaan di perusahaan PT. Sritex Solution, Jl. Raya Kebon Jeruk No. 112 Surabaya\r\n2. Dilaksanakan mulai tanggal 14 Juli 2017 sampai dengan selesai\r\n3. Melaporkan hasilnya kepada Kepala Dinas', NULL, NULL, NULL),
-(4, '4/18/10.07/2017', 0, 1, '2017-07-09 06:46:42', '1. Melaksanakan pembinaan, pemeriksaan dan pengawasan pelaksanaan peraturan perundang-undangan di bidang ketenagakerjaan di perusahaan PT. Solindo, Jl. Diponegoro No. 35 Surabaya\n2. Dilaksanakan mulai tanggal 13 Juli 2017 sampai dengan selesai\n3. Melaporkan hasilnya kepada Kepala Dinas', NULL, NULL, NULL),
-(5, '5/18/10.07/2017', 0, 1, '2017-07-09 06:54:41', 'Lorem Ipsum', NULL, NULL, NULL),
-(6, '6/18/10.07/2017', 1, 1, '2017-07-09 09:13:33', '1. Melaksanakan pembinaan, pemeriksaan dan pengawasan pelaksanaan peraturan perundang-undangan di bidang ketenagakerjaan di perusahaan PT. Fintego Indonesia, Jl. Demak No. 23 Surabaya\n2. Dilaksanakan mulai tanggal 14 Juli 2017 sampai dengan selesai\n3. Melaporkan hasilnya kepada Kepala Dinas', 'Kurangnya Perlengkapan Keselamatan Kerja', NULL, '54'),
-(7, '7/18/10.07/2017', 0, 1, '2017-07-09 12:58:15', 'Lorem ipsum dolor sit amet', NULL, NULL, NULL),
-(8, '8/18/10.07/2017', 0, 1, '2017-07-09 14:41:18', 'Tes 123', NULL, NULL, NULL),
-(9, '9/18/10.07/2017', 0, 1, '2017-07-09 15:27:19', 'Lorem Ipsum dolor sit amet', NULL, NULL, NULL),
-(10, '10/18/10.07/2017', 0, 1, '2017-07-09 15:36:25', 'Lorem Ipsum tes', NULL, NULL, NULL),
-(11, '11/18/10.07/2017', 0, 1, '2017-07-10 02:46:37', 'Lorem', NULL, NULL, NULL),
-(12, '12/18/10.07/2017', 0, 1, '2017-07-10 06:22:21', NULL, NULL, NULL, NULL),
-(13, '13/18/10.07/2017', 0, 1, '2017-07-10 07:05:06', NULL, NULL, NULL, NULL),
-(14, '14/18/10.07/2017', 0, 1, '2017-07-10 13:46:17', NULL, NULL, NULL, NULL);
+INSERT INTO `surat_perintah_tugas` (`ID_SPT`, `NO_SPT`, `STATUS_SPT`, `IS_ACTIVE_SPT`, `TGL_SPT`, `ISI_SPT`, `PEMERIKSAAN`, `ID_PASAL`, `JUMLAH_PEGAWAI`, `TGL_PEMERIKSAAN`) VALUES
+(1, '1/18/10.07/2017', 0, 0, '2017-06-10 01:36:54', NULL, NULL, NULL, NULL, NULL),
+(2, '2/18/10.07/2017', 0, 1, '2017-06-10 01:38:31', 'Tes 123', NULL, NULL, NULL, NULL),
+(3, '3/18/10.07/2017', 0, 1, '2017-07-09 06:46:29', '1. Melaksanakan pembinaan, pemeriksaan dan pengawasan pelaksanaan peraturan perundang-undangan di bidang ketenagakerjaan di perusahaan PT. Sritex Solution, Jl. Raya Kebon Jeruk No. 112 Surabaya\r\n2. Dilaksanakan mulai tanggal 14 Juli 2017 sampai dengan selesai\r\n3. Melaporkan hasilnya kepada Kepala Dinas', NULL, NULL, NULL, NULL),
+(4, '4/18/10.07/2017', 0, 1, '2017-07-09 06:46:42', '1. Melaksanakan pembinaan, pemeriksaan dan pengawasan pelaksanaan peraturan perundang-undangan di bidang ketenagakerjaan di perusahaan PT. Solindo, Jl. Diponegoro No. 35 Surabaya\n2. Dilaksanakan mulai tanggal 13 Juli 2017 sampai dengan selesai\n3. Melaporkan hasilnya kepada Kepala Dinas', NULL, NULL, NULL, NULL),
+(5, '5/18/10.07/2017', 0, 1, '2017-07-09 06:54:41', 'Lorem Ipsum', NULL, NULL, NULL, NULL),
+(6, '6/18/10.07/2017', 1, 1, '2017-07-09 09:13:33', '1. Melaksanakan pembinaan, pemeriksaan dan pengawasan pelaksanaan peraturan perundang-undangan di bidang ketenagakerjaan di perusahaan PT. Fintego Indonesia, Jl. Demak No. 23 Surabaya\n2. Dilaksanakan mulai tanggal 14 Juli 2017 sampai dengan selesai\n3. Melaporkan hasilnya kepada Kepala Dinas', 'Kurangnya Perlengkapan Keselamatan Kerja', NULL, '54', '2017-07-17 03:00:00'),
+(7, '7/18/10.07/2017', 1, 1, '2017-07-09 12:58:15', 'Lorem ipsum dolor sit amet', 'Terjadi konflik internal antara pengusaha dengan pekerja', NULL, '34', '2017-07-16 08:47:05'),
+(8, '8/18/10.07/2017', 0, 1, '2017-07-09 14:41:18', 'Tes 123', NULL, NULL, NULL, NULL),
+(9, '9/18/10.07/2017', 0, 1, '2017-07-09 15:27:19', 'Lorem Ipsum dolor sit amet', NULL, NULL, NULL, NULL),
+(10, '10/18/10.07/2017', 1, 1, '2017-07-09 15:36:25', 'Lorem Ipsum tes', 'Terjadi konflik internal di dalam perusahaan', NULL, '55', '2017-07-17 03:00:00'),
+(11, '11/18/10.07/2017', 1, 1, '2017-07-10 02:46:37', 'Lorem', 'Terjadi konflik internal antara pengusaha dengan pekerja', NULL, '50', '2017-07-17 03:00:00'),
+(12, '12/18/10.07/2017', 1, 1, '2017-07-10 06:22:21', NULL, 'Terjadi keterlambatan pembayaran gaji karyawan yang mencapai 1 bulan', NULL, '45', '2017-07-17 03:00:00'),
+(13, '13/18/10.07/2017', 0, 1, '2017-07-10 07:05:06', NULL, NULL, NULL, NULL, NULL),
+(14, '14/18/10.07/2017', 1, 1, '2017-07-10 13:46:17', NULL, 'Terjadi konflik internal antara pengusaha dengan karyawan\r\n', NULL, '30', '2017-07-17 03:00:00');
 
 -- --------------------------------------------------------
 
