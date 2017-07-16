@@ -23,12 +23,12 @@ Urutan Alur Sistem :
 Note :
 * Macam laporan yang ada :
 # Dokumen
-1. Kartu Pemeriksaan - [UNDONE]
-2. Laporan Pemeriksaan - [CANCELED]
+1. Kartu Pemeriksaan - [CANCELED]
+2. Laporan Pemeriksaan - [DONE]
 3. Surat perintah tugas - [DONE]
-4. Nota Pemeriksaan - [UNDONE]
-5. Nota Peringatan II - [UNDONE]
-6. Nota Peringatan III - [UNDONE]
+4. Nota Pemeriksaan - [DONE]
+5. Nota Peringatan II - [DONE]
+6. Nota Peringatan III - [DONE]
 7. Laporan Kejadian - [UNDONE]
 
 # Dashboard
