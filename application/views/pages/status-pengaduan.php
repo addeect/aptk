@@ -127,10 +127,13 @@
                             <div class="row">
                                 <div class="col-xs-6 text-left">
                                     <p>Nama : <strong><?php echo $_SESSION['nama_user'] ?></strong></p>
-                                    <p>Tipe : </p>
+                                    <p>Tipe : <strong><?php echo $_SESSION['role'] ?></strong></p>
                                 </div>
                                 <div class="col-xs-6 text-left">
-                                    <p>Perusahaan : <strong>PT.</strong></p>
+                                <?php foreach ($data_pengadu as $key) { ?>
+                                    <p>Perusahaan : <strong><?php echo $key->NAMA_PERUSAHAAN; ?></strong></p>
+                                <?php } ?>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -160,21 +163,55 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="progress progress-striped active" style="margin-bottom:0;">
-                                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                                <span class="sr-only">20% Complete</span>
+                                        <?php foreach ($data_status as $key) { ?>
+                                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $key->STATUS_PENYELESAIAN; ?>%">
+                                                <span class="sr-only"><?php echo $key->STATUS_PENYELESAIAN; ?>% Complete</span>
                                             </div>
                                         </div>
                                         <div style="width:100%;position:relative;float:left;">
-                                            <p class="help-block">20% Complete</p>
+                                            <p class="help-block"><?php echo $key->STATUS_PENYELESAIAN; ?>% Complete - <strong>
+                                            <?php
+                                            $status_desc ='';
+                                            if($key->STATUS_PENYELESAIAN==10){
+                                                $status_desc = 'Pendaftaran Pengaduan';
+                                            }
+                                            else if($key->STATUS_PENYELESAIAN==20){
+                                                $status_desc = 'Pemilihan Pengawas';
+                                            }
+                                            else if($key->STATUS_PENYELESAIAN==30){
+                                                $status_desc = 'Pembuatan SPT';
+                                            }
+                                            else if($key->STATUS_PENYELESAIAN==40){
+                                                $status_desc = 'Pemeriksaan Lapangan';
+                                            }
+                                            else if($key->STATUS_PENYELESAIAN==50){
+                                                $status_desc = 'Hasil Temuan';
+                                            }
+                                            else if($key->STATUS_PENYELESAIAN==70){
+                                                $status_desc = 'Nota Pemeriksaan I';
+                                            }
+                                            else if($key->STATUS_PENYELESAIAN==80){
+                                                $status_desc = 'Nota Peringatan II';
+                                            }
+                                            else if($key->STATUS_PENYELESAIAN==90){
+                                                $status_desc = 'Nota Peringatan III';
+                                            }
+                                            else if($key->STATUS_PENYELESAIAN==100){
+                                                $status_desc = 'Laporan Kejadian';
+                                            }
+                                            echo $status_desc;
+                                            ?></strong></p>
                                         </div>
+                                        
                                     </div>
                                 </div>
                             </div>
                                     <div class="form-group">
                                 <div class="row">
                                     <div class="col-sm-4"></div>
-                                    <div class="col-sm-2 form-group"><button class="btn btn-md btn-danger">KASUS SELESAI</button></div>
+                                    <div class="col-sm-2 form-group"><a href="javascript:void(0)" onclick="confirm('<?php echo $key->ID_JENIS_KELUHAN; ?>')" class="btn btn-md btn-danger">KASUS SELESAI</a></div>
                                 </div>
+                                <?php } ?>
                             </div>
                         </div>
                         <!-- /.panel-body -->
@@ -192,6 +229,30 @@
     </div>
     <!-- /#wrapper -->
 
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                    <form method="post" action="<?php echo site_url('pengaduan/close_case') ?>">
+                                        <input type="hidden" name="id_jenis_keluhan" id="id_jenis_keluhan">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title" id="myModalLabel">Apakah anda yakin ?</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            Anda akan mengakhiri pengaduan ini berdasarkan kemauan anda sendiri.
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="submit" class="btn btn-success" value="Ya"/>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Tidak</button>
+                                        </div>
+                                    </form>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- /.modal -->
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/js/jquery.min.js') ?>"></script>
 
@@ -211,6 +272,10 @@
     <script src="<?php echo base_url('assets/js/app.js') ?>"></script>
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
+    function confirm(id_jenis_keluhan){
+        $('#myModal').modal('show');
+        $('#id_jenis_keluhan').val(id_jenis_keluhan);
+    };
     $(document).ready(function() {
 
         

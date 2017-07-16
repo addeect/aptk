@@ -84,6 +84,13 @@ class M_main extends CI_Model{
        );
         $this->db->insert('nota_pemeriksaan', $data);
 	}
+	function closes_case($id_jenis_keluhan){
+		$simpan_data=array(
+        	'STATUS_PENYELESAIAN' => 100
+        );
+        $this->db->where('id_jenis_keluhan', $id_jenis_keluhan);
+		$this->db->update('jenis_keluhan', $simpan_data);
+	}
 	function insert_hasil_temuan($id_spt,$id_jenis_keluhan,$status){
 		if($status<50){
         	$simpan_data=array(
@@ -194,6 +201,15 @@ class M_main extends CI_Model{
 		$this->db->where("STATUS_SPT > 0");
 		$this->db->where("IS_ACTIVE_SPT","0");
 		$this->db->order_by("ID_SPT ASC");
+		$query = $this -> db -> get();
+		return $query->result();
+	}
+	function getStatus($id_tk){
+		$this->db->select("*");
+		$this->db->from("jenis_keluhan");
+		$this->db->where("ID_TK",$id_tk);
+		$this->db->order_by("ID_JENIS_KELUHAN DESC");
+		$this->db->limit("1");
 		$query = $this -> db -> get();
 		return $query->result();
 	}

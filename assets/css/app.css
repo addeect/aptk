@@ -1,4 +1,25 @@
 /* aCw */
+.modal-header {
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    background-color: #ec6b4d;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+ }
+ .modal-title{
+    color:#ffffff;
+ }
+ @media (min-width: 768px){
+        .modal-dialog {
+        width: 600px;
+        margin: 70px auto;
+    }
+ }
+
 .bermasalah{
     border: 1px solid red;
     background-color: #ffbbbb;
