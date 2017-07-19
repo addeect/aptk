@@ -43,26 +43,14 @@
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-                        <!--li class="sidebar-search">
-                            <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                            </div-->
-                            <!-- /input-group -->
-                        <!--/li-->
-                        
                         <li class="active">
                             <a href="#" class="hitam"><i class="fa fa-files-o fa-fw"></i> Pemeriksaan Lapangan<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse in" aria-expanded="true">
                                 <li>
-                                    <a class="aktif">Daftar Pengaduan</a>
+                                    <a href="<?php echo site_url('main/index/daftar-pengaduan') ?>" class="">Daftar Pengaduan</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo site_url('main/index/laporan-kejadian') ?>" class="">Laporan Kejadian</a>
+                                    <a class="aktif">Laporan Kejadian</a>
                                 </li>
                                 <!--<li>
                                     <a href="<?php // echo site_url('main/index/pemeriksaan-lapangan') ?>">Pemeriksaan Lapangan</a>
@@ -70,78 +58,6 @@
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
-                        <!--li>
-                            <a href="tables.html" class="hitam"><i class="fa fa-table fa-fw"></i> Master Pengguna</a>
-                        </li>
-                        <li>
-                            <a href="forms.html" class="hitam"><i class="fa fa-edit fa-fw"></i> Forms</a>
-                        </li>
-                        <li>
-                            <a href="#" class="hitam"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="panels-wells.html">Panels and Wells</a>
-                                </li>
-                                <li>
-                                    <a href="buttons.html">Buttons</a>
-                                </li>
-                                <li>
-                                    <a href="notifications.html">Notifications</a>
-                                </li>
-                                <li>
-                                    <a href="typography.html">Typography</a>
-                                </li>
-                                <li>
-                                    <a href="icons.html"> Icons</a>
-                                </li>
-                                <li>
-                                    <a href="grid.html">Grid</a>
-                                </li>
-                            </ul-->
-                            <!-- /.nav-second-level -->
-                        <!--/li-->
-                        <!--li>
-                            <a href="#" class="hitam"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="#">Second Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Second Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Third Level <span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                    </ul-->
-                                    <!-- /.nav-third-level -->
-                                <!--/li>
-                            </ul-->
-                            <!-- /.nav-second-level -->
-                        <!--/li-->
-                        <!--li>
-                            <a href="#" class="hitam"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="blank.html">Blank Page</a>
-                                </li>
-                                <li>
-                                    <a href="login.html">Login Page</a>
-                                </li>
-                            </ul-->
-                            <!-- /.nav-second-level -->
-                        <!--/li-->
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -152,7 +68,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Daftar Pengaduan</h1>
+                    <h1 class="page-header">Laporan Kejadian</h1>
                     <!--<div class="form-group">
                         <input type="button" value="+ TAMBAH BARU" class="btn btn-primary btn-sm" />
                     </div>-->
@@ -178,9 +94,7 @@
                                         <th>Jenis Kelamin</th>
                                         <th>Nama Perusahaan</th>
                                         <th>Alamat Perusahaan</th>
-                                        <th>Hasil Temuan</th>
-                                        <th>Nota Pemeriksaan / Nota Peringatan</th>
-                                        <th>Menu</th>
+                                        <th>Laporan Kejadian</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -193,21 +107,7 @@
                                             <td><?php echo $key->NAMA_PERUSAHAAN; ?></td>
                                             <td><?php echo $key->ALAMAT_PERUSAHAAN; ?></td>
                                             <td>
-                                            <a class="btn btn-sm <?php if($key->STATUS_PENYELESAIAN<30){echo 'btn-default disabled';}else if($key->STATUS_PENYELESAIAN<50){echo 'btn-default';} else{echo 'btn-warning';} ?>" href="<?php echo site_url('main/index/hasil-temuan') ?>?id_spt=<?php echo $key->ID_SPT; ?>&id_jenis_keluhan=<?php echo $key->ID_JENIS_KELUHAN; ?>&status=<?php echo $key->STATUS_PENYELESAIAN; ?>">Temuan</a>
-                                            </td>
-                                            <td>
-                                            <a target="_blank" class="btn btn-sm 
-                                            <?php if($key->STATUS_PENYELESAIAN<50){echo 'btn-default disabled';} else if($key->STATUS_PENYELESAIAN<70){echo 'btn-default';} else{echo 'btn-danger';} ?>
-                                            " href="<?php echo site_url('pengaduan/cetak_nota_1') ?>?id_spt=<?php echo $key->ID_SPT; ?>&id_jenis_keluhan=<?php echo $key->ID_JENIS_KELUHAN; ?>&status=<?php echo $key->STATUS_PENYELESAIAN; ?>">Nota I</a>&nbsp;<a target="_blank" class="btn btn-sm <?php if($key->STATUS_PENYELESAIAN<70){echo 'btn-default disabled';} else if($key->STATUS_PENYELESAIAN<80){echo 'btn-default';} else{echo 'btn-danger';} ?>" href="<?php echo site_url('pengaduan/cetak_nota_2') ?>?id_spt=<?php echo $key->ID_SPT; ?>&id_jenis_keluhan=<?php echo $key->ID_JENIS_KELUHAN; ?>&no_spt=<?php echo $key->NO_SPT; ?>&status=<?php echo $key->STATUS_PENYELESAIAN; ?>">Nota II</a>&nbsp;<a target="_blank" class="btn btn-sm <?php if($key->STATUS_PENYELESAIAN<80){echo 'btn-default disabled';} else if($key->STATUS_PENYELESAIAN<90){echo 'btn-default';} else{echo 'btn-danger';} ?>" href="<?php echo site_url('pengaduan/cetak_nota_3') ?>?id_spt=<?php echo $key->ID_SPT; ?>&id_jenis_keluhan=<?php echo $key->ID_JENIS_KELUHAN; ?>&no_spt=<?php echo $key->NO_SPT; ?>&status=<?php echo $key->STATUS_PENYELESAIAN; ?>">Nota III</a>
-                                            </td>
-                                            <td>
-                                            <?php if($key->STATUS_SPT==1) { ?>
-                                            <a class="btn btn-success btn-sm" target="_blank"  href="<?php echo site_url('pengaduan/cetak_laporan_pemeriksaan') ?>?id=<?php echo $key->ID_SPT;?>&id_tk=<?php echo $key->ID_TK ?>&id_jenis_keluhan=<?php echo $key->ID_JENIS_KELUHAN ?>&no_spt=<?php echo $key->NO_SPT; ?>" class="btn btn-sm btn-warning" >Dokumen</a>
-                                            <?php } else if($key->STATUS_SPT==0) { ?>
-                                                <a class="btn btn-primary btn-sm" href="<?php echo site_url('main/index/pemeriksaan-lapangan') ?>?id=<?php echo $key->ID_SPT;?>&id_tk=<?php echo $key->ID_TK ?>&id_jenis_keluhan=<?php echo $key->ID_JENIS_KELUHAN ?>" class="btn btn-sm btn-warning">Periksa
-                                                </a>
-                                            <?php } ?>
-                                            
+                                            <a target="_blank" class="btn btn-sm btn-block <?php if($key->STATUS_PENYELESAIAN<80){echo 'btn-default disabled';}else if($key->STATUS_PENYELESAIAN<90){echo 'btn-default';} else{echo 'btn-primary';} ?>" href="<?php echo site_url('pengaduan/buat_laporan_kejadian') ?>?id_spt=<?php echo $key->ID_SPT; ?>&id_jenis_keluhan=<?php echo $key->ID_JENIS_KELUHAN; ?>&status=<?php echo $key->STATUS_PENYELESAIAN; ?>">Buat Laporan</a>
                                             </td>
                                         </tr>
                                     <?php } ?>

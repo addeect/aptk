@@ -77,6 +77,13 @@ class M_main extends CI_Model{
 	        $this->db->where('id_jenis_keluhan', $id_jenis_keluhan);
 			$this->db->update('jenis_keluhan', $simpan_data);
 		}
+		else if($nota_ke == 4){
+			$simpan_data=array(
+	        	'STATUS_PENYELESAIAN' => 100
+	        );
+	        $this->db->where('id_jenis_keluhan', $id_jenis_keluhan);
+			$this->db->update('jenis_keluhan', $simpan_data);
+		}
 		$data=array(
             'TGL_NOTA_PEMERIKSAAN'  => date('Y-m-d H:i:s'),
             'ISI_NOTA_PEMERIKSAAN'  => $nota_ke,
