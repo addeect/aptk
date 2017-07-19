@@ -23,9 +23,19 @@ class M_main extends CI_Model{
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
+	function getNotaLaporanKejadian($id_spt){
+		$this->db->select("np.*");
+		$this->db->from("nota_pemeriksaan np");
+		$this->db->where("np.ID_SPT",$id_spt);
+		$this->db->limit("3");
+
+		$query = $this->db->get();
+		return $query->result();
+	}
 	function getNotaPemeriksaan3($id_spt){
-		$this->db->select("ht.*");
+		$this->db->select("ht.*,p.*");
 		$this->db->from("hasil_temuan ht");
+		$this->db->join("pasal p","ht.id_pasal=p.id_pasal");
 		$this->db->where("ht.ID_SPT",$id_spt);
 		// $this->db->limit("1");
 
@@ -45,10 +55,11 @@ class M_main extends CI_Model{
 		return $query->result();
 	}
 	function getNotaPemeriksaan1($id_keluhan){
-		$this->db->select("ap.*,tk.*,jk.*");
+		$this->db->select("ap.*,tk.*,jk.*,kt.*");
 		$this->db->from("admin_pengawas ap");
 		$this->db->join("jenis_keluhan jk","ap.ID_KELUHAN = jk.ID_JENIS_KELUHAN");
 		$this->db->join("tenaga_kerja tk","jk.ID_TK = tk.ID_TK");
+		$this->db->join("keluhan_tk kt","kt.ID_KELUHAN_TK = jk.ID_KELUHAN_TK");
 		$this->db->where("ap.ID_KELUHAN",$id_keluhan);
 		$this->db->limit("1");
 

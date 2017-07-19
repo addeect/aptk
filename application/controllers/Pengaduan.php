@@ -40,6 +40,7 @@ class Pengaduan extends CI_Controller {
         $data_nota1 = $this->m_main->getNotaPemeriksaan1($id_jenis_keluhan);
         $data_nota2 = $this->m_main->getNotaPemeriksaan2($id_spt);
         $data_nota3 = $this->m_main->getNotaPemeriksaan3($id_spt);
+        $data_nota_laporan_kejadian = $this->m_main->getNotaLaporanKejadian($id_spt);
         $data_nota_sebelum = $this->m_main->getNotaSebelum($id_spt,$nota_sebelum);
         
         $this->load->library('Pdf');
@@ -100,10 +101,83 @@ class Pengaduan extends CI_Controller {
     $html .= '<td width="150px">'.$key->PEKERJAAN.'</td>';
     $html .= '</tr>';
     $html .= '</table>';
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+    $html .= '<div style="width:300px;text-align:left;border:none;line-height:1.5"><span style="font-weight: normal;text-decoration:none">PERISTIWA YANG TERJADI</span></div>';
+    $html .= '<table border="0">';
+    $html .= '<tr>';
+    $html .= '<td width="180px">1. Waktu Kejadian</td>';
+    $html .= '<td width="10px">:</td>';
+    $html .= '<td width="440px">'.date('d F Y', strtotime($key->TANGGAL_MASUK)).'</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="180px">2. Tempat Kejadian</td>';
+    $html .= '<td width="10px">:</td>';
+    $html .= '<td width="440px">'.$key->NAMA_PERUSAHAAN.'</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="180px">3. Yang Terjadi</td>';
+    $html .= '<td width="10px">:</td>';
+    $html .= '<td width="440px">'.$key->ISI_KELUHAN.'</td>';
+    $html .= '</tr>';
+    $html .= '</table>';
     }
+
+    $html .= '<table>';
+    $html .= '<tr>';
+    $html .= '<td width="180px" colspan="3">4. Modus Operandi</td>';
+    $html .= '<td width="10px">:</td>';
+    $html .= '<td width="440px"></td>';
+    $html .= '</tr>';
+    $letter = 'a';
+    foreach ($data_nota3 as $key3) {
+        $html .= '<tr>';
+        $html .= '<td width="15px">&nbsp;</td>';
+        $html .= '<td width="20px">'.$letter.'. </td>';
+        $html .= '<td width="590px">Pelanggaran '.$key3->KETERANGAN_PASAL.' '.$key3->ISI_HASIL_TEMUAN.'</td>';
+        $html .= '</tr>';
+        $letter++;
+    }
+    
+    $html .= '</table>';
+    
     // Spacing
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
 
+    $html .= '<table>';
+    $html .= '<tr>';
+    $html .= '<td width="180px" colspan="3">5. Barang Bukti</td>';
+    $html .= '<td width="10px">:</td>';
+    $html .= '<td width="440px"></td>';
+    $html .= '</tr>';
+    $letter = 'a';
+    $nota1 = 'Nota Pemeriksaan';
+    $nota2 = 'Nota Peringatan II';
+    $nota3 = 'Nota Peringatan III';
+    foreach ($data_nota_laporan_kejadian as $key2) {
+        $html .= '<tr>';
+        $html .= '<td width="15px">&nbsp;</td>';
+        $html .= '<td width="20px">'.$letter.'. </td>';
+        if($key2->ISI_NOTA_PEMERIKSAAN == 1) {$html .= '<td width="590px">'.$nota1.' No. '.$id_spt.'/'.$id_jenis_keluhan.'/'.date('d.m/Y', strtotime($key2->TGL_NOTA_PEMERIKSAAN)).' tanggal '.date('d F Y', strtotime($key2->TGL_NOTA_PEMERIKSAAN)).'</td>';}
+        elseif ($key2->ISI_NOTA_PEMERIKSAAN == 2) {$html .= '<td width="590px">'.$nota2.' No. '.$id_spt.'/'.$id_jenis_keluhan.'/'.date('d.m/Y', strtotime($key2->TGL_NOTA_PEMERIKSAAN)).' tanggal '.date('d F Y', strtotime($key2->TGL_NOTA_PEMERIKSAAN)).'</td>';}
+        elseif ($key2->ISI_NOTA_PEMERIKSAAN == 3) {$html .= '<td width="590px">'.$nota3.' No. '.$id_spt.'/'.$id_jenis_keluhan.'/'.date('d.m/Y', strtotime($key2->TGL_NOTA_PEMERIKSAAN)).' tanggal '.date('d F Y', strtotime($key2->TGL_NOTA_PEMERIKSAAN)).'</td>';}
+        $html .= '</tr>';
+        $letter++;
+    }
+    
+    $html .= '</table>';
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+
+    $html .= '<table>';
+    $html .= '<tr>';
+    $html .= '<td width="180px" colspan="3">6. Uraian Singkat</td>';
+    $html .= '<td width="10px">:</td>';
+    foreach ($data_nota2 as $key2) {
+        $html .= '<td width="440px">'.$key2->PEMERIKSAAN.'</td>';
+    }
+    $html .= '</tr>';
+    $html .= '</table>';
     // Section 2
     foreach ($data_nota_sebelum as $key2) {
     $html .= '<div style="text-align:justify;border:none;line-height:1.5"><p style="font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Menindaklanjuti surat kami nomor : '.$no_spt.' tanggal '.date('d F Y', strtotime($key2->TGL_NOTA_PEMERIKSAAN)).' perihal Nota Peringatan II, ternyata masih ada yang belum Saudara laksanakan / menindaklanjutinya.</p></div>';
