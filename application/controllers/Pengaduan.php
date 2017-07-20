@@ -178,13 +178,20 @@ class Pengaduan extends CI_Controller {
     }
     $html .= '</tr>';
     $html .= '</table>';
-    // Section 2
-    foreach ($data_nota_sebelum as $key2) {
-    $html .= '<div style="text-align:justify;border:none;line-height:1.5"><p style="font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Menindaklanjuti surat kami nomor : '.$no_spt.' tanggal '.date('d F Y', strtotime($key2->TGL_NOTA_PEMERIKSAAN)).' perihal Nota Peringatan II, ternyata masih ada yang belum Saudara laksanakan / menindaklanjutinya.</p></div>';
-    }
-    $html .= '<div style="text-align:justify;border:none;line-height:1.5"><p style="font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Oleh karena itu sekali lagi kami ingatkan agar Saudara segera menindaklanjuti surat tersebut, dan apabila dalam batas waktu 3 (tiga) hari setelah menerima surat ini  Saudara tetap tidak melaksanakan dan melaporkan pelaksanaannya, maka akan diambil tindakan sesuai dengan ketentuan yang berlaku.</p></div>';
-    $html .= '<div style="text-align:justify;border:none;line-height:1.5"><p style="font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Demikian untuk menjadi perhatian.</p></div>';
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
 
+    $html .= '<table>';
+    $html .= '<tr>';
+    $html .= '<td width="180px" colspan="3">7. TIndakan yang diambil</td>';
+    $html .= '<td width="10px">:</td>';
+    $html .= '<td width="440px">Akan ditindaklanjuti ke Berita Acara Pemeriksaan</td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+    
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
     // Spacing
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
 
