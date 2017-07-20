@@ -94,6 +94,16 @@ class Main extends CI_Controller {
 			'page_name' => $page_name
 			);
 		}
+		elseif($page_name=='master-pasal'){
+			$this->load->model('m_main');
+			// $id_spt=$_GET['id_spt'];
+			$data=array(
+			// 'spt_list' => $this->m_main->getDataTemuan($id_spt),
+			'pasal' => $this->m_main->getDataPasal(),
+			'title' => ucwords($title),
+			'page_name' => $page_name
+			);
+		}
 		
 
 		$this->load->view('default/header',$data);

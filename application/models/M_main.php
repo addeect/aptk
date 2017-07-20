@@ -102,6 +102,12 @@ class M_main extends CI_Model{
        );
         $this->db->insert('nota_pemeriksaan', $data);
 	}
+	function insert_new_pasal($pasal){
+		$data=array(
+            'KETERANGAN_PASAL'  => $pasal
+       );
+        $this->db->insert('pasal', $data);
+	}
 	function closes_case($id_jenis_keluhan){
 		$simpan_data=array(
         	'STATUS_PENYELESAIAN' => 100
