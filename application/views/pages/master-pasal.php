@@ -57,7 +57,7 @@
                         <!--/li-->
                         
                         <li>
-                            <a href="index.html" class="hitam"><i class="fa fa-home fa-fw"></i> Beranda</a>
+                            <a href="<?php echo site_url('main/index/data-pengaduan') ?>" class="hitam"><i class="fa fa-home fa-fw"></i> Data Pengaduan</a>
                         </li>
                         <li>
                             <a  class="aktif hitam"><i class="fa fa-cog fa-fw"></i> Master Pasal</a>
@@ -67,7 +67,7 @@
                             <ul class="nav nav-second-level collapse in" aria-expanded="true">
                                 
                                 <li>
-                                    <a class="">Petugas Pengawas</a>
+                                    <a href="<?php echo site_url('main/index/pemilihan-petugas-pengawas') ?>" class="">Petugas Pengawas</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->

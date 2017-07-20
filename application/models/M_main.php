@@ -141,6 +141,14 @@ class M_main extends CI_Model{
 		$query = $this->db->get();
 		return $query->result();
 	}
+	function getDataTemuanAll(){
+		$this->db->select("ht.*,p.*");
+		$this->db->from("hasil_temuan ht");
+		$this->db->join("pasal p","p.ID_PASAL = ht.ID_PASAL");
+		// $this->db->where("ht.ID_SPT",$id_spt);
+		$query = $this->db->get();
+		return $query->result();
+	}
 	function getDataTemuan($id_spt){
 		$this->db->select("ht.*,p.*");
 		$this->db->from("hasil_temuan ht");
@@ -160,6 +168,60 @@ class M_main extends CI_Model{
 		// $this->db->order_by("ID_SPT ASC");
 		$query = $this -> db -> get();
 		return $query->result();
+	}
+	function getSPT_List_all(){
+		$this->db->select("ap.*,tk.*,k.*,jk.*,spt.*");
+		$this->db->from("admin_pengawas ap");
+		$this->db->join("jenis_keluhan jk","ap.ID_KELUHAN = jk.ID_JENIS_KELUHAN");
+		$this->db->join("tenaga_kerja tk","jk.ID_TK = tk.ID_TK");
+		$this->db->join("karyawan k","k.ID_KARYAWAN = ap.ID_KARYAWAN");
+		$this->db->join("surat_perintah_tugas spt","spt.ID_SPT = ap.ID_SPT");
+		$this->db->group_by("spt.ID_SPT");
+		// $this->db->where("ap.ID_KARYAWAN",$id_karyawan);
+		// $this->db->order_by("ID_SPT ASC");
+		$query = $this -> db -> get();
+		return $query->result();
+	}
+	function total_pengaduan(){
+		$this->db->select("ap.*,tk.*,k.*,jk.*,spt.*");
+		$this->db->from("admin_pengawas ap");
+		$this->db->join("jenis_keluhan jk","ap.ID_KELUHAN = jk.ID_JENIS_KELUHAN");
+		$this->db->join("tenaga_kerja tk","jk.ID_TK = tk.ID_TK");
+		$this->db->join("karyawan k","k.ID_KARYAWAN = ap.ID_KARYAWAN");
+		$this->db->join("surat_perintah_tugas spt","spt.ID_SPT = ap.ID_SPT");
+		$this->db->group_by("spt.ID_SPT");
+		// $this->db->where("ap.ID_KARYAWAN",$id_karyawan);
+		// $this->db->order_by("ID_SPT ASC");
+		$query = $this -> db -> get();
+		return $query->num_rows();
+	}
+	function pengaduanSelesai(){
+		$status_penyelesaian = 100;
+		$this->db->select("ap.*,tk.*,k.*,jk.*,spt.*");
+		$this->db->from("admin_pengawas ap");
+		$this->db->join("jenis_keluhan jk","ap.ID_KELUHAN = jk.ID_JENIS_KELUHAN");
+		$this->db->join("tenaga_kerja tk","jk.ID_TK = tk.ID_TK");
+		$this->db->join("karyawan k","k.ID_KARYAWAN = ap.ID_KARYAWAN");
+		$this->db->join("surat_perintah_tugas spt","spt.ID_SPT = ap.ID_SPT");
+		$this->db->where("jk.STATUS_PENYELESAIAN",$status_penyelesaian);
+		$this->db->group_by("spt.ID_SPT");
+		// $this->db->order_by("ID_SPT ASC");
+		$query = $this -> db -> get();
+		return $query->num_rows();
+	}
+	function pengaduanBelumSelesai(){
+		$status_penyelesaian = 100;
+		$this->db->select("ap.*,tk.*,k.*,jk.*,spt.*");
+		$this->db->from("admin_pengawas ap");
+		$this->db->join("jenis_keluhan jk","ap.ID_KELUHAN = jk.ID_JENIS_KELUHAN");
+		$this->db->join("tenaga_kerja tk","jk.ID_TK = tk.ID_TK");
+		$this->db->join("karyawan k","k.ID_KARYAWAN = ap.ID_KARYAWAN");
+		$this->db->join("surat_perintah_tugas spt","spt.ID_SPT = ap.ID_SPT");
+		$this->db->where("jk.STATUS_PENYELESAIAN < ".$status_penyelesaian);
+		$this->db->group_by("spt.ID_SPT");
+		// $this->db->order_by("ID_SPT ASC");
+		$query = $this -> db -> get();
+		return $query->num_rows();
 	}
 	function getSPT_List($id_karyawan){
 		$this->db->select("ap.*,tk.*,k.*,jk.*,spt.*");
@@ -450,6 +512,25 @@ class M_main extends CI_Model{
 		// 	return $qrow->NAMA_USER;
 		// }
 		return $q->result();
+	}
+	function permintaan_petugas(){
+		$this -> db -> select('jk.*, tk.*, kt.*');
+		$this -> db -> from('tenaga_kerja tk');
+		$this -> db -> join('jenis_keluhan jk','jk.ID_TK=tk.ID_TK');
+		$this -> db -> join('keluhan_tk kt','kt.ID_KELUHAN_TK=jk.ID_KELUHAN_TK');
+		// $this -> db -> join('admin_pengawas ap','ap.ID_KELUHAN=jk.ID_JENIS_KELUHAN');
+		// $this -> db -> join('surat_perintah_tugas spt','spt.ID_SPT=ap.ID_SPT');
+		$this -> db -> order_by("jk.ID_JENIS_KELUHAN DESC");
+		$this -> db -> where('jk.STATUS_PENYELESAIAN', 10);
+		//$this -> db -> where('PASSWORD', $pass);
+		// $this -> db -> limit(1);
+							
+		//$d = $this->db->get_where('user',$data);	
+		$q = $this -> db -> get();
+		// foreach ($q->result() as  $qrow) {
+		// 	return $qrow->NAMA_USER;
+		// }
+		return $q->num_rows();
 	}
 	function getUserPerseoranganInfo($user_id){
 		$this -> db -> select('*');

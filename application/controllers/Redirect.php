@@ -79,7 +79,7 @@ class Redirect extends CI_Controller {
 					}
 					if($user_type=="0"){
 						$user_type_name = "kabid";
-						$default_page = "pemilihan-petugas-pengawas";
+						$default_page = "data-pengaduan";
 					}
 					else if($user_type=="1"){
 						$user_type_name = "admin pengawas";

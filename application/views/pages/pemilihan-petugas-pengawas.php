@@ -56,7 +56,7 @@
                             <!-- /input-group -->
                         <!--/li-->
                         <li>
-                            <a href="index.html" class="hitam"><i class="fa fa-home fa-fw"></i> Beranda</a>
+                            <a href="<?php echo site_url('main/index/data-pengaduan') ?>" class="hitam"><i class="fa fa-home fa-fw"></i> Data Pengaduan</a>
                         </li>
                         <li>
                             <a href="<?php echo site_url('main/index/master-pasal') ?>" class="hitam"><i class="fa fa-cog fa-fw"></i> Master Pasal</a>

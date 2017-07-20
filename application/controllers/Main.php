@@ -104,6 +104,20 @@ class Main extends CI_Controller {
 			'page_name' => $page_name
 			);
 		}
+		elseif($page_name=='data-pengaduan'){
+			$this->load->model('m_main');
+			// $id_spt=$_GET['id_spt'];
+			$data=array(
+			'spt_list' => $this->m_main->getSPT_List_all(),
+			'pengaduan_selesai' => $this->m_main->pengaduanSelesai(),
+			'pengaduan_belum_selesai' => $this->m_main->pengaduanBelumSelesai(),
+			'permintaan_petugas' => $this->m_main->permintaan_petugas(),
+			'total_pengaduan' => $this->m_main->total_pengaduan(),
+			// 'pasal' => $this->m_main->getDataPasal(),
+			'title' => ucwords($title),
+			'page_name' => $page_name
+			);
+		}
 		
 
 		$this->load->view('default/header',$data);
