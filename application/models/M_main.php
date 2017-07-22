@@ -158,14 +158,18 @@ class M_main extends CI_Model{
 		return $query->result();
 	}
 	function getDataPengadu($id_tk){
-		$this->db->select("ap.*,tk.*,k.*,jk.*");
+		$this->db->select("ap.*,tk.*,k.*,jk.*,kt.*,ks.*,spt.*");
 		$this->db->from("admin_pengawas ap");
 		$this->db->join("jenis_keluhan jk","ap.ID_KELUHAN = jk.ID_JENIS_KELUHAN");
 		$this->db->join("tenaga_kerja tk","jk.ID_TK = tk.ID_TK");
 		$this->db->join("karyawan k","k.ID_KARYAWAN = ap.ID_KARYAWAN");
+		$this->db->join("surat_perintah_tugas spt","spt.ID_SPT = ap.ID_SPT");
+		$this->db->join("keluhan_tk kt","kt.ID_KELUHAN_TK = jk.ID_KELUHAN_TK","left outer");
+		$this->db->join("keluhan_serikat ks","ks.ID_KELUHAN_SERIKAT = jk.ID_KELUHAN_SERIKAT","left outer");
 		$this->db->where("tk.ID_TK",$id_tk);
+		$this->db->order_by("spt.ID_SPT Desc");
 		$this->db->limit("1");
-		// $this->db->order_by("ID_SPT ASC");
+		
 		$query = $this -> db -> get();
 		return $query->result();
 	}
@@ -177,8 +181,9 @@ class M_main extends CI_Model{
 		$this->db->join("karyawan k","k.ID_KARYAWAN = ap.ID_KARYAWAN");
 		$this->db->join("surat_perintah_tugas spt","spt.ID_SPT = ap.ID_SPT");
 		$this->db->group_by("spt.ID_SPT");
+		$this->db->order_by("spt.TGL_SPT DESC");
 		// $this->db->where("ap.ID_KARYAWAN",$id_karyawan);
-		// $this->db->order_by("ID_SPT ASC");
+		
 		$query = $this -> db -> get();
 		return $query->result();
 	}
@@ -223,6 +228,20 @@ class M_main extends CI_Model{
 		$query = $this -> db -> get();
 		return $query->num_rows();
 	}
+	function getSPT_List_count($id_karyawan){
+		$status_penyelesaian= 30;
+		$this->db->select("ap.*,tk.*,k.*,jk.*,spt.*");
+		$this->db->from("admin_pengawas ap");
+		$this->db->join("jenis_keluhan jk","ap.ID_KELUHAN = jk.ID_JENIS_KELUHAN");
+		$this->db->join("tenaga_kerja tk","jk.ID_TK = tk.ID_TK");
+		$this->db->join("karyawan k","k.ID_KARYAWAN = ap.ID_KARYAWAN");
+		$this->db->join("surat_perintah_tugas spt","spt.ID_SPT = ap.ID_SPT");
+		$this->db->where("ap.ID_KARYAWAN",$id_karyawan);
+		$this->db->where("jk.STATUS_PENYELESAIAN",$status_penyelesaian);
+		// $this->db->order_by("ID_SPT ASC");
+		$query = $this -> db -> get();
+		return $query->num_rows();
+	}
 	function getSPT_List($id_karyawan){
 		$this->db->select("ap.*,tk.*,k.*,jk.*,spt.*");
 		$this->db->from("admin_pengawas ap");
@@ -231,12 +250,12 @@ class M_main extends CI_Model{
 		$this->db->join("karyawan k","k.ID_KARYAWAN = ap.ID_KARYAWAN");
 		$this->db->join("surat_perintah_tugas spt","spt.ID_SPT = ap.ID_SPT");
 		$this->db->where("ap.ID_KARYAWAN",$id_karyawan);
-		// $this->db->order_by("ID_SPT ASC");
+		$this->db->order_by("spt.TGL_SPT DESC");
 		$query = $this -> db -> get();
 		return $query->result();
 	}
 	function getLaporanPemeriksaan($id_spt){
-		$this->db->select("k.ID_KARYAWAN,k.NAMA_KARYAWAN,spt.PEMERIKSAAN,tk.JENIS_USAHA,tk.TELP_HRD_SERIKAT,tk.TELP_PERUSAHAAN,tk.ALAMAT_PERUSAHAAN,spt.NO_SPT,spt.TGL_SPT,spt.TGL_PEMERIKSAAN,tk.NAMA_PERUSAHAAN");
+		$this->db->select("k.ID_KARYAWAN,k.NAMA_KARYAWAN,spt.PEMERIKSAAN,tk.JENIS_USAHA,tk.TELP_HRD_SERIKAT,tk.TELP_PERUSAHAAN,tk.ALAMAT_PERUSAHAAN,spt.NO_SPT,spt.TGL_SPT,spt.TGL_PEMERIKSAAN,tk.NAMA_PERUSAHAAN, spt.JUMLAH_PEGAWAI");
 		$this->db->from("admin_pengawas ap");
 		$this->db->join("jenis_keluhan jk","ap.ID_KELUHAN = jk.ID_JENIS_KELUHAN");
 		$this->db->join("tenaga_kerja tk","jk.ID_TK = tk.ID_TK");
@@ -250,11 +269,13 @@ class M_main extends CI_Model{
 		
 	}
 	function getDataSPT($id_spt){
-		$this->db->select("ap.*,tk.*,k.*,jk.*");
+		$this->db->select("ap.*,tk.*,k.*,jk.*,kt.*,ks.*");
 		$this->db->from("admin_pengawas ap");
 		$this->db->join("jenis_keluhan jk","ap.ID_KELUHAN = jk.ID_JENIS_KELUHAN");
 		$this->db->join("tenaga_kerja tk","jk.ID_TK = tk.ID_TK");
 		$this->db->join("karyawan k","k.ID_KARYAWAN = ap.ID_KARYAWAN");
+		$this->db->join("keluhan_tk kt","kt.ID_KELUHAN_TK = jk.ID_KELUHAN_TK", 'left outer');
+		$this->db->join("keluhan_serikat ks","ks.ID_KELUHAN_SERIKAT = jk.ID_KELUHAN_SERIKAT", 'left outer');
 		$this->db->where("ap.ID_SPT",$id_spt);
 		// $this->db->order_by("ID_SPT ASC");
 		$query = $this -> db -> get();

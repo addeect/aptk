@@ -19,11 +19,11 @@ class M_tk extends CI_Model{
 		$this->db->where('ID_JENIS_KELUHAN', $id_jenis_keluhan);
 		$this->db->update('jenis_keluhan',$data_status);
 	}
-	function insertCaseSPT($id_spt,$id_jenis_keluhan){
+	function insertCaseSPT($id_spt,$id_jenis_keluhan,$isi_spt){
 		$status_penyelesaian = 30;
 		$nomor_spt = $id_spt."/".$id_jenis_keluhan."/".date('d.m/Y');
 		$data_spt=array(
-			'ISI_SPT' => $this->input->post('kasus'),
+			'ISI_SPT' => $isi_spt,
 			'NO_SPT' => $nomor_spt,
 			'IS_ACTIVE_SPT' => '1',
 			'STATUS_SPT' => '0'

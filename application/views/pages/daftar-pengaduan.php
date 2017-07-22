@@ -162,6 +162,28 @@
             </div>
             <!-- /.row -->
             <div class="row">
+            <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-red">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-user fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge"><?php echo $spt_baru; ?></div>
+                                    <div>SPT</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">Jumlah SPT Baru</span>
+                                <span class="pull-right"><i class="fa fa-dashboard"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading" style="color: #fff;background-color: #ec6b4d;">
@@ -193,7 +215,7 @@
                                             <td><?php echo $key->NAMA_PERUSAHAAN; ?></td>
                                             <td><?php echo $key->ALAMAT_PERUSAHAAN; ?></td>
                                             <td>
-                                            <a class="btn btn-sm <?php if($key->STATUS_PENYELESAIAN<30){echo 'btn-default disabled';}else if($key->STATUS_PENYELESAIAN<50){echo 'btn-default';} else{echo 'btn-warning';} ?>" href="<?php echo site_url('main/index/hasil-temuan') ?>?id_spt=<?php echo $key->ID_SPT; ?>&id_jenis_keluhan=<?php echo $key->ID_JENIS_KELUHAN; ?>&status=<?php echo $key->STATUS_PENYELESAIAN; ?>">Temuan</a>
+                                            <a class="btn btn-sm <?php if($key->STATUS_PENYELESAIAN<40){echo 'btn-default disabled';}else if($key->STATUS_PENYELESAIAN<50){echo 'btn-default';} else{echo 'btn-warning';} ?>" href="<?php echo site_url('main/index/hasil-temuan') ?>?id_spt=<?php echo $key->ID_SPT; ?>&id_jenis_keluhan=<?php echo $key->ID_JENIS_KELUHAN; ?>&status=<?php echo $key->STATUS_PENYELESAIAN; ?>">Temuan</a>
                                             </td>
                                             <td>
                                             <a target="_blank" class="btn btn-sm 
@@ -214,12 +236,6 @@
                                     
                                 </tbody>
                             </table>
-                            <!-- /.table-responsive -->
-                            <!--div class="well">
-                                <h4>DataTables Usage Information</h4>
-                                <p>DataTables is a very flexible, advanced tables plugin for jQuery. In SB Admin, we are using a specialized version of DataTables built for Bootstrap 3. We have also customized the table headings to use Font Awesome icons in place of images. For complete documentation on DataTables, visit their website at <a target="_blank" href="https://datatables.net/">https://datatables.net/</a>.</p>
-                                <a class="btn btn-default btn-lg btn-block" target="_blank" href="https://datatables.net/">View DataTables Documentation</a>
-                            </div-->
                         </div>
                         <!-- /.panel-body -->
                     </div>

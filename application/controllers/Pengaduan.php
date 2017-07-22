@@ -804,6 +804,12 @@ class Pengaduan extends CI_Controller {
     $html .='<td height="25px" width="15px">:</td>';
     $html .='<td height="25px" width="320px">'.$key->JENIS_USAHA.'</td>';
     $html .='</tr>';
+    $html .='<td height="25px" width="15px">&nbsp;</td>';
+    $html .='<td height="25px" width="15px">5.</td>';
+    $html .='<td height="25px" width="250px">Jumlah Pegawai</td>';
+    $html .='<td height="25px" width="15px">:</td>';
+    $html .='<td height="25px" width="320px">'.$key->JUMLAH_PEGAWAI.' orang</td>';
+    $html .='</tr>';
     $html .='</table>';
 
     // Spacing
@@ -912,10 +918,21 @@ class Pengaduan extends CI_Controller {
   function pembuatan_SPT(){
     $id_spt = $this->input->get("no_spt");
     $id_jenis_keluhan = $this->input->get("id_jenis_keluhan");
-    $isi_spt = $this->input->get("kasus");
+    $nama_perusahaan = $this->input->get("nama_perusahaan");
+    $alamat_perusahaan = $this->input->get("alamat_perusahaan");
+    $tgl_awal = $this->input->get("tgl_awal");
+    $tgl_akhir = $this->input->get("tgl_akhir");
+
+    $isi_spt = '1. Melakukan pemeriksaan pelaksanaan peraturan perundang-undangan ketenagakerjaan pada perusahaan '.$nama_perusahaan.' alamat '.$alamat_perusahaan.' <br/>2. melaksanakan tugas dari tanggal '.$tgl_awal.' s/d tanggal '.$tgl_akhir.' <br/>3. Setelah selesai melaksanakan tugas, segera menyampaikan laporan tertulis kepada Kepala Dinas Sulton Prakasa.';
+    $isi_spt1 = 'Melakukan pemeriksaan pelaksanaan peraturan perundang-undangan ketenagakerjaan pada perusahaan '.$nama_perusahaan.' alamat '.$alamat_perusahaan;
+    $isi_spt2 = 'melaksanakan tugas dari tanggal '.$tgl_awal.' s/d tanggal '.$tgl_akhir;
+    $isi_spt3 = 'Setelah selesai melaksanakan tugas, segera menyampaikan laporan tertulis kepada Kepala Dinas Sulton Prakasa.';
+
+
+    // $isi_spt = $this->input->get("kasus");
     $this->load->model('m_tk');
     $this->load->model('m_main');
-    $this->m_tk->insertCaseSPT($id_spt,$id_jenis_keluhan);
+    $this->m_tk->insertCaseSPT($id_spt,$id_jenis_keluhan,$isi_spt);
 
     // Download PDF Document
     $data_pengawas = $this->m_main->getDataSPT_PDF($id_spt);
@@ -1049,24 +1066,84 @@ class Pengaduan extends CI_Controller {
     $html .= '<tr>';
     $html .= '<td  width="80px">Untuk</td>';
     $html .= '<td  width="20px">:</td>';
-    $html .= '<td width="600px">';
+    $html .= '<td width="500px">';
     $html .= '<table border="0">';
 
     // Get data isi spt
     
     $html .= '<tr>';
-    $html .= '<td width="550px" ><p style="text-align:justify">'.nl2br($isi_spt).'</p></td>';
+    $html .= '<td width="30px">1.</td>';
+    $html .= '<td width="500px"><p style="text-align:justify">'.$isi_spt1.'</p></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="30px">2.</td>';
+    $html .= '<td width="500px"><p style="text-align:justify">'.$isi_spt2.'</p></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="30px">3.</td>';
+    $html .= '<td width="500px"><p style="text-align:justify">'.$isi_spt3.'</p></td>';
     $html .= '</tr>';
     $html .= '</table>';
     $html .= '</td>';
     $html .= '</tr>';
     $html .= '</table>';
 
-    // Spacing
-    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1"><span style="font-weight: bold;"></span></div>';
 
     // Section 6
     $html .= '<div style="width:300px;text-align:left;border:none;line-height:1.5"><p style="font-weight: normal;"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Demikian Surat Perintah Tugas ini diberikan kepada yang bersangkutan untuk dilaksanakan dengan penuh tanggung jawab.</p></div>';
+
+    // Section 3
+    $html .= '<table>';
+    $html .= '<tr>';
+    $html .= '<td width="50px">&nbsp;</td>';
+    $html .= '<td>';
+    $html .= '<table border="0">';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:underline"></font></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:none"></font></td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+    $html .= '</td>';
+    $html .= '<td width="200px">&nbsp;</td>';
+    $html .= '<td>';
+    $html .= '<table border="0">';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">Kepala Dinas</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:underline">Sulton Prakasa</font></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:none">Nip. 10170001.189423.1.001</font></td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+    $html .= '</td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+
     // $html .= '<table border="0" width="400px">';
     // $html .= '<tr>';
     // $html .= '<td width="20px">1. </td>';

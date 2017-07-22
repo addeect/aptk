@@ -218,6 +218,39 @@
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-3">
+                                        <label for="deskripsi_kasus">Deskripsi Kasus</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <textarea type="text" style="resize:none; height: 200px" class="form-control" name="deskripsi_kasus" id="deskripsi_kasus" placeholder="Kasus" readonly ><?php echo preg_replace("/\<br\s*\/?\>/i", "\n", $key->ISI_SPT); ?></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="jenis_pelanggaran">Jenis Pelanggaran</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input value="<?php echo $key->JENIS_KELUHAN; ?>" type="text" class="form-control" name="jenis_pelanggaran" id="jenis_pelanggaran" placeholder="Ketik Alamat Tempat Anda Bekerja" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="keluhan">Keluhan Pengadu</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <textarea type="text" style="resize:none; height: 280px" class="form-control" name="keluhan" id="keluhan" placeholder="Ketik Alamat Tempat Anda Bekerja" readonly ><?php echo $key->ISI_KELUHAN; ?></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
                                         <label for="jumlah_pegawai">Jumlah Pegawai</label>
                                     </div>
                                     <div class="col-sm-6">

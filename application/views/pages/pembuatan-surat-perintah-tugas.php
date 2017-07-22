@@ -1,3 +1,4 @@
+<link href="<?php echo base_url('assets/css/jquery.datetimepicker.css') ?>" rel="stylesheet" />
 <link href="<?php echo base_url('assets/css/selectize.bootstrap3.css') ?>" rel="stylesheet">
 <div id="wrapper">
 
@@ -168,6 +169,7 @@
                         <div class="panel-body">
                         <form target="_blank" method="GET" id="form_pembuatan_spt" action="<?php echo site_url('pengaduan/pembuatan_SPT') ?>">
                             <input type="hidden" name="id_jenis_keluhan" id="id_jenis_keluhan">
+                            <input type="hidden" name="alamat_perusahaan" id="alamat_perusahaan">
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
@@ -232,6 +234,48 @@
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-3">
+                                        <label for="pengaduan">Pengaduan</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <textarea type="text" readonly style="height: 240px;resize: none;" class="form-control" name="pengaduan" id="pengaduan" placeholder="Deskripsi Pengaduan" ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="nama_perusahaan">Nama Perusahaan</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" readonly class="form-control" name="nama_perusahaan" id="nama_perusahaan" placeholder="Nama Perusahaan" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
+                                        <label for="tgl_awal">Durasi Kasus</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input  type="text" class="form-control tk" name="tgl_awal" id="tgl_awal" placeholder="Klik Di Sini" />
+                                        <p class="help-block" style="display:none"></p>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <label>S/d tanggal</label>
+                                        <p class="help-block" style="display:none"></p>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input  type="text" class="form-control tk" name="tgl_akhir" id="tgl_akhir" placeholder="Klik Di Sini" />
+                                        <p class="help-block" style="display:none"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
                                         <label for="kasus">Kasus<span style="color:red">*</span></label>
                                         <p class="help-block">*Isi pembahasan peruntukan Surat Perintah Tugas</p>
                                     </div>
@@ -239,7 +283,7 @@
                                         <textarea required style="resize:none;height:200px" class="form-control" name="kasus" id="kasus" placeholder="Ketik Penjelasan Kasus"/></textarea>
                                     </div>
                                 </div>
-                            </div>
+                            </div-->
                             
                             <!--div class="col-lg-6 col-sm-6 col-12">
                                 <h4>MP3 / WAV</h4>
@@ -287,7 +331,7 @@
 
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/js/jquery.min.js') ?>"></script>
-
+    <script src="<?php echo base_url('assets/js/jquery.datetimepicker.full.min.js') ?>"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="<?php echo base_url('assets/js/bootstrap.js') ?>"></script>
     <!-- Autocomplete - Bootstrap Plugin -->
@@ -307,7 +351,15 @@
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
     $(document).ready(function() {
-
+        // DATEPICKER
+        $('#tgl_awal').datetimepicker({
+            timepicker:false,
+            format:'d-m-Y'
+        });
+        $('#tgl_akhir').datetimepicker({
+            timepicker:false,
+            format:'d-m-Y'
+        });
         $('select#no_spt').selectize({
             sortField: 'text'
         });
@@ -327,14 +379,31 @@
                     $('input#petugas_2').val("Petugas Tidak Ditemukan");
                     $('input#petugas_3').val("Petugas Tidak Ditemukan");
                     $('input#nama_pengadu').val("Pengadu Tidak Ditemukan");
+                    $('input#pengaduan').val("Data Tidak Ditemukan");
+                    $('input#nama_perusahaan').val("Data Tidak Ditemukan");
                 }
               else{
                 var nama_perorangan = data[0].NAMA_TK;
                 var nama_serikat = data[0].NAMA_SERIKAT;
                 var id_jenis_keluhan = data[0].ID_JENIS_KELUHAN;
+                var alamat_perusahaan = data[0].ALAMAT_PERUSAHAAN;
+                var pengaduan = data[0].ISI_KELUHAN;
+                if(pengaduan == null){
+                    pengaduan = '';
+                }
+                var pengaduan_serikat = data[0].ISI_KELUHAN_SERIKAT;
+                if(pengaduan_serikat == null){
+                    pengaduan_serikat = '';
+                }
+                
+                var nama_perusahaan = data[0].NAMA_PERUSAHAAN;
+                var id_jenis_keluhan = data[0].ID_JENIS_KELUHAN;
                 $('input#petugas_1').val(data[0].NAMA_KARYAWAN);
                 $('input#petugas_2').val(data[1].NAMA_KARYAWAN);
                 $('input#petugas_3').val(data[2].NAMA_KARYAWAN);
+                $('textarea#pengaduan').html(pengaduan+" "+pengaduan_serikat);
+                $('input#nama_perusahaan').val(nama_perusahaan);
+                $('input#alamat_perusahaan').val(alamat_perusahaan);
                 $('input#id_jenis_keluhan').val(id_jenis_keluhan);
                 // alert(nama_perorangan+nama_serikat);
                 if(nama_perorangan == null && nama_serikat == null){

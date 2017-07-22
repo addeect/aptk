@@ -62,6 +62,7 @@ class Main extends CI_Controller {
 			$id_karyawan=$_SESSION['nik'];
 			$data=array(
 			'spt_list' => $this->m_main->getSPT_List($id_karyawan),
+			'spt_baru' => $this->m_main->getSPT_List_count($id_karyawan),
 			'title' => ucwords($title),
 			'page_name' => $page_name
 			);
