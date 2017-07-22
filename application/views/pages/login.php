@@ -16,12 +16,12 @@
                     </a>
                 </li>
                 <!-- /.dropdown -->
-                 <li class="dropdown">
+                 <!--li class="dropdown">
                     <a class="dropdown-toggle" href="#">
                        Lupa Password
                         <i class="fa fa-cog fa-fw"></i>
                     </a>
-                </li>
+                </li-->
                 <!-- /.dropdown -->
             </ul>
             <!-- /.navbar-top-links -->

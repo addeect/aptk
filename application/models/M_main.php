@@ -187,6 +187,16 @@ class M_main extends CI_Model{
 		$query = $this -> db -> get();
 		return $query->result();
 	}
+	function kasus_masuk(){
+		$this->db->select("count(*) as jumlah, MONTHNAME(TANGGAL_MASUK) as Bulan");
+		$this->db->from("keluhan_tk");
+		$this->db->group_by("Bulan");
+		$this->db->order_by("Bulan DESC");
+		// $this->db->where("ap.ID_KARYAWAN",$id_karyawan);
+		// $this->db->order_by("ID_SPT ASC");
+		$query = $this -> db -> get();
+		return $query->result();
+	}
 	function total_pengaduan(){
 		$this->db->select("ap.*,tk.*,k.*,jk.*,spt.*");
 		$this->db->from("admin_pengawas ap");

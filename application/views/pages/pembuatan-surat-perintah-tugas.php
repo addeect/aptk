@@ -63,6 +63,9 @@
                                 <li>
                                     <a class="aktif">Admin Pengawas</a>
                                 </li>
+                                <li>
+                                    <a href="<?php echo site_url('main/index/laporan-bulanan') ?>" class="">Laporan Bulanan</a>
+                                </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>

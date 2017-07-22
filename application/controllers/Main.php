@@ -119,6 +119,20 @@ class Main extends CI_Controller {
 			'page_name' => $page_name
 			);
 		}
+		elseif($page_name=='laporan-bulanan'){
+			$this->load->model('m_main');
+			// $id_spt=$_GET['id_spt'];
+			$data=array(
+			'kasus_masuk' => $this->m_main->kasus_masuk(),
+			'pengaduan_selesai' => $this->m_main->pengaduanSelesai(),
+			'pengaduan_belum_selesai' => $this->m_main->pengaduanBelumSelesai(),
+			'permintaan_petugas' => $this->m_main->permintaan_petugas(),
+			'total_pengaduan' => $this->m_main->total_pengaduan(),
+			// 'pasal' => $this->m_main->getDataPasal(),
+			'title' => ucwords($title),
+			'page_name' => $page_name
+			);
+		}
 		
 
 		$this->load->view('default/header',$data);
