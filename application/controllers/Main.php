@@ -124,8 +124,8 @@ class Main extends CI_Controller {
 			
 			$data=array();
 			if(isset($_GET['tgl_awal']) && $_GET['tgl_awal']!=''){
-				$tgl_awal=$_GET['tgl_awal'];
-				$tgl_akhir=$_GET['tgl_akhir'];
+				$tgl_awal=date('Y-m-d H:i:s',strtotime($_GET['tgl_awal']));
+				$tgl_akhir=date('Y-m-d H:i:s', strtotime($_GET['tgl_akhir']));
 				$jenis_pelanggaran=$_GET['jenis_pelanggaran'];
 				$data=array(
 				'kasus_masuk' => $this->m_main->kasus_masuk_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran),
@@ -134,6 +134,8 @@ class Main extends CI_Controller {
 				'kasus_serikat_selesai' => $this->m_main->kasus_serikat_selesai_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran),
 				'kasus_tidak_selesai' => $this->m_main->kasus_tidak_selesai($tgl_awal,$tgl_akhir,$jenis_pelanggaran),
 				'kasus_serikat_tidak_selesai' => $this->m_main->kasus_serikat_tidak_selesai($tgl_awal,$tgl_akhir,$jenis_pelanggaran),
+				'kecenderungan_perorangan' => $this->m_main->kecenderungan_perorangan_p($tgl_awal,$tgl_akhir),
+				'kecenderungan_serikat' => $this->m_main->kecenderungan_serikat_p($tgl_awal,$tgl_akhir),
 				// 'pasal' => $this->m_main->getDataPasal(),
 				'title' => ucwords($title),
 				'page_name' => $page_name
@@ -147,6 +149,8 @@ class Main extends CI_Controller {
 				'kasus_serikat_selesai' => $this->m_main->kasus_serikat_selesai(),
 				'kasus_tidak_selesai' => $this->m_main->kasus_tidak_selesai(),
 				'kasus_serikat_tidak_selesai' => $this->m_main->kasus_serikat_tidak_selesai(),
+				'kecenderungan_perorangan' => $this->m_main->kecenderungan_perorangan(),
+				'kecenderungan_serikat' => $this->m_main->kecenderungan_serikat(),
 				// 'pasal' => $this->m_main->getDataPasal(),
 				'title' => ucwords($title),
 				'page_name' => $page_name

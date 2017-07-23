@@ -146,10 +146,10 @@
                     <!-- /.panel-body -->
                 </div>
                 </div>
-                <div class="col-sm-12">
+                <div class="col-sm-6">
                     <div class="panel panel-default">
                     <div class="panel-heading">
-                        <i class="fa fa-bar-chart-o fa-fw"></i> Kecenderungan Kasus
+                        <i class="fa fa-bar-chart-o fa-fw"></i> Kecenderungan Kasus Perorangan
                         <div class="pull-right">
                             
                         </div>
@@ -157,6 +157,21 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <canvas id="chart_kecenderungan_kasus" style="width:100%;height:300px"></canvas>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-bar-chart-o fa-fw"></i> Kecenderungan Kasus Perserikatan
+                        <div class="pull-right">
+                            
+                        </div>
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <canvas id="chart_kecenderungan_kasus_serikat" style="width:100%;height:300px"></canvas>
                     </div>
                     <!-- /.panel-body -->
                 </div>
@@ -481,22 +496,51 @@
     var ctx3 = document.getElementById("chart_kecenderungan_kasus").getContext('2d');
     var data_kecenderungan_kasus = {
         datasets: [{
-            data: [10, 20, 30],
-            backgroundColor:['rgba(75, 192, 192, 0.8)','rgba(54, 162, 235, 0.8)',"rgb(255, 205, 86)"]
+            data: [<?php
+            foreach ($kecenderungan_perorangan as $key) {
+               $arr_kecenderungan_perorangan[] = $key->jumlah;
+            } echo implode(",", $arr_kecenderungan_perorangan);
+            ?>],
+            backgroundColor:['rgba(54, 162, 235, 0.8)',"rgb(255, 205, 86)"]
         }],
 
         // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: [
-            'Red',
-            'Yellow',
-            'Blue'
-        ]
+        labels: [<?php
+            foreach ($kecenderungan_perorangan as $key) {
+               $arr_kecenderungan_perorangan_label[] = '"'.$key->jenis.'"';
+            } echo implode(",", $arr_kecenderungan_perorangan_label);
+            ?>]
     };
     var options_kecenderungan_kasus = '';
     var myDoughnutChart = new Chart(ctx3, {
         type: 'doughnut',
         data: data_kecenderungan_kasus,
         options: options_kecenderungan_kasus
+    });
+    // #4 CHART ====================================================================================================
+    var ctx4 = document.getElementById("chart_kecenderungan_kasus_serikat").getContext('2d');
+    var data_kecenderungan_kasus_serikat = {
+        datasets: [{
+            data: [<?php
+            foreach ($kecenderungan_serikat as $key) {
+               $arr_kecenderungan_serikat[] = $key->jumlah;
+            } echo implode(",", $arr_kecenderungan_serikat);
+            ?>],
+            backgroundColor:['rgba(54, 162, 235, 0.8)',"rgb(255, 205, 86)"]
+        }],
+
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: [<?php
+            foreach ($kecenderungan_serikat as $key) {
+               $arr_kecenderungan_serikat_label[] = '"'.$key->jenis.'"';
+            } echo implode(",", $arr_kecenderungan_serikat_label);
+            ?>]
+    };
+    var options_kecenderungan_kasus_serikat = '';
+    var myDoughnutChart_serikat = new Chart(ctx4, {
+        type: 'doughnut',
+        data: data_kecenderungan_kasus_serikat,
+        options: options_kecenderungan_kasus_serikat
     });
     $(document).ready(function() {
 

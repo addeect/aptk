@@ -315,6 +315,50 @@ class M_main extends CI_Model{
 		$query = $this -> db -> get();
 		return $query->result();
 	}
+	function kecenderungan_perorangan_p($tgl_awal,$tgl_akhir){
+		$this->db->select("count(*) as jumlah, kt.JENIS_KELUHAN as jenis");
+		$this->db->from("keluhan_tk kt");
+		$this->db->join("jenis_keluhan jk","kt.ID_KELUHAN_TK=jk.ID_KELUHAN_TK");
+		$this->db->where('kt.TANGGAL_MASUK >=', $tgl_awal);
+		$this->db->where('kt.TANGGAL_MASUK <=', $tgl_akhir);
+		$this->db->group_by("jenis");
+		$this->db->order_by("jenis DESC");
+		// $this->db->order_by("ID_SPT ASC");
+		$query = $this -> db -> get();
+		return $query->result();
+	}
+	function kecenderungan_serikat_p($tgl_awal,$tgl_akhir){
+		$this->db->select("count(*) as jumlah, ks.JENIS_KELUHAN_SERIKAT as jenis");
+		$this->db->from("keluhan_serikat ks");
+		$this->db->join("jenis_keluhan jk","ks.ID_KELUHAN_SERIKAT=jk.ID_KELUHAN_SERIKAT");
+		$this->db->where('ks.TGL_MASUK >=', $tgl_awal);
+		$this->db->where('ks.TGL_MASUK <=', $tgl_akhir);
+		$this->db->group_by("jenis");
+		$this->db->order_by("jenis DESC");
+		// $this->db->order_by("ID_SPT ASC");
+		$query = $this -> db -> get();
+		return $query->result();
+	}
+	function kecenderungan_perorangan(){
+		$this->db->select("count(*) as jumlah, JENIS_KELUHAN as jenis");
+		$this->db->from("keluhan_tk");
+		$this->db->group_by("jenis");
+		$this->db->order_by("jenis DESC");
+		// $this->db->where("ap.ID_KARYAWAN",$id_karyawan);
+		// $this->db->order_by("ID_SPT ASC");
+		$query = $this -> db -> get();
+		return $query->result();
+	}
+	function kecenderungan_serikat(){
+		$this->db->select("count(*) as jumlah, JENIS_KELUHAN_SERIKAT as jenis");
+		$this->db->from("keluhan_serikat");
+		$this->db->group_by("jenis");
+		$this->db->order_by("jenis DESC");
+		// $this->db->where("ap.ID_KARYAWAN",$id_karyawan);
+		// $this->db->order_by("ID_SPT ASC");
+		$query = $this -> db -> get();
+		return $query->result();
+	}
 	function kasus_masuk(){
 		$this->db->select("count(*) as jumlah, MONTHNAME(TANGGAL_MASUK) as Bulan");
 		$this->db->from("keluhan_tk");
