@@ -41,10 +41,18 @@ class Pengaduan extends CI_Controller {
         if(isset($_GET['tgl_awal']) && $_GET['tgl_awal']!=''){
             $kasus_masuk = $this->m_main->kasus_masuk_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
             $kasus_masuk_serikat = $this->m_main->kasus_masuk_serikat_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
+            $kasus_selesai = $this->m_main->kasus_selesai_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
+            $kasus_serikat_selesai = $this->m_main->kasus_serikat_selesai_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
+            $kasus_tidak_selesai = $this->m_main->kasus_tidak_selesai($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
+            $kasus_serikat_tidak_selesai = $this->m_main->kasus_serikat_tidak_selesai($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
         }
         else{
             $kasus_masuk = $this->m_main->kasus_masuk();
             $kasus_masuk_serikat = $this->m_main->kasus_masuk_serikat();
+            $kasus_selesai = $this->m_main->kasus_selesai();
+            $kasus_serikat_selesai = $this->m_main->kasus_serikat_selesai();
+            $kasus_tidak_selesai = $this->m_main->kasus_tidak_selesai();
+            $kasus_serikat_tidak_selesai = $this->m_main->kasus_serikat_tidak_selesai();
         }
         $this->load->library('Pdf');
 
@@ -90,55 +98,13 @@ class Pengaduan extends CI_Controller {
     // Spacing
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
     $html .= '<div style="width:300px;text-align:left;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">1. JUMLAH KASUS MASUK</span></div>';
-
-    // Spacing
-    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
-    $html .= '<table>';
-    $html .= '<tr>';
-    $html .= '<td width="120px"></td>';
-
-    $html .= '<td width="250px">';
-    $html .= '<table border="1">';
-    $html .= '<tr style="text-align:center;">';
-    $html .= '<td width="100px"><strong>Bulan</strong></td>';
-    $html .= '<td width="150px"><strong>Perorangan</strong></td>';
-    $html .= '</tr>';
-    foreach ($kasus_masuk as $key) {
-        $html .= '<tr style="text-align:center">';
-        $html .= '<td>'.$key->Bulan.'</td>';
-        $html .= '<td>'.$key->jumlah.'</td>';
-        $html .= '</tr>';
-    }
-    $html .= '</table>';
-    $html .= '</td>';
-
-    $html .= '<td width="150px">';
-    $html .= '<table border="1">';
-    $html .= '<tr style="text-align:center;">';
-    $html .= '<td width="150px"><strong>Perserikatan</strong></td>';
-    $html .= '</tr>';
-    foreach ($kasus_masuk_serikat as $key) {
-        $html .= '<tr style="text-align:center">';
-        $html .= '<td>'.$key->Bulan.'</td>';
-        $html .= '<td>'.$key->jumlah.'</td>';
-        $html .= '</tr>';
-    }
-    $html .= '</table>';
-    $html .= '</td>';
-
-    $html .= '<td width="20px"></td>';
-    $html .= '</tr>';
-    $html .= '</table>';
     
-    // Spacing
-    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
-    $html .= '<div style="width:300px;text-align:left;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">2. JUMLAH SELESAI</span></div>';
 
     // Spacing
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
     $html .= '<table>';
     $html .= '<tr>';
-    $html .= '<td width="120px"></td>';
+    $html .= '<td width="80px"></td>';
 
     $html .= '<td width="250px">';
     $html .= '<table border="1">';
@@ -158,10 +124,61 @@ class Pengaduan extends CI_Controller {
     $html .= '<td width="250px">';
     $html .= '<table border="1">';
     $html .= '<tr style="text-align:center;">';
-    $html .= '<td width="150px"><strong>Bulan</strong></td>';
+    $html .= '<td width="100px"><strong>Bulan</strong></td>';
     $html .= '<td width="150px"><strong>Perserikatan</strong></td>';
     $html .= '</tr>';
     foreach ($kasus_masuk_serikat as $key) {
+        $html .= '<tr style="text-align:center">';
+        $html .= '<td>'.$key->Bulan.'</td>';
+        $html .= '<td>'.$key->jumlah.'</td>';
+        $html .= '</tr>';
+    }
+    $html .= '</table>';
+    $html .= '</td>';
+
+    $html .= '<td width="20px"></td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+    $html .= '<div style="width:300px;text-align:left;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">2. KASUS SELESAI & TIDAK SELESAI</span></div>';
+    
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+    $html .= '<table>';
+    $html .= '<tr>';
+    $html .= '<td width="100px"></td>';
+
+    $html .= '<td width="160px">';
+    $html .= '<table border="1">';
+    $html .= '<tr style="text-align:center;">';
+    $html .= '<td colspan="2">Perorangan</td>';
+    $html .= '</tr>';
+    $html .= '<tr style="text-align:center;">';
+    $html .= '<td width="80px"><strong>Bulan</strong></td>';
+    $html .= '<td width="80px"><strong>Selesai</strong></td>';
+    $html .= '</tr>';
+    foreach ($kasus_selesai as $key) {
+        $html .= '<tr style="text-align:center">';
+        $html .= '<td>'.$key->Bulan.'</td>';
+        $html .= '<td>'.$key->jumlah.'</td>';
+        $html .= '</tr>';
+    }
+    $html .= '</table>';
+    $html .= '</td>';
+    $html .= '<td width="10px">&nbsp;</td>';
+    $html .= '<td width="250px">';
+    $html .= '<table border="1">';
+    $html .= '<tr style="text-align:center;">';
+    $html .= '<td colspan="2">Perorangan</td>';
+    $html .= '</tr>';
+    $html .= '<tr style="text-align:center;">';
+    $html .= '<td width="100px"><strong>Bulan</strong></td>';
+    $html .= '<td width="150px"><strong>Tidak Selesai</strong></td>';
+    $html .= '</tr>';
+    foreach ($kasus_tidak_selesai as $key) {
         $html .= '<tr style="text-align:center">';
         $html .= '<td>'.$key->Bulan.'</td>';
         $html .= '<td>'.$key->jumlah.'</td>';

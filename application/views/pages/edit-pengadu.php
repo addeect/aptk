@@ -126,6 +126,7 @@ $status_kawin='';
                             <form id="edit_pengadu_form" method="post" action="<?php echo site_url('pengaduan/edit_pengadu') ?>">
                             <input type="hidden" value="<?php echo $_SESSION['user_id'] ?>" name="id_tk" id="id_tk"/>
                             <?php foreach($data_perseorangan as $key){ ?>
+                            <?php if($_SESSION['role'] == "Perserikatan"){ echo "<h4 class='text-center'>Bagian Ini Tidak Perlu Diisi</h4>";} elseif($_SESSION['role'] == "Perseorangan") { ?>
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
@@ -133,7 +134,7 @@ $status_kawin='';
                                         <label for="nik">NIK (Nomor Induk Kependudukan)*</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input required class="form-control" name="nik" id="nik" value="<?php echo $key->NO_KTP; ?>" />
+                                        <input class="form-control" name="nik" id="nik" value="<?php echo $key->NO_KTP; ?>" />
                                     </div>
                                 </div>
                             </div>
@@ -144,7 +145,7 @@ $status_kawin='';
                                         <label for="nama">Nama*</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input required class="form-control" name="nama" id="nama" value="<?php echo $key->NAMA_TK; ?>" />
+                                        <input class="form-control" name="nama" id="nama" value="<?php echo $key->NAMA_TK; ?>" />
                                     </div>
                                 </div>
                             </div>
@@ -361,6 +362,7 @@ $status_kawin='';
                                     </div>
                                 </div>
                             </div>
+                            <?php } ?>
                             <!-- /.table-responsive -->
                             <!--div class="well">
                                 <h4>DataTables Usage Information</h4>
