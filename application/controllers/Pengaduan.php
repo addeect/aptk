@@ -35,8 +35,8 @@ class Pengaduan extends CI_Controller {
     function laporan_pdf(){
         $this->load->model('m_main');
         $jenis_pelanggaran = $this->input->get("jenis_pelanggaran");
-        $tgl_awal = $this->input->get("tgl_awal");
-        $tgl_akhir = $this->input->get("tgl_akhir");
+        $tgl_awal = date('Y-m-d H:i:s', strtotime($this->input->get("tgl_awal")));
+        $tgl_akhir = date('Y-m-d H:i:s', strtotime($this->input->get("tgl_akhir")));
         // $kasus_masuk = '';
         if(isset($_GET['tgl_awal']) && $_GET['tgl_awal']!=''){
             $kasus_masuk = $this->m_main->kasus_masuk_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
@@ -45,6 +45,8 @@ class Pengaduan extends CI_Controller {
             $kasus_serikat_selesai = $this->m_main->kasus_serikat_selesai_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
             $kasus_tidak_selesai = $this->m_main->kasus_tidak_selesai($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
             $kasus_serikat_tidak_selesai = $this->m_main->kasus_serikat_tidak_selesai($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
+            $kecenderungan_perorangan = $this->m_main->kecenderungan_perorangan_p($tgl_awal,$tgl_akhir);
+            $kecenderungan_serikat = $this->m_main->kecenderungan_serikat_p($tgl_awal,$tgl_akhir);
         }
         else{
             $kasus_masuk = $this->m_main->kasus_masuk();
@@ -53,6 +55,8 @@ class Pengaduan extends CI_Controller {
             $kasus_serikat_selesai = $this->m_main->kasus_serikat_selesai();
             $kasus_tidak_selesai = $this->m_main->kasus_tidak_selesai();
             $kasus_serikat_tidak_selesai = $this->m_main->kasus_serikat_tidak_selesai();
+            $kecenderungan_perorangan = $this->m_main->kecenderungan_perorangan();
+            $kecenderungan_serikat = $this->m_main->kecenderungan_serikat();
         }
         $this->load->library('Pdf');
 
@@ -181,6 +185,103 @@ class Pengaduan extends CI_Controller {
     foreach ($kasus_tidak_selesai as $key) {
         $html .= '<tr style="text-align:center">';
         $html .= '<td>'.$key->Bulan.'</td>';
+        $html .= '<td>'.$key->jumlah.'</td>';
+        $html .= '</tr>';
+    }
+    $html .= '</table>';
+    $html .= '</td>';
+
+    $html .= '<td width="20px"></td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+    $html .= '<table>';
+    $html .= '<tr>';
+    $html .= '<td width="100px"></td>';
+
+    $html .= '<td width="160px">';
+    $html .= '<table border="1">';
+    $html .= '<tr style="text-align:center;">';
+    $html .= '<td colspan="2">Perserikatan</td>';
+    $html .= '</tr>';
+    $html .= '<tr style="text-align:center;">';
+    $html .= '<td width="80px"><strong>Bulan</strong></td>';
+    $html .= '<td width="80px"><strong>Selesai</strong></td>';
+    $html .= '</tr>';
+    foreach ($kasus_serikat_selesai as $key) {
+        $html .= '<tr style="text-align:center">';
+        $html .= '<td>'.$key->Bulan.'</td>';
+        $html .= '<td>'.$key->jumlah.'</td>';
+        $html .= '</tr>';
+    }
+    $html .= '</table>';
+    $html .= '</td>';
+    $html .= '<td width="10px">&nbsp;</td>';
+    $html .= '<td width="250px">';
+    $html .= '<table border="1">';
+    $html .= '<tr style="text-align:center;">';
+    $html .= '<td colspan="2">Perserikatan</td>';
+    $html .= '</tr>';
+    $html .= '<tr style="text-align:center;">';
+    $html .= '<td width="100px"><strong>Bulan</strong></td>';
+    $html .= '<td width="150px"><strong>Tidak Selesai</strong></td>';
+    $html .= '</tr>';
+    foreach ($kasus_serikat_tidak_selesai as $key) {
+        $html .= '<tr style="text-align:center">';
+        $html .= '<td>'.$key->Bulan.'</td>';
+        $html .= '<td>'.$key->jumlah.'</td>';
+        $html .= '</tr>';
+    }
+    $html .= '</table>';
+    $html .= '</td>';
+
+    $html .= '<td width="20px"></td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+    $html .= '<div style="width:300px;text-align:left;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">3. KECENDERUNGAN KASUS</span></div>';
+    
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+    $html .= '<table>';
+    $html .= '<tr>';
+    $html .= '<td width="50px"></td>';
+
+    $html .= '<td width="260px">';
+    $html .= '<table border="1">';
+    $html .= '<tr style="text-align:center;">';
+    $html .= '<td colspan="2">Perorangan</td>';
+    $html .= '</tr>';
+    $html .= '<tr style="text-align:center;">';
+    $html .= '<td width="180px"><strong>Jenis Pelanggaran</strong></td>';
+    $html .= '<td width="80px"><strong>Jumlah</strong></td>';
+    $html .= '</tr>';
+    foreach ($kecenderungan_perorangan as $key) {
+        $html .= '<tr style="text-align:center">';
+        $html .= '<td>'.$key->jenis.'</td>';
+        $html .= '<td>'.$key->jumlah.'</td>';
+        $html .= '</tr>';
+    }
+    $html .= '</table>';
+    $html .= '</td>';
+    $html .= '<td width="10px">&nbsp;</td>';
+    $html .= '<td width="260px">';
+    $html .= '<table border="1">';
+    $html .= '<tr style="text-align:center;">';
+    $html .= '<td colspan="2">Perserikatan</td>';
+    $html .= '</tr>';
+    $html .= '<tr style="text-align:center;">';
+    $html .= '<td width="180px"><strong>Jenis Pelanggaran</strong></td>';
+    $html .= '<td width="80px"><strong>Jumlah</strong></td>';
+    $html .= '</tr>';
+    foreach ($kecenderungan_serikat as $key) {
+        $html .= '<tr style="text-align:center">';
+        $html .= '<td>'.$key->jenis.'</td>';
         $html .= '<td>'.$key->jumlah.'</td>';
         $html .= '</tr>';
     }
