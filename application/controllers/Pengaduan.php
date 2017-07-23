@@ -32,6 +32,154 @@ class Pengaduan extends CI_Controller {
         $this->m_main->insert_hasil_temuan($id_spt,$id_jenis_keluhan,$status);
         redirect('main/index/hasil-temuan?id_spt='.$id_spt.'&id_jenis_keluhan='.$id_jenis_keluhan.'&status='.$status);
     }
+    function laporan_pdf(){
+        $this->load->model('m_main');
+        $jenis_pelanggaran = $this->input->get("jenis_pelanggaran");
+        $tgl_awal = $this->input->get("tgl_awal");
+        $tgl_akhir = $this->input->get("tgl_akhir");
+        // $kasus_masuk = '';
+        if(isset($_GET['tgl_awal']) && $_GET['tgl_awal']!=''){
+            $kasus_masuk = $this->m_main->kasus_masuk_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
+            $kasus_masuk_serikat = $this->m_main->kasus_masuk_serikat_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
+        }
+        else{
+            $kasus_masuk = $this->m_main->kasus_masuk();
+            $kasus_masuk_serikat = $this->m_main->kasus_masuk_serikat();
+        }
+        $this->load->library('Pdf');
+
+        $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+    // set document information
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor('Disnaker Surabaya');
+    $pdf->SetTitle('Laporan Bulanan');
+    $pdf->SetSubject('Disnaker');
+    $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+    // set default header data
+    $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, 'SURAT PERINTAH TUGAS', PDF_HEADER_STRING);
+
+    // set header and footer fonts
+    $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+    $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+    // set default monospaced font
+    $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+    // set margins
+    $pdf->SetMargins(PDF_MARGIN_LEFT, '43', PDF_MARGIN_RIGHT);
+    $pdf->SetHeaderMargin('50');
+    $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+    // set auto page breaks
+    $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+    // set image scale factor
+    $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+    // set font
+    $pdf->SetFont('dejavusans', '', 10);
+
+    $pdf->AddPage();
+    // Section 1
+    $html = '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:underline">LAPORAN BULANAN</span></div>';
+    if(isset($_GET['tgl_awal']) && $_GET['tgl_awal']!=''){
+        $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">JENIS '.strtoupper($_GET['jenis_pelanggaran']).' PERIODE '.date('d-m-Y',strtotime($_GET['tgl_awal'])).' s/d '.date('d-m-Y',strtotime($_GET['tgl_akhir'])).'</span></div>';
+    }
+    
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+    $html .= '<div style="width:300px;text-align:left;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">1. JUMLAH KASUS MASUK</span></div>';
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+    $html .= '<table>';
+    $html .= '<tr>';
+    $html .= '<td width="120px"></td>';
+
+    $html .= '<td width="250px">';
+    $html .= '<table border="1">';
+    $html .= '<tr style="text-align:center;">';
+    $html .= '<td width="100px"><strong>Bulan</strong></td>';
+    $html .= '<td width="150px"><strong>Perorangan</strong></td>';
+    $html .= '</tr>';
+    foreach ($kasus_masuk as $key) {
+        $html .= '<tr style="text-align:center">';
+        $html .= '<td>'.$key->Bulan.'</td>';
+        $html .= '<td>'.$key->jumlah.'</td>';
+        $html .= '</tr>';
+    }
+    $html .= '</table>';
+    $html .= '</td>';
+
+    $html .= '<td width="150px">';
+    $html .= '<table border="1">';
+    $html .= '<tr style="text-align:center;">';
+    $html .= '<td width="150px"><strong>Perserikatan</strong></td>';
+    $html .= '</tr>';
+    foreach ($kasus_masuk_serikat as $key) {
+        $html .= '<tr style="text-align:center">';
+        $html .= '<td>'.$key->Bulan.'</td>';
+        $html .= '<td>'.$key->jumlah.'</td>';
+        $html .= '</tr>';
+    }
+    $html .= '</table>';
+    $html .= '</td>';
+
+    $html .= '<td width="20px"></td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+    
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+    $html .= '<div style="width:300px;text-align:left;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">1. JUMLAH KASUS MASUK</span></div>';
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+    $html .= '<table>';
+    $html .= '<tr>';
+    $html .= '<td width="120px"></td>';
+
+    $html .= '<td width="250px">';
+    $html .= '<table border="1">';
+    $html .= '<tr style="text-align:center;">';
+    $html .= '<td width="100px"><strong>Bulan</strong></td>';
+    $html .= '<td width="150px"><strong>Perorangan</strong></td>';
+    $html .= '</tr>';
+    foreach ($kasus_masuk as $key) {
+        $html .= '<tr style="text-align:center">';
+        $html .= '<td>'.$key->Bulan.'</td>';
+        $html .= '<td>'.$key->jumlah.'</td>';
+        $html .= '</tr>';
+    }
+    $html .= '</table>';
+    $html .= '</td>';
+
+    $html .= '<td width="150px">';
+    $html .= '<table border="1">';
+    $html .= '<tr style="text-align:center;">';
+    $html .= '<td width="150px"><strong>Perserikatan</strong></td>';
+    $html .= '</tr>';
+    foreach ($kasus_masuk_serikat as $key) {
+        $html .= '<tr style="text-align:center">';
+        $html .= '<td>'.$key->Bulan.'</td>';
+        $html .= '<td>'.$key->jumlah.'</td>';
+        $html .= '</tr>';
+    }
+    $html .= '</table>';
+    $html .= '</td>';
+
+    $html .= '<td width="20px"></td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+
+    // output the HTML content
+    $pdf->writeHTML($html, true, false, true, false, '');
+
+    //$pdf->lastPage();
+    //$pdf->Write(5, 'Some sample text');
+    $pdf->Output('Laporan-Bulanan-'.date('Y-m-d.H-i-s').'.pdf', 'I');
+    }
     function buat_laporan_kejadian(){
         $this->load->model('m_main');
         $id_spt = $this->input->get("id_spt");
@@ -258,7 +406,7 @@ class Pengaduan extends CI_Controller {
 
     //$pdf->lastPage();
     //$pdf->Write(5, 'Some sample text');
-    $pdf->Output('Nota-Peringatan-III-'.$nomor_spt.'.pdf', 'I');
+    $pdf->Output('Laporan-Kejadian-'.$nomor_spt.'.pdf', 'I');
     }
     function cetak_nota_3(){
         $this->load->model('m_main');

@@ -90,7 +90,7 @@
             </div>
             <!-- /.row -->
             <div class="row">
-            <form method="get" action="" target="_self">
+            <form method="get" target="_self" action="<?php echo site_url('main/index/laporan-bulanan'); ?>" id="form_laporan">
             <div class="form-group col-sm-4">
                 <label>Jenis Pelanggaran</label>
                 <select class="form-control" id="jenis_pelanggaran" name="jenis_pelanggaran">
@@ -110,7 +110,7 @@
                 <input type="submit" class="btn btn-md btn-success btn-block" value="Tampilkan"/>
             </div>
             <div class="form-group col-sm-2">
-                <a target="_blank" href="<?php echo site_url('pengaduan/laporan_pdf') ?>" class="btn btn-md btn-primary btn-block">Cetak</a>
+                <a id="pdf_button" target="_blank" href="#" class="btn btn-md btn-primary btn-block">Cetak</a>
             </div>
             </form>
                 <!-- /.col-lg-12 -->
@@ -544,7 +544,14 @@
     });
     $(document).ready(function() {
 
-        
+        $('#pdf_button').click(function(){
+            var jenis_pelanggaran = $('#jenis_pelanggaran').val();
+            var tgl_awal = $('#tgl_awal').val();
+            var tgl_akhir = $('#tgl_akhir').val();
+            var url = "<?php echo site_url('pengaduan/laporan_pdf'); ?>?jenis_pelanggaran="+jenis_pelanggaran+"&tgl_awal="+tgl_awal+"&tgl_akhir="+tgl_akhir;
+            var win = window.open(url, '_blank');
+              win.focus();
+        });
 
         // DATEPICKER
         $('#tgl_awal').datetimepicker({
