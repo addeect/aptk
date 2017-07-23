@@ -93,8 +93,9 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <form role="form" onsubmit="loadingPage()" action="<?php echo site_url('main/pengaduan1')?>" method="POST">
-                            <input type="hidden" id="id_keluhan_tk_max" name="id_keluhan_tk_max" value="<?php foreach($data_max_id_keluhan_tk as $key) { echo $key->ID_KELUHAN_TK; } ?>"/>
+                            <form role="form" onsubmit="loadingPage()" action="<?php if($_SESSION["role"] == 'Perseorangan'){echo site_url('main/pengaduan1');}elseif ($_SESSION['role'] == 'Perserikatan') {echo site_url('main/pengaduan2');
+                            } ?>" method="POST">
+                            <input type="hidden" id="id_keluhan_tk_max" name="id_keluhan_tk_max" value="<?php foreach($data_max_id_keluhan_tk as $key) { echo $key->ID_KELUHAN; } ?>"/>
                             <?php foreach($data_perseorangan as $key) { ?>
                             <div class="form-group">
                                 <div class="row">

@@ -132,7 +132,7 @@ class Pengaduan extends CI_Controller {
     
     // Spacing
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
-    $html .= '<div style="width:300px;text-align:left;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">1. JUMLAH KASUS MASUK</span></div>';
+    $html .= '<div style="width:300px;text-align:left;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">2. JUMLAH SELESAI</span></div>';
 
     // Spacing
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
@@ -154,10 +154,11 @@ class Pengaduan extends CI_Controller {
     }
     $html .= '</table>';
     $html .= '</td>';
-
-    $html .= '<td width="150px">';
+    $html .= '<td width="10px">&nbsp;</td>';
+    $html .= '<td width="250px">';
     $html .= '<table border="1">';
     $html .= '<tr style="text-align:center;">';
+    $html .= '<td width="150px"><strong>Bulan</strong></td>';
     $html .= '<td width="150px"><strong>Perserikatan</strong></td>';
     $html .= '</tr>';
     foreach ($kasus_masuk_serikat as $key) {
@@ -247,7 +248,12 @@ class Pengaduan extends CI_Controller {
     $html .= '<tr>';
     $html .= '<td width="100px">1. Nama</td>';
     $html .= '<td width="10px">:</td>';
-    $html .= '<td width="150px">'.$key->NAMA_TK.'</td>';
+    if($key->NAMA_TK != ''){
+        $html .= '<td width="150px">'.$key->NAMA_TK.'</td>';
+    }
+    elseif($key->NAMA_SERIKAT != ''){
+        $html .= '<td width="150px">'.$key->NAMA_SERIKAT.'</td>';
+    }
     $html .= '</tr>';
     $html .= '<tr>';
     $html .= '<td width="100px">2. Pekerjaan</td>';
@@ -262,7 +268,12 @@ class Pengaduan extends CI_Controller {
     $html .= '<tr>';
     $html .= '<td width="180px">1. Waktu Kejadian</td>';
     $html .= '<td width="10px">:</td>';
-    $html .= '<td width="440px">'.date('d F Y', strtotime($key->TANGGAL_MASUK)).'</td>';
+    if($key->NAMA_TK != ''){
+        $html .= '<td width="440px">'.date('d F Y', strtotime($key->TANGGAL_MASUK)).'</td>';
+    }
+    elseif($key->NAMA_SERIKAT != ''){
+        $html .= '<td width="440px">'.date('d F Y', strtotime($key->TGL_MASUK)).'</td>';
+    }
     $html .= '</tr>';
     $html .= '<tr>';
     $html .= '<td width="180px">2. Tempat Kejadian</td>';
@@ -272,7 +283,12 @@ class Pengaduan extends CI_Controller {
     $html .= '<tr>';
     $html .= '<td width="180px">3. Yang Terjadi</td>';
     $html .= '<td width="10px">:</td>';
-    $html .= '<td width="440px">'.$key->ISI_KELUHAN.'</td>';
+    if($key->NAMA_TK != ''){
+        $html .= '<td width="440px">'.$key->ISI_KELUHAN.'</td>';    
+    }
+    elseif($key->NAMA_SERIKAT != ''){
+        $html .= '<td width="440px">'.$key->ISI_KELUHAN_SERIKAT.'</td>';
+    }
     $html .= '</tr>';
     $html .= '</table>';
     }

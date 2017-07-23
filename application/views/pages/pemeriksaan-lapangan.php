@@ -232,7 +232,7 @@
                                         <label for="jenis_pelanggaran">Jenis Pelanggaran</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input value="<?php echo $key->JENIS_KELUHAN; ?>" type="text" class="form-control" name="jenis_pelanggaran" id="jenis_pelanggaran" placeholder="Ketik Alamat Tempat Anda Bekerja" readonly />
+                                        <input value="<?php if($key->ID_KELUHAN_SERIKAT != ''){echo $key->JENIS_KELUHAN_SERIKAT;}elseif($key->ID_KELUHAN_TK != ''){echo $key->JENIS_KELUHAN;} ?>" type="text" class="form-control" name="jenis_pelanggaran" id="jenis_pelanggaran" placeholder="Ketik Alamat Tempat Anda Bekerja" readonly />
                                     </div>
                                 </div>
                             </div>
@@ -243,7 +243,7 @@
                                         <label for="keluhan">Keluhan Pengadu</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <textarea type="text" style="resize:none; height: 280px" class="form-control" name="keluhan" id="keluhan" placeholder="Ketik Alamat Tempat Anda Bekerja" readonly ><?php echo $key->ISI_KELUHAN; ?></textarea>
+                                        <textarea type="text" style="resize:none; height: 280px" class="form-control" name="keluhan" id="keluhan" placeholder="Ketik Alamat Tempat Anda Bekerja" readonly ><?php if($key->ID_KELUHAN_SERIKAT != ''){echo $key->ISI_KELUHAN_SERIKAT;}elseif($key->ID_KELUHAN_TK != ''){echo $key->ISI_KELUHAN;} ?></textarea>
                                     </div>
                                 </div>
                             </div>

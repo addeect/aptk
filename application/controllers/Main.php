@@ -20,12 +20,22 @@ class Main extends CI_Controller {
 			$this->load->model('m_main');
 			$this->load->model('m_tk');
 			$id_tk=$_SESSION['user_id'];
-			$data=array(
-			'data_perseorangan' => $this->m_main->getUserPerseoranganInfo($id_tk),
-			'data_max_id_keluhan_tk' => $this->m_tk->getIdKeluhanTK(),
-			'title' => ucwords($title),
-			'page_name' => $page_name
-			);
+			if($_SESSION['role'] == 'Perseorangan'){
+				$data=array(
+				'data_perseorangan' => $this->m_main->getUserPerseoranganInfo($id_tk),
+				'data_max_id_keluhan_tk' => $this->m_tk->getIdKeluhanTK(),
+				'title' => ucwords($title),
+				'page_name' => $page_name
+				);
+			}
+			else if($_SESSION['role'] == 'Perserikatan'){
+				$data=array(
+				'data_perseorangan' => $this->m_main->getUserPerseoranganInfo($id_tk),
+				'data_max_id_keluhan_tk' => $this->m_tk->getIdKeluhanSK(),
+				'title' => ucwords($title),
+				'page_name' => $page_name
+				);
+			}
 		}
 		elseif($page_name=='pemilihan-petugas-pengawas'){
 			$this->load->model('m_main');
@@ -47,6 +57,17 @@ class Main extends CI_Controller {
 			);
 		}
 		elseif($page_name=='status-pengaduan'){
+			$this->load->model('m_main');
+			$id_tk=$_SESSION['user_id'];
+			$data=array(
+			'id_spt' => $this->m_main->getSPT_ID(),
+			'data_status' => $this->m_main->getStatus($id_tk),
+			'data_pengadu' => $this->m_main->getDataPengadu($id_tk),
+			'title' => ucwords("beranda"),
+			'page_name' => "beranda"
+			);
+		}
+		elseif($page_name=='status-pengaduan-serikat-pekerja'){
 			$this->load->model('m_main');
 			$id_tk=$_SESSION['user_id'];
 			$data=array(
@@ -169,6 +190,11 @@ class Main extends CI_Controller {
 	public function pengaduan1(){
 		$this->load->model('m_tk');
 		$this->m_tk->insertPengaduan1();
+		redirect('main/index/pengaduan-tenaga-kerja?success');
+	}
+	public function pengaduan2(){
+		$this->load->model('m_tk');
+		$this->m_tk->insertPengaduan2();
 		redirect('main/index/pengaduan-tenaga-kerja?success');
 	}
 

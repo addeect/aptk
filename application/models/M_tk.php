@@ -90,12 +90,37 @@ class M_tk extends CI_Model{
         $this->db->where('ID_JENIS_KELUHAN', $id_jenis_keluhan);
 		$this->db->update('jenis_keluhan', $data_status);
 	}
+	function getIdKeluhanSK(){
+		$this->db->select("max(ID_KELUHAN_SERIKAT) 'ID_KELUHAN'");
+		$this->db->from("keluhan_serikat");
+		$this -> db -> limit(1);
+		$query = $this -> db -> get();
+	   	return $query->result();
+	}
 	function getIdKeluhanTK(){
-		$this->db->select("max(ID_KELUHAN_TK) 'ID_KELUHAN_TK'");
+		$this->db->select("max(ID_KELUHAN_TK) 'ID_KELUHAN'");
 		$this->db->from("keluhan_tk");
 		$this -> db -> limit(1);
 		$query = $this -> db -> get();
 	   	return $query->result();
+	}
+	function insertPengaduan2(){
+		$status_penyelesaian = 10;
+		$simpan_data=array(
+            'JENIS_KELUHAN_SERIKAT'  => $this->input->post('jenis_keluhan'),
+            'TGL_MASUK'  => date('Y-m-d H:i:s'),
+            'ISI_KELUHAN_SERIKAT'  => $this->input->post('keluhan')
+       );
+		$id_keluhan_tk_max = $this->input->post('id_keluhan_tk_max');
+		$id_keluhan_tk = ((floatval($id_keluhan_tk_max)) + 1);
+		$data_keluhan=array(
+            'ID_TK'  => $this->input->post('id'),
+            'ID_KELUHAN_SERIKAT'  => $id_keluhan_tk,
+            'STATUS_PENYELESAIAN'  => $status_penyelesaian
+       );
+        $this->db->insert('keluhan_serikat', $simpan_data);
+        $this->db->insert('jenis_keluhan', $data_keluhan);
+        
 	}
 	function insertPengaduan1(){
 		$status_penyelesaian = 10;

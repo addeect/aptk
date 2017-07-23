@@ -55,11 +55,12 @@ class M_main extends CI_Model{
 		return $query->result();
 	}
 	function getNotaPemeriksaan1($id_keluhan){
-		$this->db->select("ap.*,tk.*,jk.*,kt.*");
+		$this->db->select("ap.*,tk.*,jk.*,kt.*,ks.*");
 		$this->db->from("admin_pengawas ap");
 		$this->db->join("jenis_keluhan jk","ap.ID_KELUHAN = jk.ID_JENIS_KELUHAN");
 		$this->db->join("tenaga_kerja tk","jk.ID_TK = tk.ID_TK");
-		$this->db->join("keluhan_tk kt","kt.ID_KELUHAN_TK = jk.ID_KELUHAN_TK");
+		$this->db->join("keluhan_tk kt","kt.ID_KELUHAN_TK = jk.ID_KELUHAN_TK","left outer");
+		$this->db->join("keluhan_serikat ks","ks.ID_KELUHAN_SERIKAT = jk.ID_KELUHAN_SERIKAT","left outer");
 		$this->db->where("ap.ID_KELUHAN",$id_keluhan);
 		$this->db->limit("1");
 
@@ -708,10 +709,11 @@ class M_main extends CI_Model{
 		return $q->num_rows();
 	}
 	function getDataKeluhanTK(){
-		$this -> db -> select('jk.*, tk.*, kt.*');
+		$this -> db -> select('jk.*, tk.*, kt.*,ks.*');
 		$this -> db -> from('tenaga_kerja tk');
 		$this -> db -> join('jenis_keluhan jk','jk.ID_TK=tk.ID_TK');
-		$this -> db -> join('keluhan_tk kt','kt.ID_KELUHAN_TK=jk.ID_KELUHAN_TK');
+		$this -> db -> join('keluhan_tk kt','kt.ID_KELUHAN_TK=jk.ID_KELUHAN_TK','left outer');
+		$this -> db -> join('keluhan_serikat ks','ks.ID_KELUHAN_SERIKAT=jk.ID_KELUHAN_SERIKAT','left outer');
 		// $this -> db -> join('admin_pengawas ap','ap.ID_KELUHAN=jk.ID_JENIS_KELUHAN');
 		// $this -> db -> join('surat_perintah_tugas spt','spt.ID_SPT=ap.ID_SPT');
 		$this -> db -> order_by("jk.ID_JENIS_KELUHAN DESC");
@@ -727,10 +729,11 @@ class M_main extends CI_Model{
 		return $q->result();
 	}
 	function permintaan_petugas(){
-		$this -> db -> select('jk.*, tk.*, kt.*');
+		$this -> db -> select('jk.*, tk.*, kt.*,ks.*');
 		$this -> db -> from('tenaga_kerja tk');
 		$this -> db -> join('jenis_keluhan jk','jk.ID_TK=tk.ID_TK');
-		$this -> db -> join('keluhan_tk kt','kt.ID_KELUHAN_TK=jk.ID_KELUHAN_TK');
+		$this -> db -> join('keluhan_tk kt','kt.ID_KELUHAN_TK=jk.ID_KELUHAN_TK','left outer');
+		$this -> db -> join('keluhan_serikat ks','ks.ID_KELUHAN_SERIKAT=jk.ID_KELUHAN_SERIKAT','left outer');
 		// $this -> db -> join('admin_pengawas ap','ap.ID_KELUHAN=jk.ID_JENIS_KELUHAN');
 		// $this -> db -> join('surat_perintah_tugas spt','spt.ID_SPT=ap.ID_SPT');
 		$this -> db -> order_by("jk.ID_JENIS_KELUHAN DESC");

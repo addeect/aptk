@@ -186,7 +186,19 @@
                                         <select required id="id_pengadu" name="id_pengadu">
                                             <option selected hidden value="">Pilih Tenaga Kerja</option>
                                             <?php foreach ($data_keluhan_tk as $key) { ?>
-                                                <option value="<?php echo $key->ID_JENIS_KELUHAN ?>"><?php echo '['; echo $key->ID_TK; echo '] - '; echo $key->NAMA_TK; echo ' ['; echo $key->JENIS_KELUHAN; echo '] '; echo date("d-m-Y H:i:s",strtotime($key->TANGGAL_MASUK)); ?></option>
+                                                <option value="<?php echo $key->ID_JENIS_KELUHAN ?>"><?php echo '['; echo $key->ID_TK; echo '] - '; if($key->NAMA_SERIKAT != ''){
+                                                    echo $key->NAMA_SERIKAT;
+                                                    echo ' [';
+                                                    echo $key->JENIS_KELUHAN_SERIKAT; 
+                                                    echo '] ';
+                                                    echo date("d-m-Y H:i:s",strtotime($key->TGL_MASUK));
+                                                    }elseif ($key->NAMA_TK != ''){
+                                                    echo $key->NAMA_TK;
+                                                    echo ' [';
+                                                    echo $key->JENIS_KELUHAN; 
+                                                    echo '] ';
+                                                    echo date("d-m-Y H:i:s",strtotime($key->TANGGAL_MASUK));
+                                                    }    ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
