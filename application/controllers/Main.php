@@ -121,17 +121,38 @@ class Main extends CI_Controller {
 		}
 		elseif($page_name=='laporan-bulanan'){
 			$this->load->model('m_main');
-			// $id_spt=$_GET['id_spt'];
-			$data=array(
-			'kasus_masuk' => $this->m_main->kasus_masuk(),
-			'pengaduan_selesai' => $this->m_main->pengaduanSelesai(),
-			'pengaduan_belum_selesai' => $this->m_main->pengaduanBelumSelesai(),
-			'permintaan_petugas' => $this->m_main->permintaan_petugas(),
-			'total_pengaduan' => $this->m_main->total_pengaduan(),
-			// 'pasal' => $this->m_main->getDataPasal(),
-			'title' => ucwords($title),
-			'page_name' => $page_name
-			);
+			
+			$data=array();
+			if(isset($_GET['tgl_awal']) && $_GET['tgl_awal']!=''){
+				$tgl_awal=$_GET['tgl_awal'];
+				$tgl_akhir=$_GET['tgl_akhir'];
+				$jenis_pelanggaran=$_GET['jenis_pelanggaran'];
+				$data=array(
+				'kasus_masuk' => $this->m_main->kasus_masuk_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran),
+				'kasus_masuk_serikat' => $this->m_main->kasus_masuk_serikat_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran),
+				'kasus_selesai' => $this->m_main->kasus_selesai_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran),
+				'kasus_serikat_selesai' => $this->m_main->kasus_serikat_selesai_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran),
+				'kasus_tidak_selesai' => $this->m_main->kasus_tidak_selesai($tgl_awal,$tgl_akhir,$jenis_pelanggaran),
+				'kasus_serikat_tidak_selesai' => $this->m_main->kasus_serikat_tidak_selesai($tgl_awal,$tgl_akhir,$jenis_pelanggaran),
+				// 'pasal' => $this->m_main->getDataPasal(),
+				'title' => ucwords($title),
+				'page_name' => $page_name
+				);
+			}
+			else{
+				$data=array(
+				'kasus_masuk' => $this->m_main->kasus_masuk(),
+				'kasus_masuk_serikat' => $this->m_main->kasus_masuk_serikat(),
+				'kasus_selesai' => $this->m_main->kasus_selesai(),
+				'kasus_serikat_selesai' => $this->m_main->kasus_serikat_selesai(),
+				'kasus_tidak_selesai' => $this->m_main->kasus_tidak_selesai(),
+				'kasus_serikat_tidak_selesai' => $this->m_main->kasus_serikat_tidak_selesai(),
+				// 'pasal' => $this->m_main->getDataPasal(),
+				'title' => ucwords($title),
+				'page_name' => $page_name
+				);
+			}
+			
 		}
 		
 

@@ -90,6 +90,7 @@
             </div>
             <!-- /.row -->
             <div class="row">
+            <form method="get" action="" target="_self">
             <div class="form-group col-sm-4">
                 <label>Jenis Pelanggaran</label>
                 <select class="form-control" id="jenis_pelanggaran" name="jenis_pelanggaran">
@@ -106,11 +107,12 @@
                 <input type="text" name="tgl_akhir" id="tgl_akhir" class="form-control">
             </div>
             <div class="form-group col-sm-2">
-                <button class="btn btn-md btn-success btn-block">Tampilkan</button>
+                <input type="submit" class="btn btn-md btn-success btn-block" value="Tampilkan"/>
             </div>
             <div class="form-group col-sm-2">
-                <button class="btn btn-md btn-primary btn-block">Cetak</button>
+                <a target="_blank" href="<?php echo site_url('pengaduan/laporan_pdf') ?>" class="btn btn-md btn-primary btn-block">Cetak</a>
             </div>
+            </form>
                 <!-- /.col-lg-12 -->
             </div>
             <div class="row">
@@ -124,7 +126,7 @@
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-                        <div id="morris-area-chart"><canvas id="chart_laporan_bulanan" style="width:100%;height:300px"></canvas></div>
+                       <canvas id="chart_laporan_bulanan" style="width:100%;height:300px"></canvas>
                     </div>
                     <!-- /.panel-body -->
                 </div>
@@ -139,12 +141,26 @@
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-                        <div id="morris-area-chart"></div>
+                        <canvas id="chart_kasus_selesai_tidak_selesai" style="width:100%;height:300px"></canvas>
                     </div>
                     <!-- /.panel-body -->
                 </div>
                 </div>
-                
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-bar-chart-o fa-fw"></i> Kecenderungan Kasus
+                        <div class="pull-right">
+                            
+                        </div>
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <canvas id="chart_kecenderungan_kasus" style="width:100%;height:300px"></canvas>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                </div>
             </div>
             <!-- /.row -->
         </div>
@@ -175,6 +191,7 @@
     <script src="<?php echo base_url('assets/js/app.js') ?>"></script>
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
+    // #1 CHART ===========================================================================================================
     var nama = [<?php
     foreach ($kasus_masuk as $key) {
         $arr_bulan[] = '"'.$key->Bulan.'"';
@@ -185,223 +202,305 @@
     } echo implode(',', $arr_jumlah)?>];
 
     var nilai_sk = [<?php
-    foreach ($kasus_masuk as $key) {
-        $arr_jumlah1[] = $key->jumlah;
-    } echo implode(',', $arr_jumlah1)?>];
-    var data_laporan_bulanan = {
+    foreach ($kasus_masuk_serikat as $key) {
+        $arr_jumlah_serikat[] = $key->jumlah;
+    } echo implode(',', $arr_jumlah_serikat)?>];
+    // var nilai_sk = [4,8];
+    
+    var ctx = document.getElementById("chart_laporan_bulanan").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
             labels: nama,
-            datasets: [
-                {
-                    data: nilai,
-                    backgroundColor: [
-                        "#d96557",
-                        "#2ECC71",
-                        "#ffc65d",
-                        "#e0e8f2",
-                        "#4C5064",
-                        "#747a98",
-                        "#3066ab",
-                        "#9a42a9",
-                        "#5c42a9",
-                        "#79ff79",
-                        "#c5fd42",
-                        "#ff1b00"
-                    ],
-                    hoverBackgroundColor: [
-                        "#f1b3ab",
-                        "#75eca8",
-                        "#fddc9e",
-                        "#c0c5cc",
-                        "#8e909a",
-                        "#7082dc",
-                        "#81a4d0",
-                        "#bd8bc5",
-                        "#8d81af",
-                        "#a8e6a8",
-                        "#d9ff81",
-                        "#ff4f3a"
-                    ]
-                },
-                {
-                    data: nilai_sk,
-                    backgroundColor: [
-                        "#d96557",
-                        "#2ECC71",
-                        "#ffc65d",
-                        "#e0e8f2",
-                        "#4C5064",
-                        "#747a98",
-                        "#3066ab",
-                        "#9a42a9",
-                        "#5c42a9",
-                        "#79ff79",
-                        "#c5fd42",
-                        "#ff1b00"
-                    ],
-                    hoverBackgroundColor: [
-                        "#f1b3ab",
-                        "#75eca8",
-                        "#fddc9e",
-                        "#c0c5cc",
-                        "#8e909a",
-                        "#7082dc",
-                        "#81a4d0",
-                        "#bd8bc5",
-                        "#8d81af",
-                        "#a8e6a8",
-                        "#d9ff81",
-                        "#ff4f3a"
-                    ]
-                }
-                ]
-        };
-        var config_laporan_bulanan = {
-                type: 'bar',
-                data: data_laporan_bulanan,
-                options: {legend:false,
-                tooltips: {
-                    // callbacks: {
-                    //     label: function(tooltipItem, data) {
-                    //         var allData = data.datasets[tooltipItem.datasetIndex].data;
-                    //         var tooltipLabel = data.labels[tooltipItem.index];
-                    //         var tooltipData = allData[tooltipItem.index];
-                    //         var total = 0;
-                    //         for (var i in allData) {
-                    //             total += allData[i];
-                    //         }
-                    //         var tooltipPercentage = Math.round((tooltipData / total) * 100);
-                    //         return tooltipLabel + ': ' + tooltipData + ' (' + tooltipPercentage + '%)';
-                    //     }
-                    // }
-                }
+            datasets: [{
+                label: 'Perorangan',
+                data: nilai,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 99, 132, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)'
+                ],
+                borderWidth: 1
+            },
+            {
+                label: 'Perserikatan',
+                data: nilai_sk,
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(54, 162, 235, 0.8)'
+
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
             }
-        };
-        var chart_laporan_bulanan;
-        function drawChart(){
-          chart_laporan_bulanan = new Chart(document.getElementById("chart_laporan_bulanan"), config_laporan_bulanan);
-        };
-        function hapusChart(){
-          chart_laporan_bulanan.destroy();
-        };
-        function updateChart(){
-          chart_laporan_bulanan.update();
-        };
+        }
+    });
+
+    // #2 CHART =====================================================================================================
+    var nama_bulan_chart_2 = [<?php
+    foreach ($kasus_selesai as $key) {
+        $arr_nama_bulan_chart_2[] = '"'.$key->Bulan.'"';
+     } echo implode(',', $arr_nama_bulan_chart_2)?>];
+    var nilai_selesai_perorangan = [<?php
+    foreach ($kasus_selesai as $key) {
+        $arr_nilai_selesai_perorangan[] = $key->jumlah;
+    } echo implode(',', $arr_nilai_selesai_perorangan)?>];
+
+    var nilai_selesai_serikat = [<?php
+    foreach ($kasus_serikat_selesai as $key) {
+        $arr_nilai_selesai_sk[] = $key->jumlah;
+    } echo implode(',', $arr_nilai_selesai_sk)?>];
+
+    var nilai_tidak_selesai_perorangan = [<?php
+    foreach ($kasus_tidak_selesai as $key) {
+        $arr_nilai_tidak_selesai_perorangan[] = $key->jumlah;
+    } echo implode(',', $arr_nilai_tidak_selesai_perorangan)?>];
+
+    var nilai_tidak_selesai_serikat = [<?php
+    foreach ($kasus_serikat_tidak_selesai as $key) {
+        $arr_nilai_tidak_selesai_sk[] = $key->jumlah;
+    } echo implode(',', $arr_nilai_tidak_selesai_sk)?>];
+    // var nilai_sk = [4,8];
+    
+    var ctx1 = document.getElementById("chart_kasus_selesai_tidak_selesai").getContext('2d');
+    var myChart1 = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+            labels: nama_bulan_chart_2,
+            datasets: [{
+                label: 'Perorangan - Selesai',
+                data: nilai_selesai_perorangan,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 99, 132, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)',
+                    'rgba(255,99,132,1)'
+                ],
+                borderWidth: 1
+            },
+            {
+                label: 'Perorangan - Tidak Selesai',
+                data: nilai_tidak_selesai_perorangan,
+                backgroundColor: [
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(255, 206, 86, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 206, 86, 1)'
+                ],
+                borderWidth: 1
+            },
+            {
+                label: 'Perserikatan - Selesai',
+                data: nilai_selesai_serikat,
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(54, 162, 235, 0.8)'
+
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(54, 162, 235, 1)'
+                ],
+                borderWidth: 1
+            },
+            {
+                label: 'Perserikatan - Tidak Selesai',
+                data: nilai_tidak_selesai_serikat,
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(75, 192, 192, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+    // #3 CHART =====================================================================================================
+    // new Chart(document.getElementById("chart_kecenderungan_kasus"),
+    //     {"type":"doughnut",
+    //         "data":{
+    //             "labels":["Red","Blue","Yellow"],
+    //             "datasets":[{
+    //                 "label":"My First Dataset",
+    //                 "data":[300,50,100],
+    //                 "backgroundColor":["rgb(255, 99, 132)","rgb(54, 162, 235)","rgb(255, 205, 86)"]
+    //             }]
+    //         }
+    //     });
+    var ctx3 = document.getElementById("chart_kecenderungan_kasus").getContext('2d');
+    var data_kecenderungan_kasus = {
+        datasets: [{
+            data: [10, 20, 30],
+            backgroundColor:['rgba(75, 192, 192, 0.8)','rgba(54, 162, 235, 0.8)',"rgb(255, 205, 86)"]
+        }],
+
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: [
+            'Red',
+            'Yellow',
+            'Blue'
+        ]
+    };
+    var options_kecenderungan_kasus = '';
+    var myDoughnutChart = new Chart(ctx3, {
+        type: 'doughnut',
+        data: data_kecenderungan_kasus,
+        options: options_kecenderungan_kasus
+    });
     $(document).ready(function() {
 
-        // START CHART ------------------------------------------------------------------------------------
-        drawChart();
-        $('#datepicker_1').datetimepicker({timepicker:false,format:'Y-m-d'});
-        $('#datepicker_2').datetimepicker({timepicker:false,format:'Y-m-d'});
-        //--- CHART JS -----------
         
-          
-          $("#hapusChart").click(function(){
-            hapusChart();
-          });
-
-          // ----------------------------------- DYNAMIC PIE CHART - ACW - 23/03/17 ------------------------------- //
-          $("#drawChart").click(function(){
-            
-
-            // AJAX START
-            if(window.XMLHttpRequest)
-            {
-              xmlhttp = new XMLHttpRequest();
-            }
-            else
-            {
-              xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-            var url = "<?php echo site_url('kabid/dashboard1') ?>";
-            var params = "status=berhasil";
-            xmlhttp.open("POST", url, true);
-            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xmlhttp.onreadystatechange = function()
-            {
-              if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
-              {
-                // DELETE CHART
-            hapusChart();
-            //sleep
-              
-                var data = xmlhttp.responseText;
-                var explode = data.split(';');
-
-                //document.getElementById("isi_tabel_gangguan_berulang").innerHTML=explode[0];
-                // var nama_updated = explode[1];
-                // var nilai_updated = explode[0];
-
-                var name_1 = explode[0];
-                var name_2 = explode[1];
-                var name_3 = explode[2];
-                var name_4 = explode[3];
-                var name_5 = explode[4];
-                var a = explode[5];
-                var b = explode[6];
-                var c = explode[7];
-                var d = explode[8];
-                var e = explode[9];
-                var bgcolor = ["#d96557",
-                              "#2ECC71",
-                              "#ffc65d",
-                              "#e0e8f2",
-                              "#4C5064"];
-                var hbgcolor = ["#f1b3ab",
-                              "#75eca8",
-                              "#fddc9e",
-                              "#c0c5cc",
-                              "#8e909a"];
-                //nama
-                //nama.unshift = (explode[1]);
-                //nilai.unshift = (explode[0]);
-                // UPDATE DATASET
-                data_laporan_bulanan = {
-                  labels: [name_1,name_2,name_3,name_4,name_5],
-                  datasets: [
-                      {
-                          data: [a,b,c,d,e],
-                          backgroundColor: bgcolor
-                          ,
-                          hoverBackgroundColor: hbgcolor
-                      }]
-              };
-
-              // UPDATE CONFIG
-              config_laporan_bulanan = {
-                      type: 'doughnut',
-                      data: data_laporan_bulanan,
-                      options: {legend:true,
-                      tooltips: {
-                          // callbacks: {
-                          //     label: function(tooltipItem, data) {
-                          //         var allData = data.datasets[tooltipItem.datasetIndex].data;
-                          //         var tooltipLabel = data.labels[tooltipItem.index];
-                          //         var tooltipData = allData[tooltipItem.index];
-                          //         var total = 0;
-                          //         for (var i in allData) {
-                          //             total += allData[i];
-                          //         }
-                          //         var tooltipPercentage = Math.round((tooltipData / total) * 100);
-                          //         return tooltipLabel + ': ' + tooltipData + ' (' + tooltipPercentage + '%)';
-                          //     }
-                          // }
-                      }
-                  }
-              };
-                //document.getElementById("cursor_gangguan_berulang").innerHTML=explode[1];
-                drawChart();
-                //console.log(data+nama);
-                //updateChart();
-                //alert(nama+" + "+nilai);
-              }
-            }
-            xmlhttp.send(params);
-            
-
-          // DRAW THE CHART WITH NEW DATA
-                
-          });
-        // END CHART ---------------------------------------------------------------------------------------
 
         // DATEPICKER
         $('#tgl_awal').datetimepicker({
