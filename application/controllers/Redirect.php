@@ -89,6 +89,10 @@ class Redirect extends CI_Controller {
 						$user_type_name = "petugas pengawas";
 						$default_page = "daftar-pengaduan";
 					}
+					else if($user_type=="3"){
+						$user_type_name = "admin aplikasi";
+						$default_page = "pengguna";
+					}
 					$data=array(
 						'nama_user'=>$nama_user,
 						'nik'=>$nik,

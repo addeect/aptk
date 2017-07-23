@@ -19,48 +19,7 @@
                         <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-messages">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong>John Smith</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                                </div>
-                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong>John Smith</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                                </div>
-                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <strong>John Smith</strong>
-                                    <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                                </div>
-                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="text-center" href="#">
-                                <strong>Read All Messages</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
+                        
                     </ul>
                     <!-- /.dropdown-messages -->
                 </li>
@@ -238,20 +197,11 @@
                             </div-->
                             <!-- /input-group -->
                         <!--/li-->
-                        <li>
-                            <a href="index.html" class="hitam"><i class="fa fa-home fa-fw"></i> Beranda</a>
-                        </li>
                         <li class="active">
                             <a href="#" class="hitam"><i class="fa fa-files-o fa-fw"></i> Data Master<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse in" aria-expanded="true">
                                 <li>
                                     <a class="aktif">Pengguna</a>
-                                </li>
-                                <li>
-                                    <a href="<?php echo site_url('main/index/pengadu') ?>">Tenaga Kerja</a>
-                                </li>
-                                <li>
-                                    <a href="<?php echo site_url('main/index/jenis-keluhan') ?>">Jenis Keluhan</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -339,10 +289,81 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Master Pengguna</h1>
-                    <div class="form-group">
-                        <input type="button" value="+ TAMBAH BARU" class="btn btn-primary btn-sm" />
+                    <form method="post" action="<?php echo site_url('pengaduan/insert_pengguna') ?>">
+                    <input type="hidden" name="last_id_kabid" value="<?php echo $last_id_kabid; ?>">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" name="username" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="text" name="password" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>Role</label>
+                                <select class="form-control" id="role" name="role">
+                                    <option value="3">Admin Aplikasi</option>
+                                    <option value="2">Pengawas</option>
+                                    <option value="1">Admin Pengawas</option>
+                                    <option value="0">Kabid</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>NIK</label>
+                                <input type="text" name="id_karyawan" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>Nama Lengkap</label>
+                                <input type="text" name="nama_karyawan" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>Alamat Lengkap</label>
+                                <input type="text" name="alamat_karyawan" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>No. Telpon</label>
+                                <input type="text" name="telp_karyawan" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>Jenis Kelamin</label>
+                                <select class="form-control" id="jenis_kelamin" name="jenis_kelamin">
+                                    <option value="Laki-laki">Laki-laki</option>
+                                    <option value="Perempuan">Perempuan</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>Jabatan</label>
+                                <select class="form-control" id="jabatan" name="jabatan">
+                                    <option value="Penata III-c">Penata III-c</option>
+                                    <option value="Penata Muda Tk. I">Penata Muda Tk. I</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="+ TAMBAH BARU" class="btn btn-primary btn-sm" />
+                    </div>
+                    </form>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -366,55 +387,25 @@
                                         <th>Jenis Kelamin</th>
                                         <th>Jabatan</th>
                                         <th>Status Pengguna</th>
-                                        <th>Password</th>
-                                        <th>Aksi</th>
+                                        <th>Username</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                <?php $count =1; foreach ($pengguna as $key) { ?>
                                     <tr>
-                                        <td>1</td>
-                                        <td>1701001</td>
-                                        <td>Arif</td>
-                                        <td>Jl. Rajawali 1 No. 101 ATR Gresik</td>
-                                        <td>3958744</td>
-                                        <td>Laki-laki</td>
-                                        <td>Admin</td>
-                                        <td>Aktif</td>
-                                        <td>******</td>
-                                        <td><button class="btn btn-sm btn-warning">Edit</button></td>
+                                        <td><?php echo $count++ ?></td>
+                                        <td><?php echo $key->ID_KARYAWAN ?></td>
+                                        <td><?php echo $key->NAMA_KARYAWAN ?></td>
+                                        <td><?php echo $key->ALAMAT_KARYAWAN ?></td>
+                                        <td><?php echo $key->TELP_KARYAWAN ?></td>
+                                        <td><?php echo $key->JENIS_KELAMIN ?></td>
+                                        <td><?php echo $key->GOLONGAN ?></td>
+                                        <td><?php echo $key->STATUS_PENGGUNA ?></td>
+                                        <td><?php echo $key->IDPENGGUNA ?></td>
                                     </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>1701002</td>
-                                        <td>Rifan</td>
-                                        <td>Jl. Merpati 3 No. 71 TYA Sidoarjo</td>
-                                        <td>3978153</td>
-                                        <td>Laki-laki</td>
-                                        <td>Admin</td>
-                                        <td>Aktif</td>
-                                        <td>******</td>
-                                        <td><button class="btn btn-sm btn-warning">Edit</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>1701003</td>
-                                        <td>Venny</td>
-                                        <td>Jl. Merak 12 No. 10 Rungkut Kidul Surabaya</td>
-                                        <td>3978904</td>
-                                        <td>Perempuan</td>
-                                        <td>Admin</td>
-                                        <td>Aktif</td>
-                                        <td>******</td>
-                                        <td><button class="btn btn-sm btn-warning">Edit</button></td>
-                                    </tr>
+                                <?php } ?>
                                 </tbody>
                             </table>
-                            <!-- /.table-responsive -->
-                            <!--div class="well">
-                                <h4>DataTables Usage Information</h4>
-                                <p>DataTables is a very flexible, advanced tables plugin for jQuery. In SB Admin, we are using a specialized version of DataTables built for Bootstrap 3. We have also customized the table headings to use Font Awesome icons in place of images. For complete documentation on DataTables, visit their website at <a target="_blank" href="https://datatables.net/">https://datatables.net/</a>.</p>
-                                <a class="btn btn-default btn-lg btn-block" target="_blank" href="https://datatables.net/">View DataTables Documentation</a>
-                            </div-->
                         </div>
                         <!-- /.panel-body -->
                     </div>

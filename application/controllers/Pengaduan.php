@@ -11,7 +11,11 @@ class Pengaduan extends CI_Controller {
 		$this->load->view('pages/registrasi');
 		$this->load->view('default/footer');
 	}
-    
+    function insert_pengguna(){
+        $this->load->model('m_main');
+        $this->m_main->insert_pengguna_new();
+        redirect('main/index/pengguna');
+    }
     function master_pasal_new(){
         $pasal=$this->input->post("pasal");
         $this->load->model('m_main');

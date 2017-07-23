@@ -3,6 +3,39 @@ class M_main extends CI_Model{
 	function __construct(){
 		$this->load->database();
 	}
+	function insert_pengguna_new(){
+		$username = $this->input->post("username");
+        $password = $this->input->post("password");
+        $role = $this->input->post("role");
+        $id_karyawan = $this->input->post("id_karyawan");
+        $nama_karyawan = $this->input->post("nama_karyawan");
+        $alamat_karyawan = $this->input->post("alamat_karyawan");
+        $telp_karyawan = $this->input->post("telp_karyawan");
+        $jenis_kelamin = $this->input->post("jenis_kelamin");
+        $golongan = $this->input->post("jabatan");
+        $last_id_kabid = $this->input->post("last_id_kabid");
+		$data_pengguna=array(
+            'IDPENGGUNA'  => $username,
+            'PASSWORD'  => md5($password),
+            'STATUS_PENGGUNA'  => "AKTIF"
+       );
+        $this->db->insert('pengguna', $data_pengguna);
+        $data_kabid=array(
+            'IDPENGGUNA'  => $username,
+            'IS_CHILD'  => $role
+       );
+        $this->db->insert('kepala_bidang', $data_kabid);
+        $data_karyawan=array(
+            'ID_KARYAWAN'  => $id_karyawan,
+            'NAMA_KARYAWAN'  => $nama_karyawan,
+            'ID_KABID'  => ($last_id_kabid+1),
+            'ALAMAT_KARYAWAN'  => $alamat_karyawan,
+            'TELP_KARYAWAN'  => $telp_karyawan,
+            'JENIS_KELAMIN'  => $jenis_kelamin,
+            'GOLONGAN'  => $golongan
+       );
+        $this->db->insert('karyawan', $data_karyawan);
+	}
 	function getNotaSebelum($id_spt,$nota_sebelum){
 		$this->db->select("np.*");
 		$this->db->from("nota_pemeriksaan np");
@@ -135,12 +168,33 @@ class M_main extends CI_Model{
 
         
 	}
+	function getDataPengguna(){
+		$this->db->select("k.*,p.*,kb.*");
+		$this->db->from("pengguna p");
+		$this->db->join("kepala_bidang kb","p.IDPENGGUNA=kb.IDPENGGUNA");
+		$this->db->join("karyawan k","k.ID_KABID=kb.ID_KABID");
+		$this->db->order_by("kb.ID_KABID DESC");
+		// $this->db->where("ht.ID_SPT",$id_spt);
+		$query = $this->db->get();
+		return $query->result();
+	}
 	function getDataPasal(){
 		$this->db->select("p.*");
 		$this->db->from("pasal p");
 		// $this->db->where("ht.ID_SPT",$id_spt);
 		$query = $this->db->get();
 		return $query->result();
+	}
+	function getLastIDKabid(){
+		$this->db->select("max(ID_KABID) 'ID_KABID'");
+		$this->db->from("kepala_bidang");
+		$this -> db -> limit(1);
+		$query = $this -> db -> get();
+		foreach ($query->result() as $row)
+		{
+		        $SPT = $row->ID_KABID;
+		}
+	   	return $SPT;
 	}
 	function getDataTemuanAll(){
 		$this->db->select("ht.*,p.*");

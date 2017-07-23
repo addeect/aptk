@@ -126,6 +126,16 @@ class Main extends CI_Controller {
 			'page_name' => $page_name
 			);
 		}
+		elseif($page_name=='pengguna'){
+			$this->load->model('m_main');
+			// $id_spt=$_GET['id_spt'];
+			$data=array(
+			'last_id_kabid' => $this->m_main->getLastIDKabid(),
+			'pengguna' => $this->m_main->getDataPengguna(),
+			'title' => ucwords($title),
+			'page_name' => $page_name
+			);
+		}
 		elseif($page_name=='data-pengaduan'){
 			$this->load->model('m_main');
 			// $id_spt=$_GET['id_spt'];
