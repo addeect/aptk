@@ -210,6 +210,7 @@
                                         <th>Pelanggaran</th>
                                         <th>Jenis Pelanggaran</th>
                                         <th>Pasal</th>
+                                        <th>Menu</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -219,6 +220,7 @@
                                             <td><?php echo $key->ISI_HASIL_TEMUAN; ?></td>
                                             <td><?php echo $key->JENIS_PELANGGARAN; ?></td>
                                             <td><?php echo $key->KETERANGAN_PASAL; ?></td>
+                                            <td><a href="<?php ?>" class="btn btn-sm btn-block btn-danger">Hapus</a></td>
                                         </tr>
                                     <?php } ?>
                                     

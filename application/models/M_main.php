@@ -163,11 +163,20 @@ class M_main extends CI_Model{
         $insert_id = $this->db->insert_id();
         return $insert_id;
 	}
-	function insert_new_pasal($pasal){
+	function insert_new_pasal($pasal,$jenis_pelanggaran){
 		$data=array(
-            'KETERANGAN_PASAL'  => $pasal
+            'KETERANGAN_PASAL'  => $pasal,
+            'JENIS_PASAL_PELANGGARAN' => $jenis_pelanggaran
        );
         $this->db->insert('pasal', $data);
+	}
+	function editPasal($id_pasal,$pasal,$jenis_pelanggaran){
+		$data=array(
+            'KETERANGAN_PASAL'  => $pasal,
+            'JENIS_PASAL_PELANGGARAN' => $jenis_pelanggaran
+       );
+        $this->db->where('ID_PASAL', $id_pasal);
+        $this->db->update('pasal', $data);
 	}
 	function closes_case($id_jenis_keluhan){
 		$simpan_data=array(
@@ -209,6 +218,13 @@ class M_main extends CI_Model{
 		$this->db->select("p.*");
 		$this->db->from("pasal p");
 		// $this->db->where("ht.ID_SPT",$id_spt);
+		$query = $this->db->get();
+		return $query->result();
+	}
+	function getDataPasal_p($id){
+		$this->db->select("p.*");
+		$this->db->from("pasal p");
+		$this->db->where("p.ID_PASAL",$id);
 		$query = $this->db->get();
 		return $query->result();
 	}

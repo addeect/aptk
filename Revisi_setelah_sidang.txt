@@ -5,5 +5,5 @@ SPTBulanTahun-0019
 2. nambah logo[OK]
 3. email perusahaan[OK]
 4. pasal statis
-5. laporan kinerja pengawas
+5. laporan kinerja pengawas [informasi mengenai jumlah kasus yang dapat diselesaikan. semakin banyak kasus yg diselesaikan, maka semakin baik kinerja nya]
 6. notifikasi pengaduan baru, harus masuk ke semua pengguna

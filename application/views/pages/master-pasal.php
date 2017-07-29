@@ -92,6 +92,15 @@
                                 <input class="form-control" type="text" name="pasal" placeholder="Pasal"/>
                             </div>
                         </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>Jenis Pelanggaran</label>
+                                <select name="jenis_pelanggaran" id="jenis_pelanggaran" class="form-control">
+                                    <option value="Pelanggaran_K3">Pelanggaran K3</option>
+                                    <option value="Pelanggaran_Normatif">Pelanggaran Normatif</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="form-group">
@@ -115,7 +124,9 @@
                                 <thead>
                                     <tr>
                                         <th class="col-xs-1">No</th>
-                                        <th class="col-xs-11">Pasal</th>
+                                        <th class="col-xs-8">Pasal</th>
+                                        <th class="col-xs-2">Jenis Pelanggaran</th>
+                                        <th class="col-xs-1">Menu</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -123,6 +134,8 @@
                                         <tr>
                                             <td><?php echo $count++; ?></td>
                                             <td><?php echo $key->KETERANGAN_PASAL; ?></td>
+                                            <td><?php echo $key->JENIS_PASAL_PELANGGARAN; ?></td>
+                                            <td><a class="btn btn-sm btn-primary btn-block" href="javascript:void(0)" onclick="editPasal(<?php echo $key->ID_PASAL; ?>)">Edit</a></td>
                                         </tr>
                                     <?php } ?>
                                     
@@ -141,6 +154,41 @@
 
     </div>
     <!-- /#wrapper -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                    <form method="post" action="<?php echo site_url('pengaduan/edit_pasal') ?>">
+                                        <input type="hidden" name="id_pasal_edit" id="id_pasal_edit">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title" id="myModalLabel">Edit Data Pasal</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label>Pasal</label>
+                                                <input type="text" name="pasal_edit" id="pasal_edit" class="form-control" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Jenis Pelanggaran</label>
+                                                <select class="form-control" name="jenis_pelanggaran_edit" id="jenis_pelanggaran_edit">
+                                                    <option value="Pelanggaran_K3">Pelanggaran K3</option>
+                                                    <option value="Pelanggaran_Normatif">Pelanggaran Normatif</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="submit" class="btn btn-success" value="Simpan"/>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Tidak</button>
+                                        </div>
+                                    </form>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- /.modal -->
 
     <!-- jQuery -->
     <script src="<?php echo base_url('assets/js/jquery.min.js') ?>"></script>
@@ -162,7 +210,37 @@
     <script src="<?php echo base_url('assets/js/app.js') ?>"></script>
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
+    function editPasal(id){
+        $("#myModal").modal('show');
+        $('input#id_pasal_edit').val(id);
+        var id_pasal = id;
+            // AJAX START
+            var request = $.ajax({
+              url: "<?php echo site_url('pengaduan/getDataPasal') ?>",
+              method: "POST",
+              data: { id : id_pasal },
+              dataType: "json"
+            });
+
+            request.done(function( data ) {
+              if ($.isEmptyObject(data)){
+                    $('input#pasal_edit').val("Data Tidak Ditemukan");
+                    $('select#jenis_pelanggaran_edit').val("Data Tidak Ditemukan");
+                }
+                else{
+                    var pasal_edit = data[0].KETERANGAN_PASAL;
+                    var jenis_pelanggaran_edit = data[0].JENIS_PASAL_PELANGGARAN;
+                    $('input#pasal_edit').val(pasal_edit);
+                    $('select#jenis_pelanggaran_edit').val(jenis_pelanggaran_edit);
+                }
+            });
+
+            request.fail(function( jqXHR, textStatus ) {
+              alert( "Request failed: " + textStatus );
+            });
+    };
     $(document).ready(function() {
+        
         $('select#id_pasal').selectize({
             sortField: 'text'
         });

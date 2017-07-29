@@ -29,8 +29,17 @@ class Pengaduan extends CI_Controller {
     }
     function master_pasal_new(){
         $pasal=$this->input->post("pasal");
+        $jenis_pelanggaran=$this->input->post("jenis_pelanggaran");
         $this->load->model('m_main');
-        $this->m_main->insert_new_pasal($pasal);
+        $this->m_main->insert_new_pasal($pasal,$jenis_pelanggaran);
+        redirect('main/index/master-pasal');
+    }
+    function edit_pasal(){
+        $id_pasal=$this->input->post("id_pasal_edit");
+        $pasal=$this->input->post("pasal_edit");
+        $jenis_pelanggaran=$this->input->post("jenis_pelanggaran_edit");
+        $this->load->model('m_main');
+        $this->m_main->editPasal($id_pasal,$pasal,$jenis_pelanggaran);
         redirect('main/index/master-pasal');
     }
     function close_case(){
@@ -2614,6 +2623,13 @@ a[x-apple-data-detectors=true] {
     $this->load->model('m_main');
     $data_spt = $this->m_main->getDataSPT($id_spt);
     echo json_encode($data_spt);
+  }
+  function getDataPasal(){
+    // $id_spt = $this->input->post('id');
+    $id_pasal = json_decode($_POST["id"], false);
+    $this->load->model('m_main');
+    $data_pasal = $this->m_main->getDataPasal_p($id_pasal);
+    echo json_encode($data_pasal);
   }
   function pemilihan_petugas(){
     $id_pengadu = $this->input->post("id");
