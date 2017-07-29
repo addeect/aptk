@@ -11,16 +11,16 @@ class Pdf extends TCPDF
     //Page header
 		    public function Header() {
 		        // Logo
-		        // $image_file = K_PATH_IMAGES.'Logo_RRI_News_1.jpg';
-		        // $this->Image($image_file, 15, 12, 25, '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+		        $image_file = K_PATH_IMAGES.'disnaker-surabaya.jpg';
+		        $this->Image($image_file, 15, 10, 18, '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
 		        // Set font
 		        $this->SetFont('helvetica', 'B', 12);
 
-		        $this->MultiCell(109, 5, 'PEMERINTAH KOTA SURABAYA', 0, 'C', 0, 1, '45', '14', true);
-		        $this->MultiCell(109, 5, 'DINAS TENAGA KERJA', 0, 'C', 0, 1, '45', '20', true);
+		        $this->MultiCell(109, 5, 'PEMERINTAH KOTA SURABAYA', 0, 'C', 0, 1, '50', '10', true);
+		        $this->MultiCell(109, 5, 'DINAS TENAGA KERJA', 0, 'C', 0, 1, '50', '16', true);
 				//$pdf->MultiCell(55, 5, '[RIGHT] '.$txt, 1, 'R', 0, 1, '', '', true);
-				$this->MultiCell(149, 5, 'JL. Jemursari Timur II / 2, Telp (031) 8472426, 8481187, 8481040 (Fax.)', 0, 'C', 0, 0, '28', '26', true);
-				$this->MultiCell(109, 5, 'SURABAYA', 0, 'C', 0, 1, '45', '32', true);
+				$this->MultiCell(149, 5, 'JL. Jemursari Timur II / 2, Telp (031) 8472426, 8481187, 8481040 (Fax.)', 0, 'C', 0, 0, '32', '22', true);
+				$this->MultiCell(109, 5, 'SURABAYA', 0, 'C', 0, 1, '50', '28', true);
 				//$this->Ln(2);
 				$this->Line(15, 39, 195, 39, '');
 		        // Title

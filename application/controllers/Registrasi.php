@@ -18,6 +18,12 @@ class Registrasi extends CI_Controller {
     $this->load->view('pages/act_success');
     $this->load->view('default/footer');
   }
+  function ConfirmSuccess(){
+    $this->load->view('default/header');
+    //$this->load->view('default/menu', $data);
+    $this->load->view('pages/confirm_success');
+    $this->load->view('default/footer');
+  }
   function UserActivationFailed(){
         //$page_en = 'en/'.$page;
     $this->load->view('default/header');

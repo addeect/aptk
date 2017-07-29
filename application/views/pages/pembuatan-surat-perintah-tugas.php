@@ -157,6 +157,28 @@
             </div>
             <!-- /.row -->
             <div class="row">
+            <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-user fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge"><?php echo $permintaan_spt; ?></div>
+                                    <div>Permintaan SPT</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="javascript:void(0)">
+                            <div class="panel-footer">
+                                <span class="pull-left">Jumlah Permintaan SPT</span>
+                                <span class="pull-right"><i class="fa fa-dashboard"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
                 <div class="col-lg-12">
                 <?php if(isset($_GET['success'])){
                         echo '<div class="alert alert-success"><strong>Sukses!</strong> Pembuatan Surat Perintah Tugas Berhasil Disimpan.</div>';
@@ -183,7 +205,7 @@
                                         <select class="form-control" name="no_spt" id="no_spt">
                                             <option selected hidden value="">Pilih Nomor SPT</option>
                                             <?php foreach ($id_spt as $key1) { ?>
-                                                <option value="<?php echo $key1->ID_SPT;?>"><?php echo $key1->ID_SPT; ?></option>
+                                                <option value="<?php echo $key1->ID_SPT;?>">SPT<?php echo date('dmY',strtotime($key1->TGL_SPT)); ?>-00<?php echo $key1->ID_SPT; ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>

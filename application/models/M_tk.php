@@ -3,6 +3,15 @@ class M_tk extends CI_Model{
 	// function __construct(){
 	// 	$this->load->database();
 	// }
+	function konfirmasi_kedatangan($id_nota_pemeriksaan){
+		$data = array(
+			'IS_COME' => 1
+		);
+		$this->db->where('ID_NOTA_PEMERIKSAAN', $id_nota_pemeriksaan);
+		$this->db->update('nota_pemeriksaan',$data);
+		$status = $this->db->affected_rows();
+		return $status;
+	}
 	function insertCasePemeriksaan($id_spt,$jumlah_pegawai,$keterangan,$id_jenis_keluhan){
 		$status_penyelesaian = 40;
 		$data_spt=array(
@@ -159,6 +168,7 @@ class M_tk extends CI_Model{
 			'LAMA_KERJA' => $this->input->post("lama_kerja"),
 			'NAMA_PERUSAHAAN' => $this->input->post("nama_perusahaan"),
 			'ALAMAT_PERUSAHAAN' => $this->input->post("alamat_perusahaan"),
+			'EMAIL_PERUSAHAAN' => $this->input->post("email_perusahaan"),
 			'JENIS_USAHA' => $this->input->post("jenis_usaha"),
 			'TELP_PERUSAHAAN' => $this->input->post("telp_perusahaan"),
 			'TELP_HRD_SERIKAT' => $this->input->post("telp_hrd")

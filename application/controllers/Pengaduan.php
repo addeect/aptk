@@ -11,6 +11,17 @@ class Pengaduan extends CI_Controller {
 		$this->load->view('pages/registrasi');
 		$this->load->view('default/footer');
 	}
+    function konfirmasi_datang(){
+        $id_nota_pemeriksaan = $this->input->get("key");
+        $this->load->model("m_tk");
+        $status = $this->m_tk->konfirmasi_kedatangan($id_nota_pemeriksaan);
+        if($status > 0){
+            redirect('registrasi/ConfirmSuccess');
+        }
+        else{
+            redirect('registrasi/ConfirmFail');
+        }
+    }
     function insert_pengguna(){
         $this->load->model('m_main');
         $this->m_main->insert_pengguna_new();
@@ -553,15 +564,19 @@ class Pengaduan extends CI_Controller {
         $no_spt = $this->input->get("no_spt");
         $nota_sebelum = 2;
         $nota_ke = 3;
+        $id_nota_pemeriksaan = 0;
         $data_nota4 = $this->m_main->cekNotaPemeriksaan1($id_spt,$nota_ke);
         if($data_nota4 < 1){
-            $this->m_main->insert_nota_pemeriksaan($id_spt,$nota_ke,$id_jenis_keluhan);
+            $id_nota_pemeriksaan = $this->m_main->insert_nota_pemeriksaan($id_spt,$nota_ke,$id_jenis_keluhan);
         }
         $data_nota1 = $this->m_main->getNotaPemeriksaan1($id_jenis_keluhan);
         $data_nota2 = $this->m_main->getNotaPemeriksaan2($id_spt);
         $data_nota3 = $this->m_main->getNotaPemeriksaan3($id_spt);
         $data_nota_sebelum = $this->m_main->getNotaSebelum($id_spt,$nota_sebelum);
         
+        $nomor_spt = $this->m_main->getNomorSPT($id_spt);
+        $this->load->helper('path');
+
         $this->load->library('Pdf');
 
         $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
@@ -708,7 +723,340 @@ class Pengaduan extends CI_Controller {
 
     //$pdf->lastPage();
     //$pdf->Write(5, 'Some sample text');
-    $pdf->Output('Nota-Peringatan-III-'.$nomor_spt.'.pdf', 'I');
+
+        $path = set_realpath('uploads/pdf');
+        if($data_nota4 < 1){
+            $pdf->Output($path.'Nota-Peringatan-III-'.$id_spt.'.'.date('dmY.H.i.s').'.pdf', 'F');
+            // EMAIL =========================================================================================================================
+            // $email = $this->input->post("username");
+            $email = $this->m_main->getEmailPerusahaan($id_jenis_keluhan);
+
+            $config = Array(
+                    'protocol' => 'smtp',
+                  'smtp_host' => 'ssl://smtp.googlemail.com',
+                  'smtp_port' => 465,
+                  'smtp_user' => 'cs.aptk@gmail.com', // change it to yours
+                  'smtp_pass' => 'aplikasipengaduantenagakerja', // change it to yours
+                  'mailtype' => 'html',
+                  'charset' => 'iso-8859-1',
+                  'wordwrap' => TRUE
+            );
+            $this->load->library('email', $config);
+            $this->email->set_newline("\r\n");
+
+            // Set to, from, message, etc.
+            $this->email->from('cs.aptk@gmail.com', 'Venny Indrawati');
+            $this->email->to($email); 
+
+            $pesan = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><!--[if IE]><html xmlns="http://www.w3.org/1999/xhtml" class="ie-browser" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office"><![endif]--><!--[if !IE]><!--><html style="margin: 0;padding: 0;" xmlns="http://www.w3.org/1999/xhtml"><!--<![endif]--><head>
+        <!--[if gte mso 9]><xml>
+         <o:OfficeDocumentSettings>
+          <o:AllowPNG/>
+          <o:PixelsPerInch>96</o:PixelsPerInch>
+         </o:OfficeDocumentSettings>
+        </xml><![endif]-->
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width">
+        <!--[if !mso]><!--><meta http-equiv="X-UA-Compatible" content="IE=edge"><!--<![endif]-->
+        <title>Konfirmasi Akun</title>
+        
+        
+        <style type="text/css" id="media-query">
+          body {
+      margin: 0;
+      padding: 0; }
+
+    table, tr, td {
+      vertical-align: top;
+      border-collapse: collapse; }
+
+    .ie-browser table, .mso-container table {
+      table-layout: fixed; }
+
+    * {
+      line-height: inherit; }
+
+    a[x-apple-data-detectors=true] {
+      color: inherit !important;
+      text-decoration: none !important; }
+
+    [owa] .img-container div, [owa] .img-container button {
+      display: block !important; }
+
+    [owa] .fullwidth button {
+      width: 100% !important; }
+
+    .ie-browser .col, [owa] .block-grid .col {
+      display: table-cell;
+      float: none !important;
+      vertical-align: top; }
+
+    .ie-browser .num12, .ie-browser .block-grid, [owa] .num12, [owa] .block-grid {
+      width: 500px !important; }
+
+    .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {
+      line-height: 100%; }
+
+    .ie-browser .mixed-two-up .num4, [owa] .mixed-two-up .num4 {
+      width: 164px !important; }
+
+    .ie-browser .mixed-two-up .num8, [owa] .mixed-two-up .num8 {
+      width: 328px !important; }
+
+    .ie-browser .block-grid.two-up .col, [owa] .block-grid.two-up .col {
+      width: 250px !important; }
+
+    .ie-browser .block-grid.three-up .col, [owa] .block-grid.three-up .col {
+      width: 166px !important; }
+
+    .ie-browser .block-grid.four-up .col, [owa] .block-grid.four-up .col {
+      width: 125px !important; }
+
+    .ie-browser .block-grid.five-up .col, [owa] .block-grid.five-up .col {
+      width: 100px !important; }
+
+    .ie-browser .block-grid.six-up .col, [owa] .block-grid.six-up .col {
+      width: 83px !important; }
+
+    .ie-browser .block-grid.seven-up .col, [owa] .block-grid.seven-up .col {
+      width: 71px !important; }
+
+    .ie-browser .block-grid.eight-up .col, [owa] .block-grid.eight-up .col {
+      width: 62px !important; }
+
+    .ie-browser .block-grid.nine-up .col, [owa] .block-grid.nine-up .col {
+      width: 55px !important; }
+
+    .ie-browser .block-grid.ten-up .col, [owa] .block-grid.ten-up .col {
+      width: 50px !important; }
+
+    .ie-browser .block-grid.eleven-up .col, [owa] .block-grid.eleven-up .col {
+      width: 45px !important; }
+
+    .ie-browser .block-grid.twelve-up .col, [owa] .block-grid.twelve-up .col {
+      width: 41px !important; }
+
+    @media only screen and (min-width: 520px) {
+      .block-grid {
+        width: 500px !important; }
+      .block-grid .col {
+        display: table-cell;
+        Float: none !important;
+        vertical-align: top; }
+        .block-grid .col.num12 {
+          width: 500px !important; }
+      .block-grid.mixed-two-up .col.num4 {
+        width: 164px !important; }
+      .block-grid.mixed-two-up .col.num8 {
+        width: 328px !important; }
+      .block-grid.two-up .col {
+        width: 250px !important; }
+      .block-grid.three-up .col {
+        width: 166px !important; }
+      .block-grid.four-up .col {
+        width: 125px !important; }
+      .block-grid.five-up .col {
+        width: 100px !important; }
+      .block-grid.six-up .col {
+        width: 83px !important; }
+      .block-grid.seven-up .col {
+        width: 71px !important; }
+      .block-grid.eight-up .col {
+        width: 62px !important; }
+      .block-grid.nine-up .col {
+        width: 55px !important; }
+      .block-grid.ten-up .col {
+        width: 50px !important; }
+      .block-grid.eleven-up .col {
+        width: 45px !important; }
+      .block-grid.twelve-up .col {
+        width: 41px !important; } }
+
+    @media (max-width: 520px) {
+      .block-grid, .col {
+        min-width: 320px !important;
+        max-width: 100% !important; }
+      .block-grid {
+        width: calc(100% - 40px) !important; }
+      .col {
+        width: 100% !important; }
+        .col > div {
+          margin: 0 auto; }
+      img.fullwidth {
+        max-width: 100% !important; } }
+
+        </style>
+    </head>
+    <!--[if mso]>
+    <body class="mso-container" style="background-color:#FFFFFF;">
+    <![endif]-->
+    <!--[if !mso]><!-->
+    <body class="clean-body" style="margin: 0;padding: 0;-webkit-text-size-adjust: 100%;background-color: #FFFFFF">
+    <!--<![endif]-->
+      <div class="nl-container" style="min-width: 320px;Margin: 0 auto;background-color: #FFFFFF">
+        <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" style="background-color: #FFFFFF;"><![endif]-->
+
+            <div style="background-color:#ffffff;">
+          <div style="Margin: 0 auto;min-width: 320px;max-width: 500px;width: 500px;width: calc(19000% - 98300px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;" class="block-grid ">
+            <div style="border-collapse: collapse;display: table;width: 100%;">
+              <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:#ffffff;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width: 500px;"><tr class="layout-full-width" style="background-color:transparent;"><![endif]-->
+
+                  <!--[if (mso)|(IE)]><td align="center" width="500" style=" width:500px; padding-right: 0px; padding-left: 0px; padding-top:0px; padding-bottom:0px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><![endif]-->
+                <div class="col num12" style="min-width: 320px;max-width: 500px;width: 500px;width: calc(18000% - 89500px);background-color: transparent;">
+                  <div style="background-color: transparent; width: 100% !important;">
+                  <!--[if (!mso)&(!IE)]><!--><div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-top:0px; padding-bottom:0px; padding-right: 0px; padding-left: 0px;"><!--<![endif]-->
+
+                      
+                        <div style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">
+      <!--[if (mso)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px;padding-left: 10px; padding-top: 10px; padding-bottom: 10px;"><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
+      <div align="center"><div style="border-top: 10px solid transparent; width:100%;">&nbsp;</div></div>
+      <!--[if (mso)]></td></tr></table></td></tr></table><![endif]-->
+    </div>
+
+                      
+                      
+                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px; padding-top: 30px; padding-bottom: 30px;"><![endif]-->
+    <div style="padding-right: 10px; padding-left: 10px; padding-top: 25px; padding-bottom: 10px;">
+        <div style="font-size:12px;line-height:14px;color:#ffffff;font-family:Arial, "Helvetica Neue", Helvetica, sans-serif;text-align:left;"><p style="margin: 0;font-size: 18px;line-height: 22px;text-align: center"><span style="font-size: 24px; line-height: 28px;"><strong>Aplikasi Pengaduan Tenaga Kerja Disnaker Kota Surabaya</strong></span></p></div>
+    </div>
+    <!--[if mso]></td></tr></table><![endif]-->
+
+                      
+                      
+                        <div style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">
+      <!--[if (mso)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px;padding-left: 10px; padding-top: 10px; padding-bottom: 10px;"><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
+      <div align="center"><div style="border-top: 10px solid transparent; width:100%;">&nbsp;</div></div>
+      <!--[if (mso)]></td></tr></table></td></tr></table><![endif]-->
+    </div>
+
+                      
+                      
+                        <div align="center" class="img-container center" style="padding-bottom:50px;padding-right: 0px;  padding-left: 0px;">
+    <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px;" align="center"><![endif]-->
+      <a href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_nota_pemeriksaan.'" target="_blank">
+        <img class="center" align="center" border="0" src="http://3.bp.blogspot.com/-YJgB7NSrRmA/Ujy40DeBW-I/AAAAAAAAAYM/_i0PH66vKy0/s1600/Surabaya_Logo.svg.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;width: 100%;max-width: 102px" width="102">
+      </a>
+    <!--[if mso]></td></tr></table><![endif]-->
+    </div>
+
+                      
+                  <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
+                  </div>
+                </div>
+              <!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->
+            </div>
+          </div>
+        </div>    <div style="background-color:#61626F;">
+          <div style="Margin: 0 auto;min-width: 320px;max-width: 500px;width: 500px;width: calc(19000% - 98300px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;" class="block-grid ">
+            <div style="border-collapse: collapse;display: table;width: 100%;">
+              <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:#61626F;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width: 500px;"><tr class="layout-full-width" style="background-color:transparent;"><![endif]-->
+
+                  <!--[if (mso)|(IE)]><td align="center" width="500" style=" width:500px; padding-right: 0px; padding-left: 0px; padding-top:30px; padding-bottom:30px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><![endif]-->
+                <div class="col num12" style="min-width: 320px;max-width: 500px;width: 500px;width: calc(18000% - 89500px);background-color: transparent;">
+                  <div style="background-color: transparent; width: 100% !important;">
+                  <!--[if (!mso)&(!IE)]><!--><div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-top:30px; padding-bottom:30px; padding-right: 0px; padding-left: 0px;"><!--<![endif]-->
+
+                      
+                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 25px; padding-bottom: 10px;"><![endif]-->
+    <div style="padding-right: 10px; padding-left: 10px; padding-top: 25px; padding-bottom: 10px;">
+        <div style="font-size:12px;line-height:14px;color:#ffffff;font-family:Arial, Helvetica Neue", Helvetica, sans-serif;text-align:left;"><p style="margin: 0;font-size: 18px;line-height: 22px;text-align: center"><span style="font-size: 24px; line-height: 28px;"><strong style="font-size:19px">Kami mengundang perusahaan anda untuk datang ke Disnaker Surabaya terkait nota peringatan III yang kami kirimkan melalui email ini. Untuk konfirmasi kedatangan, silahkan klik tombol di bawah ini.</strong></span></p></div>
+    </div>
+    <!--[if mso]></td></tr></table><![endif]-->
+
+                      
+                      
+                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 0px; padding-bottom: 10px;"><![endif]-->
+    <div style="padding-right: 10px; padding-left: 10px; padding-top: 0px; padding-bottom: 10px;">
+        <div style="font-size:12px;line-height:18px;color:#B8B8C0;font-family:Arial, "Helvetica Neue", Helvetica, sans-serif;text-align:left;"><p style="margin: 0;font-size: 14px;line-height: 21px;text-align: center"><span style="font-size: 14px; line-height: 21px;"></span></p></div>
+    </div>
+    <!--[if mso]></td></tr></table><![endif]-->
+
+                      
+                      
+                        
+    <div align="center" class="button-container center" style="Margin-right: 10px;Margin-left: 10px;">
+        <div style="line-height:15px;font-size:1px">&nbsp;</div>
+      <a href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_nota_pemeriksaan.'" target="_blank" style="color: #ffffff; text-decoration: none;">
+        <!--[if mso]>
+          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_nota_pemeriksaan.'" style="height:42px; v-text-anchor:middle; width:146px;" arcsize="60%" strokecolor="#C7702E" fillcolor="#C7702E" >
+          <w:anchorlock/><center style="color:#ffffff; font-family:Arial, "Helvetica Neue", Helvetica, sans-serif; font-size:16px;">
+        <![endif]-->
+        <!--[if !mso]><!-->
+        <div style="color: #ffffff; background-color: #C7702E; border-radius: 25px; -webkit-border-radius: 25px; -moz-border-radius: 25px; max-width: 126px; width: 25%; border-top: 0px solid transparent; border-right: 0px solid transparent; border-bottom: 0px solid transparent; border-left: 0px solid transparent; padding-top: 5px; padding-right: 20px; padding-bottom: 5px; padding-left: 20px; font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; text-align: center;">
+        <!--<![endif]-->
+        <div style="background-color:#4584ef;border:1px solid #4564f1;border-radius:5px">
+          <span style="font-size:16px;line-height:32px;"><span style="font-size: 14px; line-height: 28px;" data-mce-style="font-size: 14px;" mce-data-marked="1">Konfirmasi Kedatangan</span></span>
+          </div>
+        <!--[if !mso]><!-->
+        </div>
+        <!--<![endif]-->
+        <!--[if mso]>
+              </center>
+          </v:roundrect>
+        <![endif]-->
+      </a>
+        <div style="line-height:10px;font-size:1px">&nbsp;</div>
+    </div>
+
+                      
+                      
+                        <div style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">
+      <!--[if (mso)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px;padding-left: 10px; padding-top: 10px; padding-bottom: 10px;"><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
+      <div align="center"><div style="border-top: 0px solid transparent; width:100%;">&nbsp;</div></div>
+      <!--[if (mso)]></td></tr></table></td></tr></table><![endif]-->
+    </div>
+
+                      
+                  <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
+                  </div>
+                </div>
+              <!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->
+            </div>
+          </div>
+        </div>    <div style="background-color:#ffffff;">
+          <div style="Margin: 0 auto;min-width: 320px;max-width: 500px;width: 500px;width: calc(19000% - 98300px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;" class="block-grid ">
+            <div style="border-collapse: collapse;display: table;width: 100%;">
+              <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:#ffffff;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width: 500px;"><tr class="layout-full-width" style="background-color:transparent;"><![endif]-->
+
+                  <!--[if (mso)|(IE)]><td align="center" width="500" style=" width:500px; padding-right: 0px; padding-left: 0px; padding-top:30px; padding-bottom:30px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><![endif]-->
+                <div class="col num12" style="min-width: 320px;max-width: 500px;width: 500px;width: calc(18000% - 89500px);background-color: transparent;">
+                  <div style="background-color: transparent; width: 100% !important;">
+                  <!--[if (!mso)&(!IE)]><!--><div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-top:30px; padding-bottom:30px; padding-right: 0px; padding-left: 0px;"><!--<![endif]-->
+
+                      
+                        <div></div>
+
+                      
+                  <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
+                  </div>
+                </div>
+              <!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->
+            </div>
+          </div>
+        </div>   <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
+      </div>
+
+
+    </body></html>';
+
+            $this->email->subject('NOTA PERINGATAN III');
+            $this->email->message($pesan);
+            $this->email->attach($path . 'Nota-Peringatan-III-'.$id_spt.'.'.date('dmY.H.i.s').'.pdf');
+
+            //$result = $this->email->send();
+            if($this->email->send())
+             {
+              // echo 'Email sent.';
+            redirect('main/index/daftar-pengaduan');    
+             }
+             else
+            {
+             show_error($this->email->print_debugger());  
+            }
+        }
+        else{
+            $pdf->Output($path.'Nota-Peringatan-III-'.$id_spt.'.'.date('dmY.H.i.s').'.pdf', 'I');
+        }
     }
     function cetak_nota_2(){
         $this->load->model('m_main');
@@ -717,15 +1065,19 @@ class Pengaduan extends CI_Controller {
         $no_spt = $this->input->get("no_spt");
         $nota_sebelum = 1;
         $nota_ke = 2;
+        $id_nota_pemeriksaan = 0;
         $data_nota4 = $this->m_main->cekNotaPemeriksaan1($id_spt,$nota_ke);
         if($data_nota4 < 1){
-            $this->m_main->insert_nota_pemeriksaan($id_spt,$nota_ke,$id_jenis_keluhan);
+            $id_nota_pemeriksaan = $this->m_main->insert_nota_pemeriksaan($id_spt,$nota_ke,$id_jenis_keluhan);
         }
         $data_nota1 = $this->m_main->getNotaPemeriksaan1($id_jenis_keluhan);
         $data_nota2 = $this->m_main->getNotaPemeriksaan2($id_spt);
         $data_nota3 = $this->m_main->getNotaPemeriksaan3($id_spt);
         $data_nota_sebelum = $this->m_main->getNotaSebelum($id_spt,$nota_sebelum);
         
+        $nomor_spt = $this->m_main->getNomorSPT($id_spt);
+        $this->load->helper('path');
+
         $this->load->library('Pdf');
 
         $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
@@ -872,7 +1224,341 @@ class Pengaduan extends CI_Controller {
 
     //$pdf->lastPage();
     //$pdf->Write(5, 'Some sample text');
-    $pdf->Output('Nota-Peringatan-II-'.$nomor_spt.'.pdf', 'I');
+
+        $path = set_realpath('uploads/pdf');
+        if($data_nota4 < 1){
+            $pdf->Output($path.'Nota-Peringatan-II-'.$id_spt.'.'.date('dmY.H.i.s').'.pdf', 'F');
+            // EMAIL =========================================================================================================================
+            // $email = $this->input->post("username");
+            $email = $this->m_main->getEmailPerusahaan($id_jenis_keluhan);
+
+            $config = Array(
+                    'protocol' => 'smtp',
+                  'smtp_host' => 'ssl://smtp.googlemail.com',
+                  'smtp_port' => 465,
+                  'smtp_user' => 'cs.aptk@gmail.com', // change it to yours
+                  'smtp_pass' => 'aplikasipengaduantenagakerja', // change it to yours
+                  'mailtype' => 'html',
+                  'charset' => 'iso-8859-1',
+                  'wordwrap' => TRUE
+            );
+            $this->load->library('email', $config);
+            $this->email->set_newline("\r\n");
+
+            // Set to, from, message, etc.
+            $this->email->from('cs.aptk@gmail.com', 'Venny Indrawati');
+            $this->email->to($email); 
+
+            $pesan = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><!--[if IE]><html xmlns="http://www.w3.org/1999/xhtml" class="ie-browser" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office"><![endif]--><!--[if !IE]><!--><html style="margin: 0;padding: 0;" xmlns="http://www.w3.org/1999/xhtml"><!--<![endif]--><head>
+        <!--[if gte mso 9]><xml>
+         <o:OfficeDocumentSettings>
+          <o:AllowPNG/>
+          <o:PixelsPerInch>96</o:PixelsPerInch>
+         </o:OfficeDocumentSettings>
+        </xml><![endif]-->
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width">
+        <!--[if !mso]><!--><meta http-equiv="X-UA-Compatible" content="IE=edge"><!--<![endif]-->
+        <title>Konfirmasi Akun</title>
+        
+        
+        <style type="text/css" id="media-query">
+          body {
+      margin: 0;
+      padding: 0; }
+
+    table, tr, td {
+      vertical-align: top;
+      border-collapse: collapse; }
+
+    .ie-browser table, .mso-container table {
+      table-layout: fixed; }
+
+    * {
+      line-height: inherit; }
+
+    a[x-apple-data-detectors=true] {
+      color: inherit !important;
+      text-decoration: none !important; }
+
+    [owa] .img-container div, [owa] .img-container button {
+      display: block !important; }
+
+    [owa] .fullwidth button {
+      width: 100% !important; }
+
+    .ie-browser .col, [owa] .block-grid .col {
+      display: table-cell;
+      float: none !important;
+      vertical-align: top; }
+
+    .ie-browser .num12, .ie-browser .block-grid, [owa] .num12, [owa] .block-grid {
+      width: 500px !important; }
+
+    .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {
+      line-height: 100%; }
+
+    .ie-browser .mixed-two-up .num4, [owa] .mixed-two-up .num4 {
+      width: 164px !important; }
+
+    .ie-browser .mixed-two-up .num8, [owa] .mixed-two-up .num8 {
+      width: 328px !important; }
+
+    .ie-browser .block-grid.two-up .col, [owa] .block-grid.two-up .col {
+      width: 250px !important; }
+
+    .ie-browser .block-grid.three-up .col, [owa] .block-grid.three-up .col {
+      width: 166px !important; }
+
+    .ie-browser .block-grid.four-up .col, [owa] .block-grid.four-up .col {
+      width: 125px !important; }
+
+    .ie-browser .block-grid.five-up .col, [owa] .block-grid.five-up .col {
+      width: 100px !important; }
+
+    .ie-browser .block-grid.six-up .col, [owa] .block-grid.six-up .col {
+      width: 83px !important; }
+
+    .ie-browser .block-grid.seven-up .col, [owa] .block-grid.seven-up .col {
+      width: 71px !important; }
+
+    .ie-browser .block-grid.eight-up .col, [owa] .block-grid.eight-up .col {
+      width: 62px !important; }
+
+    .ie-browser .block-grid.nine-up .col, [owa] .block-grid.nine-up .col {
+      width: 55px !important; }
+
+    .ie-browser .block-grid.ten-up .col, [owa] .block-grid.ten-up .col {
+      width: 50px !important; }
+
+    .ie-browser .block-grid.eleven-up .col, [owa] .block-grid.eleven-up .col {
+      width: 45px !important; }
+
+    .ie-browser .block-grid.twelve-up .col, [owa] .block-grid.twelve-up .col {
+      width: 41px !important; }
+
+    @media only screen and (min-width: 520px) {
+      .block-grid {
+        width: 500px !important; }
+      .block-grid .col {
+        display: table-cell;
+        Float: none !important;
+        vertical-align: top; }
+        .block-grid .col.num12 {
+          width: 500px !important; }
+      .block-grid.mixed-two-up .col.num4 {
+        width: 164px !important; }
+      .block-grid.mixed-two-up .col.num8 {
+        width: 328px !important; }
+      .block-grid.two-up .col {
+        width: 250px !important; }
+      .block-grid.three-up .col {
+        width: 166px !important; }
+      .block-grid.four-up .col {
+        width: 125px !important; }
+      .block-grid.five-up .col {
+        width: 100px !important; }
+      .block-grid.six-up .col {
+        width: 83px !important; }
+      .block-grid.seven-up .col {
+        width: 71px !important; }
+      .block-grid.eight-up .col {
+        width: 62px !important; }
+      .block-grid.nine-up .col {
+        width: 55px !important; }
+      .block-grid.ten-up .col {
+        width: 50px !important; }
+      .block-grid.eleven-up .col {
+        width: 45px !important; }
+      .block-grid.twelve-up .col {
+        width: 41px !important; } }
+
+    @media (max-width: 520px) {
+      .block-grid, .col {
+        min-width: 320px !important;
+        max-width: 100% !important; }
+      .block-grid {
+        width: calc(100% - 40px) !important; }
+      .col {
+        width: 100% !important; }
+        .col > div {
+          margin: 0 auto; }
+      img.fullwidth {
+        max-width: 100% !important; } }
+
+        </style>
+    </head>
+    <!--[if mso]>
+    <body class="mso-container" style="background-color:#FFFFFF;">
+    <![endif]-->
+    <!--[if !mso]><!-->
+    <body class="clean-body" style="margin: 0;padding: 0;-webkit-text-size-adjust: 100%;background-color: #FFFFFF">
+    <!--<![endif]-->
+      <div class="nl-container" style="min-width: 320px;Margin: 0 auto;background-color: #FFFFFF">
+        <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" style="background-color: #FFFFFF;"><![endif]-->
+
+            <div style="background-color:#ffffff;">
+          <div style="Margin: 0 auto;min-width: 320px;max-width: 500px;width: 500px;width: calc(19000% - 98300px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;" class="block-grid ">
+            <div style="border-collapse: collapse;display: table;width: 100%;">
+              <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:#ffffff;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width: 500px;"><tr class="layout-full-width" style="background-color:transparent;"><![endif]-->
+
+                  <!--[if (mso)|(IE)]><td align="center" width="500" style=" width:500px; padding-right: 0px; padding-left: 0px; padding-top:0px; padding-bottom:0px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><![endif]-->
+                <div class="col num12" style="min-width: 320px;max-width: 500px;width: 500px;width: calc(18000% - 89500px);background-color: transparent;">
+                  <div style="background-color: transparent; width: 100% !important;">
+                  <!--[if (!mso)&(!IE)]><!--><div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-top:0px; padding-bottom:0px; padding-right: 0px; padding-left: 0px;"><!--<![endif]-->
+
+                      
+                        <div style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">
+      <!--[if (mso)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px;padding-left: 10px; padding-top: 10px; padding-bottom: 10px;"><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
+      <div align="center"><div style="border-top: 10px solid transparent; width:100%;">&nbsp;</div></div>
+      <!--[if (mso)]></td></tr></table></td></tr></table><![endif]-->
+    </div>
+
+                      
+                      
+                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px; padding-top: 30px; padding-bottom: 30px;"><![endif]-->
+    <div style="padding-right: 10px; padding-left: 10px; padding-top: 25px; padding-bottom: 10px;">
+        <div style="font-size:12px;line-height:14px;color:#ffffff;font-family:Arial, "Helvetica Neue", Helvetica, sans-serif;text-align:left;"><p style="margin: 0;font-size: 18px;line-height: 22px;text-align: center"><span style="font-size: 24px; line-height: 28px;"><strong>Aplikasi Pengaduan Tenaga Kerja Disnaker Kota Surabaya</strong></span></p></div>
+    </div>
+    <!--[if mso]></td></tr></table><![endif]-->
+
+                      
+                      
+                        <div style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">
+      <!--[if (mso)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px;padding-left: 10px; padding-top: 10px; padding-bottom: 10px;"><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
+      <div align="center"><div style="border-top: 10px solid transparent; width:100%;">&nbsp;</div></div>
+      <!--[if (mso)]></td></tr></table></td></tr></table><![endif]-->
+    </div>
+
+                      
+                      
+                        <div align="center" class="img-container center" style="padding-bottom:50px;padding-right: 0px;  padding-left: 0px;">
+    <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px;" align="center"><![endif]-->
+      <a href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_nota_pemeriksaan.'" target="_blank">
+        <img class="center" align="center" border="0" src="http://3.bp.blogspot.com/-YJgB7NSrRmA/Ujy40DeBW-I/AAAAAAAAAYM/_i0PH66vKy0/s1600/Surabaya_Logo.svg.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;width: 100%;max-width: 102px" width="102">
+      </a>
+    <!--[if mso]></td></tr></table><![endif]-->
+    </div>
+
+                      
+                  <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
+                  </div>
+                </div>
+              <!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->
+            </div>
+          </div>
+        </div>    <div style="background-color:#61626F;">
+          <div style="Margin: 0 auto;min-width: 320px;max-width: 500px;width: 500px;width: calc(19000% - 98300px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;" class="block-grid ">
+            <div style="border-collapse: collapse;display: table;width: 100%;">
+              <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:#61626F;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width: 500px;"><tr class="layout-full-width" style="background-color:transparent;"><![endif]-->
+
+                  <!--[if (mso)|(IE)]><td align="center" width="500" style=" width:500px; padding-right: 0px; padding-left: 0px; padding-top:30px; padding-bottom:30px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><![endif]-->
+                <div class="col num12" style="min-width: 320px;max-width: 500px;width: 500px;width: calc(18000% - 89500px);background-color: transparent;">
+                  <div style="background-color: transparent; width: 100% !important;">
+                  <!--[if (!mso)&(!IE)]><!--><div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-top:30px; padding-bottom:30px; padding-right: 0px; padding-left: 0px;"><!--<![endif]-->
+
+                      
+                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 25px; padding-bottom: 10px;"><![endif]-->
+    <div style="padding-right: 10px; padding-left: 10px; padding-top: 25px; padding-bottom: 10px;">
+        <div style="font-size:12px;line-height:14px;color:#ffffff;font-family:Arial, Helvetica Neue", Helvetica, sans-serif;text-align:left;"><p style="margin: 0;font-size: 18px;line-height: 22px;text-align: center"><span style="font-size: 24px; line-height: 28px;"><strong style="font-size:19px">Kami mengundang perusahaan anda untuk datang ke Disnaker Surabaya terkait nota peringatan II yang kami kirimkan melalui email ini. Untuk konfirmasi kedatangan, silahkan klik tombol di bawah ini.</strong></span></p></div>
+    </div>
+    <!--[if mso]></td></tr></table><![endif]-->
+
+                      
+                      
+                        <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 0px; padding-bottom: 10px;"><![endif]-->
+    <div style="padding-right: 10px; padding-left: 10px; padding-top: 0px; padding-bottom: 10px;">
+        <div style="font-size:12px;line-height:18px;color:#B8B8C0;font-family:Arial, "Helvetica Neue", Helvetica, sans-serif;text-align:left;"><p style="margin: 0;font-size: 14px;line-height: 21px;text-align: center"><span style="font-size: 14px; line-height: 21px;"></span></p></div>
+    </div>
+    <!--[if mso]></td></tr></table><![endif]-->
+
+                      
+                      
+                        
+    <div align="center" class="button-container center" style="Margin-right: 10px;Margin-left: 10px;">
+        <div style="line-height:15px;font-size:1px">&nbsp;</div>
+      <a href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_nota_pemeriksaan.'" target="_blank" style="color: #ffffff; text-decoration: none;">
+        <!--[if mso]>
+          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_nota_pemeriksaan.'" style="height:42px; v-text-anchor:middle; width:146px;" arcsize="60%" strokecolor="#C7702E" fillcolor="#C7702E" >
+          <w:anchorlock/><center style="color:#ffffff; font-family:Arial, "Helvetica Neue", Helvetica, sans-serif; font-size:16px;">
+        <![endif]-->
+        <!--[if !mso]><!-->
+        <div style="color: #ffffff; background-color: #C7702E; border-radius: 25px; -webkit-border-radius: 25px; -moz-border-radius: 25px; max-width: 126px; width: 25%; border-top: 0px solid transparent; border-right: 0px solid transparent; border-bottom: 0px solid transparent; border-left: 0px solid transparent; padding-top: 5px; padding-right: 20px; padding-bottom: 5px; padding-left: 20px; font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; text-align: center;">
+        <!--<![endif]-->
+        <div style="background-color:#4584ef;border:1px solid #4564f1;border-radius:5px">
+          <span style="font-size:16px;line-height:32px;"><span style="font-size: 14px; line-height: 28px;" data-mce-style="font-size: 14px;" mce-data-marked="1">Konfirmasi Kedatangan</span></span>
+          </div>
+        <!--[if !mso]><!-->
+        </div>
+        <!--<![endif]-->
+        <!--[if mso]>
+              </center>
+          </v:roundrect>
+        <![endif]-->
+      </a>
+        <div style="line-height:10px;font-size:1px">&nbsp;</div>
+    </div>
+
+                      
+                      
+                        <div style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">
+      <!--[if (mso)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px;padding-left: 10px; padding-top: 10px; padding-bottom: 10px;"><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
+      <div align="center"><div style="border-top: 0px solid transparent; width:100%;">&nbsp;</div></div>
+      <!--[if (mso)]></td></tr></table></td></tr></table><![endif]-->
+    </div>
+
+                      
+                  <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
+                  </div>
+                </div>
+              <!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->
+            </div>
+          </div>
+        </div>    <div style="background-color:#ffffff;">
+          <div style="Margin: 0 auto;min-width: 320px;max-width: 500px;width: 500px;width: calc(19000% - 98300px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;" class="block-grid ">
+            <div style="border-collapse: collapse;display: table;width: 100%;">
+              <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:#ffffff;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width: 500px;"><tr class="layout-full-width" style="background-color:transparent;"><![endif]-->
+
+                  <!--[if (mso)|(IE)]><td align="center" width="500" style=" width:500px; padding-right: 0px; padding-left: 0px; padding-top:30px; padding-bottom:30px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><![endif]-->
+                <div class="col num12" style="min-width: 320px;max-width: 500px;width: 500px;width: calc(18000% - 89500px);background-color: transparent;">
+                  <div style="background-color: transparent; width: 100% !important;">
+                  <!--[if (!mso)&(!IE)]><!--><div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-top:30px; padding-bottom:30px; padding-right: 0px; padding-left: 0px;"><!--<![endif]-->
+
+                      
+                        <div></div>
+
+                      
+                  <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
+                  </div>
+                </div>
+              <!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->
+            </div>
+          </div>
+        </div>   <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
+      </div>
+
+
+    </body></html>';
+
+            $this->email->subject('NOTA PERINGATAN II');
+            $this->email->message($pesan);
+            $this->email->attach($path . 'Nota-Peringatan-II-'.$id_spt.'.'.date('dmY.H.i.s').'.pdf');
+
+            //$result = $this->email->send();
+            if($this->email->send())
+             {
+              // echo 'Email sent.';
+            redirect('main/index/daftar-pengaduan');    
+             }
+             else
+            {
+             show_error($this->email->print_debugger());  
+            }
+        }
+        else{
+            $pdf->Output($path.'Nota-Peringatan-II-'.$id_spt.'.'.date('dmY.H.i.s').'.pdf', 'I');
+        }
+
     }
     function cetak_nota_1(){
         $this->load->model('m_main');
@@ -880,14 +1566,18 @@ class Pengaduan extends CI_Controller {
         $id_jenis_keluhan = $this->input->get("id_jenis_keluhan");
         $nota_ke = 1;
         $data_nota4 = $this->m_main->cekNotaPemeriksaan1($id_spt,$nota_ke);
+        $id_nota_pemeriksaan = 0;
         if($data_nota4 < $nota_ke){
-            $this->m_main->insert_nota_pemeriksaan($id_spt,$nota_ke,$id_jenis_keluhan);
+            $id_nota_pemeriksaan = $this->m_main->insert_nota_pemeriksaan($id_spt,$nota_ke,$id_jenis_keluhan);
         }
         $data_nota1 = $this->m_main->getNotaPemeriksaan1($id_jenis_keluhan);
         $data_nota2 = $this->m_main->getNotaPemeriksaan2($id_spt);
         $data_nota3 = $this->m_main->getNotaPemeriksaan3($id_spt);
         
+        $nomor_spt = $this->m_main->getNomorSPT($id_spt);
+
         $this->load->library('Pdf');
+        $this->load->helper('path');
 
         $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
     // set document information
@@ -986,7 +1676,342 @@ class Pengaduan extends CI_Controller {
 
     //$pdf->lastPage();
     //$pdf->Write(5, 'Some sample text');
-    $pdf->Output('Nota-Pemeriksaan-'.$nomor_spt.'.pdf', 'I');
+    $path = set_realpath('uploads/pdf');
+    if($data_nota4 < $nota_ke){
+        $pdf->Output($path.'Nota-Pemeriksaan-'.$id_spt.'.'.date('dmY.H.i.s').'.pdf', 'F');
+        // EMAIL =========================================================================================================================
+        // $email = $this->input->post("username");
+        $email = $this->m_main->getEmailPerusahaan($id_jenis_keluhan);
+
+        $config = Array(
+                'protocol' => 'smtp',
+              'smtp_host' => 'ssl://smtp.googlemail.com',
+              'smtp_port' => 465,
+              'smtp_user' => 'cs.aptk@gmail.com', // change it to yours
+              'smtp_pass' => 'aplikasipengaduantenagakerja', // change it to yours
+              'mailtype' => 'html',
+              'charset' => 'iso-8859-1',
+              'wordwrap' => TRUE
+        );
+        $this->load->library('email', $config);
+        $this->email->set_newline("\r\n");
+
+        // Set to, from, message, etc.
+        $this->email->from('cs.aptk@gmail.com', 'Venny Indrawati');
+        $this->email->to($email); 
+
+        $pesan = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><!--[if IE]><html xmlns="http://www.w3.org/1999/xhtml" class="ie-browser" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office"><![endif]--><!--[if !IE]><!--><html style="margin: 0;padding: 0;" xmlns="http://www.w3.org/1999/xhtml"><!--<![endif]--><head>
+    <!--[if gte mso 9]><xml>
+     <o:OfficeDocumentSettings>
+      <o:AllowPNG/>
+      <o:PixelsPerInch>96</o:PixelsPerInch>
+     </o:OfficeDocumentSettings>
+    </xml><![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width">
+    <!--[if !mso]><!--><meta http-equiv="X-UA-Compatible" content="IE=edge"><!--<![endif]-->
+    <title>Konfirmasi Akun</title>
+    
+    
+    <style type="text/css" id="media-query">
+      body {
+  margin: 0;
+  padding: 0; }
+
+table, tr, td {
+  vertical-align: top;
+  border-collapse: collapse; }
+
+.ie-browser table, .mso-container table {
+  table-layout: fixed; }
+
+* {
+  line-height: inherit; }
+
+a[x-apple-data-detectors=true] {
+  color: inherit !important;
+  text-decoration: none !important; }
+
+[owa] .img-container div, [owa] .img-container button {
+  display: block !important; }
+
+[owa] .fullwidth button {
+  width: 100% !important; }
+
+.ie-browser .col, [owa] .block-grid .col {
+  display: table-cell;
+  float: none !important;
+  vertical-align: top; }
+
+.ie-browser .num12, .ie-browser .block-grid, [owa] .num12, [owa] .block-grid {
+  width: 500px !important; }
+
+.ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {
+  line-height: 100%; }
+
+.ie-browser .mixed-two-up .num4, [owa] .mixed-two-up .num4 {
+  width: 164px !important; }
+
+.ie-browser .mixed-two-up .num8, [owa] .mixed-two-up .num8 {
+  width: 328px !important; }
+
+.ie-browser .block-grid.two-up .col, [owa] .block-grid.two-up .col {
+  width: 250px !important; }
+
+.ie-browser .block-grid.three-up .col, [owa] .block-grid.three-up .col {
+  width: 166px !important; }
+
+.ie-browser .block-grid.four-up .col, [owa] .block-grid.four-up .col {
+  width: 125px !important; }
+
+.ie-browser .block-grid.five-up .col, [owa] .block-grid.five-up .col {
+  width: 100px !important; }
+
+.ie-browser .block-grid.six-up .col, [owa] .block-grid.six-up .col {
+  width: 83px !important; }
+
+.ie-browser .block-grid.seven-up .col, [owa] .block-grid.seven-up .col {
+  width: 71px !important; }
+
+.ie-browser .block-grid.eight-up .col, [owa] .block-grid.eight-up .col {
+  width: 62px !important; }
+
+.ie-browser .block-grid.nine-up .col, [owa] .block-grid.nine-up .col {
+  width: 55px !important; }
+
+.ie-browser .block-grid.ten-up .col, [owa] .block-grid.ten-up .col {
+  width: 50px !important; }
+
+.ie-browser .block-grid.eleven-up .col, [owa] .block-grid.eleven-up .col {
+  width: 45px !important; }
+
+.ie-browser .block-grid.twelve-up .col, [owa] .block-grid.twelve-up .col {
+  width: 41px !important; }
+
+@media only screen and (min-width: 520px) {
+  .block-grid {
+    width: 500px !important; }
+  .block-grid .col {
+    display: table-cell;
+    Float: none !important;
+    vertical-align: top; }
+    .block-grid .col.num12 {
+      width: 500px !important; }
+  .block-grid.mixed-two-up .col.num4 {
+    width: 164px !important; }
+  .block-grid.mixed-two-up .col.num8 {
+    width: 328px !important; }
+  .block-grid.two-up .col {
+    width: 250px !important; }
+  .block-grid.three-up .col {
+    width: 166px !important; }
+  .block-grid.four-up .col {
+    width: 125px !important; }
+  .block-grid.five-up .col {
+    width: 100px !important; }
+  .block-grid.six-up .col {
+    width: 83px !important; }
+  .block-grid.seven-up .col {
+    width: 71px !important; }
+  .block-grid.eight-up .col {
+    width: 62px !important; }
+  .block-grid.nine-up .col {
+    width: 55px !important; }
+  .block-grid.ten-up .col {
+    width: 50px !important; }
+  .block-grid.eleven-up .col {
+    width: 45px !important; }
+  .block-grid.twelve-up .col {
+    width: 41px !important; } }
+
+@media (max-width: 520px) {
+  .block-grid, .col {
+    min-width: 320px !important;
+    max-width: 100% !important; }
+  .block-grid {
+    width: calc(100% - 40px) !important; }
+  .col {
+    width: 100% !important; }
+    .col > div {
+      margin: 0 auto; }
+  img.fullwidth {
+    max-width: 100% !important; } }
+
+    </style>
+</head>
+<!--[if mso]>
+<body class="mso-container" style="background-color:#FFFFFF;">
+<![endif]-->
+<!--[if !mso]><!-->
+<body class="clean-body" style="margin: 0;padding: 0;-webkit-text-size-adjust: 100%;background-color: #FFFFFF">
+<!--<![endif]-->
+  <div class="nl-container" style="min-width: 320px;Margin: 0 auto;background-color: #FFFFFF">
+    <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" style="background-color: #FFFFFF;"><![endif]-->
+
+        <div style="background-color:#ffffff;">
+      <div style="Margin: 0 auto;min-width: 320px;max-width: 500px;width: 500px;width: calc(19000% - 98300px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;" class="block-grid ">
+        <div style="border-collapse: collapse;display: table;width: 100%;">
+          <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:#ffffff;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width: 500px;"><tr class="layout-full-width" style="background-color:transparent;"><![endif]-->
+
+              <!--[if (mso)|(IE)]><td align="center" width="500" style=" width:500px; padding-right: 0px; padding-left: 0px; padding-top:0px; padding-bottom:0px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><![endif]-->
+            <div class="col num12" style="min-width: 320px;max-width: 500px;width: 500px;width: calc(18000% - 89500px);background-color: transparent;">
+              <div style="background-color: transparent; width: 100% !important;">
+              <!--[if (!mso)&(!IE)]><!--><div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-top:0px; padding-bottom:0px; padding-right: 0px; padding-left: 0px;"><!--<![endif]-->
+
+                  
+                    <div style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">
+  <!--[if (mso)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px;padding-left: 10px; padding-top: 10px; padding-bottom: 10px;"><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
+  <div align="center"><div style="border-top: 10px solid transparent; width:100%;">&nbsp;</div></div>
+  <!--[if (mso)]></td></tr></table></td></tr></table><![endif]-->
+</div>
+
+                  
+                  
+                    <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px; padding-top: 30px; padding-bottom: 30px;"><![endif]-->
+<div style="padding-right: 10px; padding-left: 10px; padding-top: 25px; padding-bottom: 10px;">
+    <div style="font-size:12px;line-height:14px;color:#ffffff;font-family:Arial, "Helvetica Neue", Helvetica, sans-serif;text-align:left;"><p style="margin: 0;font-size: 18px;line-height: 22px;text-align: center"><span style="font-size: 24px; line-height: 28px;"><strong>Aplikasi Pengaduan Tenaga Kerja Disnaker Kota Surabaya</strong></span></p></div>
+</div>
+<!--[if mso]></td></tr></table><![endif]-->
+
+                  
+                  
+                    <div style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">
+  <!--[if (mso)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px;padding-left: 10px; padding-top: 10px; padding-bottom: 10px;"><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
+  <div align="center"><div style="border-top: 10px solid transparent; width:100%;">&nbsp;</div></div>
+  <!--[if (mso)]></td></tr></table></td></tr></table><![endif]-->
+</div>
+
+                  
+                  
+                    <div align="center" class="img-container center" style="padding-bottom:50px;padding-right: 0px;  padding-left: 0px;">
+<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px;" align="center"><![endif]-->
+  <a href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_nota_pemeriksaan.'" target="_blank">
+    <img class="center" align="center" border="0" src="http://3.bp.blogspot.com/-YJgB7NSrRmA/Ujy40DeBW-I/AAAAAAAAAYM/_i0PH66vKy0/s1600/Surabaya_Logo.svg.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;width: 100%;max-width: 102px" width="102">
+  </a>
+<!--[if mso]></td></tr></table><![endif]-->
+</div>
+
+                  
+              <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
+              </div>
+            </div>
+          <!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->
+        </div>
+      </div>
+    </div>    <div style="background-color:#61626F;">
+      <div style="Margin: 0 auto;min-width: 320px;max-width: 500px;width: 500px;width: calc(19000% - 98300px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;" class="block-grid ">
+        <div style="border-collapse: collapse;display: table;width: 100%;">
+          <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:#61626F;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width: 500px;"><tr class="layout-full-width" style="background-color:transparent;"><![endif]-->
+
+              <!--[if (mso)|(IE)]><td align="center" width="500" style=" width:500px; padding-right: 0px; padding-left: 0px; padding-top:30px; padding-bottom:30px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><![endif]-->
+            <div class="col num12" style="min-width: 320px;max-width: 500px;width: 500px;width: calc(18000% - 89500px);background-color: transparent;">
+              <div style="background-color: transparent; width: 100% !important;">
+              <!--[if (!mso)&(!IE)]><!--><div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-top:30px; padding-bottom:30px; padding-right: 0px; padding-left: 0px;"><!--<![endif]-->
+
+                  
+                    <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 25px; padding-bottom: 10px;"><![endif]-->
+<div style="padding-right: 10px; padding-left: 10px; padding-top: 25px; padding-bottom: 10px;">
+    <div style="font-size:12px;line-height:14px;color:#ffffff;font-family:Arial, Helvetica Neue", Helvetica, sans-serif;text-align:left;"><p style="margin: 0;font-size: 18px;line-height: 22px;text-align: center"><span style="font-size: 24px; line-height: 28px;"><strong style="font-size:19px">Kami mengundang perusahaan anda untuk datang ke Disnaker Surabaya terkait nota pemeriksaan yang kami kirimkan melalui email ini. Untuk konfirmasi kedatangan, silahkan klik tombol di bawah ini.</strong></span></p></div>
+</div>
+<!--[if mso]></td></tr></table><![endif]-->
+
+                  
+                  
+                    <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 0px; padding-bottom: 10px;"><![endif]-->
+<div style="padding-right: 10px; padding-left: 10px; padding-top: 0px; padding-bottom: 10px;">
+    <div style="font-size:12px;line-height:18px;color:#B8B8C0;font-family:Arial, "Helvetica Neue", Helvetica, sans-serif;text-align:left;"><p style="margin: 0;font-size: 14px;line-height: 21px;text-align: center"><span style="font-size: 14px; line-height: 21px;"></span></p></div>
+</div>
+<!--[if mso]></td></tr></table><![endif]-->
+
+                  
+                  
+                    
+<div align="center" class="button-container center" style="Margin-right: 10px;Margin-left: 10px;">
+    <div style="line-height:15px;font-size:1px">&nbsp;</div>
+  <a href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_nota_pemeriksaan.'" target="_blank" style="color: #ffffff; text-decoration: none;">
+    <!--[if mso]>
+      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_nota_pemeriksaan.'" style="height:42px; v-text-anchor:middle; width:146px;" arcsize="60%" strokecolor="#C7702E" fillcolor="#C7702E" >
+      <w:anchorlock/><center style="color:#ffffff; font-family:Arial, "Helvetica Neue", Helvetica, sans-serif; font-size:16px;">
+    <![endif]-->
+    <!--[if !mso]><!-->
+    <div style="color: #ffffff; background-color: #C7702E; border-radius: 25px; -webkit-border-radius: 25px; -moz-border-radius: 25px; max-width: 126px; width: 25%; border-top: 0px solid transparent; border-right: 0px solid transparent; border-bottom: 0px solid transparent; border-left: 0px solid transparent; padding-top: 5px; padding-right: 20px; padding-bottom: 5px; padding-left: 20px; font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; text-align: center;">
+    <!--<![endif]-->
+    <div style="background-color:#4584ef;border:1px solid #4564f1;border-radius:5px">
+      <span style="font-size:16px;line-height:32px;"><span style="font-size: 14px; line-height: 28px;" data-mce-style="font-size: 14px;" mce-data-marked="1">Konfirmasi Kedatangan</span></span>
+      </div>
+    <!--[if !mso]><!-->
+    </div>
+    <!--<![endif]-->
+    <!--[if mso]>
+          </center>
+      </v:roundrect>
+    <![endif]-->
+  </a>
+    <div style="line-height:10px;font-size:1px">&nbsp;</div>
+</div>
+
+                  
+                  
+                    <div style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">
+  <!--[if (mso)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px;padding-left: 10px; padding-top: 10px; padding-bottom: 10px;"><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
+  <div align="center"><div style="border-top: 0px solid transparent; width:100%;">&nbsp;</div></div>
+  <!--[if (mso)]></td></tr></table></td></tr></table><![endif]-->
+</div>
+
+                  
+              <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
+              </div>
+            </div>
+          <!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->
+        </div>
+      </div>
+    </div>    <div style="background-color:#ffffff;">
+      <div style="Margin: 0 auto;min-width: 320px;max-width: 500px;width: 500px;width: calc(19000% - 98300px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;" class="block-grid ">
+        <div style="border-collapse: collapse;display: table;width: 100%;">
+          <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:#ffffff;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width: 500px;"><tr class="layout-full-width" style="background-color:transparent;"><![endif]-->
+
+              <!--[if (mso)|(IE)]><td align="center" width="500" style=" width:500px; padding-right: 0px; padding-left: 0px; padding-top:30px; padding-bottom:30px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><![endif]-->
+            <div class="col num12" style="min-width: 320px;max-width: 500px;width: 500px;width: calc(18000% - 89500px);background-color: transparent;">
+              <div style="background-color: transparent; width: 100% !important;">
+              <!--[if (!mso)&(!IE)]><!--><div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-top:30px; padding-bottom:30px; padding-right: 0px; padding-left: 0px;"><!--<![endif]-->
+
+                  
+                    <div></div>
+
+                  
+              <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
+              </div>
+            </div>
+          <!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->
+        </div>
+      </div>
+    </div>   <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
+  </div>
+
+
+</body></html>';
+
+        $this->email->subject('NOTA PEMERIKSAAN');
+        $this->email->message($pesan);
+        $this->email->attach($path . 'Nota-Pemeriksaan-'.$id_spt.'.'.date('dmY.H.i.s').'.pdf');
+
+        //$result = $this->email->send();
+        if($this->email->send())
+         {
+          // echo 'Email sent.';
+        redirect('main/index/daftar-pengaduan');    
+         }
+         else
+        {
+         show_error($this->email->print_debugger());  
+        }
+    }
+    else{
+        $pdf->Output($path.'Nota-Pemeriksaan-'.$id_spt.'.'.date('dmY.H.i.s').'.pdf', 'I');
+    }
+    // sleep(10);
+        
+
     }
 
     function cetak_laporan_pemeriksaan(){
@@ -1264,6 +2289,8 @@ class Pengaduan extends CI_Controller {
     $pdf->SetFont('dejavusans', '', 10);
 
     $pdf->AddPage();
+    setlocale(LC_TIME, "id_ID");
+    // echo strftime(" in Finnish is %A,");
     // Section 1
     $html = '<div style="width:300px;text-align:center;border:none;line-height:1"><span style="font-weight: bold;">SURAT PERINTAH TUGAS</span></div>';
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1"><span style="font-weight: bold;">Nomor : '.$nomor_spt.'</span></div>';
@@ -1407,6 +2434,9 @@ class Pengaduan extends CI_Controller {
     $html .= '<td width="200px">&nbsp;</td>';
     $html .= '<td>';
     $html .= '<table border="0">';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">Surabaya, '.date('d F Y').'</td>';
+    $html .= '</tr>';
     $html .= '<tr>';
     $html .= '<td width="190px" style="text-align:center">Kepala Dinas</td>';
     $html .= '</tr>';
@@ -1816,10 +2846,10 @@ a[x-apple-data-detectors=true] {
   <div class="nl-container" style="min-width: 320px;Margin: 0 auto;background-color: #FFFFFF">
     <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" style="background-color: #FFFFFF;"><![endif]-->
 
-        <div style="background-color:#323341;">
+        <div style="background-color:#ffffff;">
       <div style="Margin: 0 auto;min-width: 320px;max-width: 500px;width: 500px;width: calc(19000% - 98300px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;" class="block-grid ">
         <div style="border-collapse: collapse;display: table;width: 100%;">
-          <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:#323341;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width: 500px;"><tr class="layout-full-width" style="background-color:transparent;"><![endif]-->
+          <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:#ffffff;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width: 500px;"><tr class="layout-full-width" style="background-color:transparent;"><![endif]-->
 
               <!--[if (mso)|(IE)]><td align="center" width="500" style=" width:500px; padding-right: 0px; padding-left: 0px; padding-top:0px; padding-bottom:0px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><![endif]-->
             <div class="col num12" style="min-width: 320px;max-width: 500px;width: 500px;width: calc(18000% - 89500px);background-color: transparent;">
@@ -2142,10 +3172,10 @@ a[x-apple-data-detectors=true] {
   <div class="nl-container" style="min-width: 320px;Margin: 0 auto;background-color: #FFFFFF">
     <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" style="background-color: #FFFFFF;"><![endif]-->
 
-        <div style="background-color:#323341;">
+        <div style="background-color:#ffffff;">
       <div style="Margin: 0 auto;min-width: 320px;max-width: 500px;width: 500px;width: calc(19000% - 98300px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;" class="block-grid ">
         <div style="border-collapse: collapse;display: table;width: 100%;">
-          <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:#323341;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width: 500px;"><tr class="layout-full-width" style="background-color:transparent;"><![endif]-->
+          <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:#ffffff;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width: 500px;"><tr class="layout-full-width" style="background-color:transparent;"><![endif]-->
 
               <!--[if (mso)|(IE)]><td align="center" width="500" style=" width:500px; padding-right: 0px; padding-left: 0px; padding-top:0px; padding-bottom:0px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><![endif]-->
             <div class="col num12" style="min-width: 320px;max-width: 500px;width: 500px;width: calc(18000% - 89500px);background-color: transparent;">

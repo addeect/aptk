@@ -3,6 +3,31 @@ class M_main extends CI_Model{
 	function __construct(){
 		$this->load->database();
 	}
+	function getEmailPerusahaan($id_jenis_keluhan){
+		$this->db->select("tk.*");	
+		$this->db->from("tenaga_kerja tk");	
+		$this->db->join("jenis_keluhan jk","tk.id_tk = jk.id_tk");	
+		$this->db->where("jk.id_jenis_keluhan",$id_jenis_keluhan);
+		$this->db->limit("1");
+		$query = $this -> db -> get();
+		foreach ($query->result() as $row)
+		{
+		        $email = $row->EMAIL_PERUSAHAAN;
+		}
+	   	return $email;
+	}
+	function getNomorSPT($id_spt){
+		$this->db->select("spt.*");	
+		$this->db->from("surat_perintah_tugas spt");
+		$this->db->where("spt.id_spt",$id_spt);
+		$this->db->limit("1");
+		$query = $this -> db -> get();
+		foreach ($query->result() as $row)
+		{
+		        $nomor_spt = $row->NO_SPT;
+		}
+	   	return $nomor_spt;
+	}
 	function insert_pengguna_new(){
 		$username = $this->input->post("username");
         $password = $this->input->post("password");
@@ -135,6 +160,8 @@ class M_main extends CI_Model{
             'ID_SPT'  => $id_spt
        );
         $this->db->insert('nota_pemeriksaan', $data);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
 	}
 	function insert_new_pasal($pasal){
 		$data=array(
@@ -801,6 +828,27 @@ class M_main extends CI_Model{
 		// 	return $qrow->NAMA_USER;
 		// }
 		return $q->num_rows();
+	}
+	function getDataWorkload(){
+		$this->db->select("count(*) as jumlah, ap.*,jk.*,k.*");
+		$this->db->from("admin_pengawas ap");
+		$this->db->join("jenis_keluhan jk","ap.id_keluhan = jk.id_jenis_keluhan");
+		$this->db->join("kepala_bidang kb","ap.idpengguna = kb.idpengguna");
+		$this->db->join("karyawan k","kb.id_kabid = k.id_kabid");
+		$this->db->where("jk.status_penyelesaian < 100");
+		$this->db->group_by("ap.idpengguna");
+		$this->db->order_by("jumlah ASC");
+		$q = $this->db->get();
+		return $q->result();
+	}
+	function permintaan_spt(){
+		$this->db->select("*");
+		$this->db->from("surat_perintah_tugas");
+		$this->db->where("STATUS_SPT > 0");
+		$this->db->where("IS_ACTIVE_SPT","0");
+		$this->db->order_by("ID_SPT ASC");
+		$query = $this -> db -> get();
+		return $query->num_rows();
 	}
 	function getUserPerseoranganInfo($user_id){
 		$this -> db -> select('*');

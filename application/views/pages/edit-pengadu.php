@@ -404,6 +404,17 @@ $status_kawin='';
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-3">
+                                        <label for="email_perusahaan">Email Perusahaan*</label>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input required value="<?php echo $key->EMAIL_PERUSAHAAN; ?>" class="form-control" name="email_perusahaan" id="email_perusahaan" placeholder="Email Perusahaan"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-1">&nbsp;</div>
+                                    <div class="col-sm-3">
                                         <label for="jenis_usaha">Jenis Usaha</label>
                                     </div>
                                     <div class="col-sm-6">

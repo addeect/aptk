@@ -1,0 +1,9 @@
+SPTBulanTahun-0019
+==================
+
+1. ubah format id_spt[OK]
+2. nambah logo[OK]
+3. email perusahaan[OK]
+4. pasal statis
+5. laporan kinerja pengawas
+6. notifikasi pengaduan baru, harus masuk ke semua pengguna

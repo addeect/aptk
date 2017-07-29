@@ -43,6 +43,7 @@ class Main extends CI_Controller {
 			$data=array(
 			'data_keluhan_tk' => $this->m_main->getDataKeluhanTK(),
 			'data_karyawan' => $this->m_main->getDataEmployee(),
+			'data_beban_kerja' => $this->m_main->getDataWorkload(),
 			'title' => ucwords($title),
 			'page_name' => $page_name
 			);
@@ -51,6 +52,7 @@ class Main extends CI_Controller {
 			$this->load->model('m_main');
 			// $id_tk=$_SESSION['user_id'];
 			$data=array(
+			'permintaan_spt' => $this->m_main->permintaan_spt(),
 			'id_spt' => $this->m_main->getSPT_ID(),
 			'title' => ucwords($title),
 			'page_name' => $page_name
