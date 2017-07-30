@@ -20,9 +20,9 @@ class Pengaduan extends CI_Controller {
         redirect('main/index/hasil-temuan?id_spt='.$id_spt.'&id_jenis_keluhan='.$id_jenis_keluhan.'&status='.$status);
     }
     function konfirmasi_datang(){
-        $id_nota_pemeriksaan = $this->input->get("key");
+        $id_spt = $this->input->get("key");
         $this->load->model("m_tk");
-        $status = $this->m_tk->konfirmasi_kedatangan($id_nota_pemeriksaan);
+        $status = $this->m_tk->konfirmasi_kedatangan($id_spt);
         if($status > 0){
             redirect('registrasi/ConfirmSuccess');
         }
@@ -950,7 +950,7 @@ class Pengaduan extends CI_Controller {
                       
                         <div align="center" class="img-container center" style="padding-bottom:50px;padding-right: 0px;  padding-left: 0px;">
     <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px;" align="center"><![endif]-->
-      <a href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_nota_pemeriksaan.'" target="_blank">
+      <a href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_spt.'" target="_blank">
         <img class="center" align="center" border="0" src="http://3.bp.blogspot.com/-YJgB7NSrRmA/Ujy40DeBW-I/AAAAAAAAAYM/_i0PH66vKy0/s1600/Surabaya_Logo.svg.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;width: 100%;max-width: 102px" width="102">
       </a>
     <!--[if mso]></td></tr></table><![endif]-->
@@ -993,9 +993,9 @@ class Pengaduan extends CI_Controller {
                         
     <div align="center" class="button-container center" style="Margin-right: 10px;Margin-left: 10px;">
         <div style="line-height:15px;font-size:1px">&nbsp;</div>
-      <a href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_nota_pemeriksaan.'" target="_blank" style="color: #ffffff; text-decoration: none;">
+      <a href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_spt.'" target="_blank" style="color: #ffffff; text-decoration: none;">
         <!--[if mso]>
-          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_nota_pemeriksaan.'" style="height:42px; v-text-anchor:middle; width:146px;" arcsize="60%" strokecolor="#C7702E" fillcolor="#C7702E" >
+          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_spt.'" style="height:42px; v-text-anchor:middle; width:146px;" arcsize="60%" strokecolor="#C7702E" fillcolor="#C7702E" >
           <w:anchorlock/><center style="color:#ffffff; font-family:Arial, "Helvetica Neue", Helvetica, sans-serif; font-size:16px;">
         <![endif]-->
         <!--[if !mso]><!-->
@@ -1451,7 +1451,7 @@ class Pengaduan extends CI_Controller {
                       
                         <div align="center" class="img-container center" style="padding-bottom:50px;padding-right: 0px;  padding-left: 0px;">
     <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px;" align="center"><![endif]-->
-      <a href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_nota_pemeriksaan.'" target="_blank">
+      <a href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_spt.'" target="_blank">
         <img class="center" align="center" border="0" src="http://3.bp.blogspot.com/-YJgB7NSrRmA/Ujy40DeBW-I/AAAAAAAAAYM/_i0PH66vKy0/s1600/Surabaya_Logo.svg.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;width: 100%;max-width: 102px" width="102">
       </a>
     <!--[if mso]></td></tr></table><![endif]-->
@@ -1494,9 +1494,9 @@ class Pengaduan extends CI_Controller {
                         
     <div align="center" class="button-container center" style="Margin-right: 10px;Margin-left: 10px;">
         <div style="line-height:15px;font-size:1px">&nbsp;</div>
-      <a href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_nota_pemeriksaan.'" target="_blank" style="color: #ffffff; text-decoration: none;">
+      <a href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_spt.'" target="_blank" style="color: #ffffff; text-decoration: none;">
         <!--[if mso]>
-          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_nota_pemeriksaan.'" style="height:42px; v-text-anchor:middle; width:146px;" arcsize="60%" strokecolor="#C7702E" fillcolor="#C7702E" >
+          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_spt.'" style="height:42px; v-text-anchor:middle; width:146px;" arcsize="60%" strokecolor="#C7702E" fillcolor="#C7702E" >
           <w:anchorlock/><center style="color:#ffffff; font-family:Arial, "Helvetica Neue", Helvetica, sans-serif; font-size:16px;">
         <![endif]-->
         <!--[if !mso]><!-->
@@ -1902,7 +1902,7 @@ a[x-apple-data-detectors=true] {
                   
                     <div align="center" class="img-container center" style="padding-bottom:50px;padding-right: 0px;  padding-left: 0px;">
 <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px;" align="center"><![endif]-->
-  <a href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_nota_pemeriksaan.'" target="_blank">
+  <a href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_spt.'" target="_blank">
     <img class="center" align="center" border="0" src="http://3.bp.blogspot.com/-YJgB7NSrRmA/Ujy40DeBW-I/AAAAAAAAAYM/_i0PH66vKy0/s1600/Surabaya_Logo.svg.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;width: 100%;max-width: 102px" width="102">
   </a>
 <!--[if mso]></td></tr></table><![endif]-->
@@ -1945,9 +1945,9 @@ a[x-apple-data-detectors=true] {
                     
 <div align="center" class="button-container center" style="Margin-right: 10px;Margin-left: 10px;">
     <div style="line-height:15px;font-size:1px">&nbsp;</div>
-  <a href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_nota_pemeriksaan.'" target="_blank" style="color: #ffffff; text-decoration: none;">
+  <a href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_spt.'" target="_blank" style="color: #ffffff; text-decoration: none;">
     <!--[if mso]>
-      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_nota_pemeriksaan.'" style="height:42px; v-text-anchor:middle; width:146px;" arcsize="60%" strokecolor="#C7702E" fillcolor="#C7702E" >
+      <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://localhost/aptk/pengaduan/konfirmasi_datang?key='.$id_spt.'" style="height:42px; v-text-anchor:middle; width:146px;" arcsize="60%" strokecolor="#C7702E" fillcolor="#C7702E" >
       <w:anchorlock/><center style="color:#ffffff; font-family:Arial, "Helvetica Neue", Helvetica, sans-serif; font-size:16px;">
     <![endif]-->
     <!--[if !mso]><!-->

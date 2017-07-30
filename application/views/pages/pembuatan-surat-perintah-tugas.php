@@ -179,6 +179,28 @@
                         </a>
                     </div>
                 </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-sign-in fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge"><?php echo $pengaduan_baru; ?></div>
+                                    <div>Pengaduan</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">Jumlah Pengaduan Baru</span>
+                                <span class="pull-right"><i class="fa fa-dashboard"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
                 <div class="col-lg-12">
                 <?php if(isset($_GET['success'])){
                         echo '<div class="alert alert-success"><strong>Sukses!</strong> Pembuatan Surat Perintah Tugas Berhasil Disimpan.</div>';

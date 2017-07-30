@@ -53,6 +53,7 @@ class Main extends CI_Controller {
 			// $id_tk=$_SESSION['user_id'];
 			$data=array(
 			'permintaan_spt' => $this->m_main->permintaan_spt(),
+			'pengaduan_baru' => $this->m_main->permintaan_petugas(),
 			'id_spt' => $this->m_main->getSPT_ID(),
 			'title' => ucwords($title),
 			'page_name' => $page_name
@@ -86,6 +87,7 @@ class Main extends CI_Controller {
 			$data=array(
 			'spt_list' => $this->m_main->getSPT_List($id_karyawan),
 			'spt_baru' => $this->m_main->getSPT_List_count($id_karyawan),
+			'pengaduan_baru' => $this->m_main->permintaan_petugas(),
 			'title' => ucwords($title),
 			'page_name' => $page_name
 			);

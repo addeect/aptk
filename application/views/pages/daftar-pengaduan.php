@@ -95,7 +95,7 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-user fa-5x"></i>
+                                    <i class="fa fa-print fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge"><?php echo $spt_baru; ?></div>
@@ -106,6 +106,28 @@
                         <a href="#">
                             <div class="panel-footer">
                                 <span class="pull-left">Jumlah SPT Baru</span>
+                                <span class="pull-right"><i class="fa fa-dashboard"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-sign-in fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge"><?php echo $pengaduan_baru; ?></div>
+                                    <div>Pengaduan</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">Jumlah Pengaduan Baru</span>
                                 <span class="pull-right"><i class="fa fa-dashboard"></i></span>
                                 <div class="clearfix"></div>
                             </div>
@@ -135,7 +157,7 @@
                                 </thead>
                                 <tbody>
                                     <?php $count=1; foreach ($spt_list as $key) { ?>
-                                        <tr <?php if($key->IS_COME > 0){echo "style='background-color:#95e495'";} ?>>
+                                        <tr <?php if($key->IS_CONFIRM > 0){echo "style='background-color:#c9ffc9'";} ?>>
                                             <td><?php echo $count++; ?></td>
                                             <td><?php echo $key->NO_SPT; echo $key->IS_COME; ?></td>
                                             <td><?php echo $key->NAMA_TK; ?></td>

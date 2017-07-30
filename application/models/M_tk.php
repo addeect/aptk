@@ -3,12 +3,12 @@ class M_tk extends CI_Model{
 	// function __construct(){
 	// 	$this->load->database();
 	// }
-	function konfirmasi_kedatangan($id_nota_pemeriksaan){
+	function konfirmasi_kedatangan($id_spt){
 		$data = array(
-			'IS_COME' => 1
+			'IS_CONFIRM' => 1
 		);
-		$this->db->where('ID_NOTA_PEMERIKSAAN', $id_nota_pemeriksaan);
-		$this->db->update('nota_pemeriksaan',$data);
+		$this->db->where('ID_SPT', $id_spt);
+		$this->db->update('surat_perintah_tugas',$data);
 		$status = $this->db->affected_rows();
 		return $status;
 	}
