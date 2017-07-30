@@ -64,6 +64,99 @@ class Pengaduan extends CI_Controller {
         $this->m_main->insert_hasil_temuan($id_spt,$id_jenis_keluhan,$status);
         redirect('main/index/hasil-temuan?id_spt='.$id_spt.'&id_jenis_keluhan='.$id_jenis_keluhan.'&status='.$status);
     }
+    function cetak_laporan_kinerja(){
+        $this->load->model('m_main');
+        $data_work_done = $this->m_main->getDataWorkDone();
+        $this->load->library('Pdf');
+
+        $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+    // set document information
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor('Disnaker Surabaya');
+    $pdf->SetTitle('Laporan Kinerja Pengawas');
+    $pdf->SetSubject('Disnaker');
+    $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+    // set default header data
+    $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, 'SURAT PERINTAH TUGAS', PDF_HEADER_STRING);
+
+    // set header and footer fonts
+    $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+    $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+    // set default monospaced font
+    $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+    // set margins
+    $pdf->SetMargins(PDF_MARGIN_LEFT, '43', PDF_MARGIN_RIGHT);
+    $pdf->SetHeaderMargin('50');
+    $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+    // set auto page breaks
+    $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+    // set image scale factor
+    $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+    // set font
+    $pdf->SetFont('dejavusans', '', 10);
+
+    $pdf->AddPage();
+    // Section 1
+    $html = '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:underline">LAPORAN KINERJA PENGAWAS</span></div>';
+    if(isset($_GET['tgl_awal']) && $_GET['tgl_awal']!=''){
+        $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">JENIS '.strtoupper($_GET['jenis_pelanggaran']).' PERIODE '.date('d-m-Y',strtotime($_GET['tgl_awal'])).' s/d '.date('d-m-Y',strtotime($_GET['tgl_akhir'])).'</span></div>';
+    }
+    
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">JUMLAH PENYELESAIAN KASUS</span></div>';
+    
+
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+    $html .= '<table>';
+    $html .= '<tr>';
+    $html .= '<td width="20px"></td>';
+
+    $html .= '<td width="250px">';
+    $html .= '<table border="1">';
+    $html .= '<tr style="text-align:center;">';
+    $html .= '<td width="40px"><strong>No</strong></td>';
+    $html .= '<td width="210px"><strong>Nama Karyawan</strong></td>';
+    $html .= '<td width="190px"><strong>Golongan</strong></td>';
+    $html .= '<td width="150px"><strong>Jumlah Kasus</strong></td>';
+    $html .= '</tr>';
+    $count = 1;
+    foreach ($data_work_done as $key) {
+        $html .= '<tr style="text-align:center">';
+        $html .= '<td>'.$count.'</td>';
+        $html .= '<td style="text-align:left;">&nbsp;'.$key->NAMA_KARYAWAN.'</td>';
+        $html .= '<td style="text-align:left;">&nbsp;'.$key->GOLONGAN.'</td>';
+        $html .= '<td>'.$key->jumlah.'</td>';
+        $html .= '</tr>';
+        $count++;
+    }
+    $html .= '</table>';
+    $html .= '</td>';
+    $html .= '<td width="10px">&nbsp;</td>';
+    $html .= '<td width="250px">';
+    
+    $html .= '</td>';
+
+    $html .= '<td width="20px"></td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+
+    
+
+    // output the HTML content
+    $pdf->writeHTML($html, true, false, true, false, '');
+
+    //$pdf->lastPage();
+    //$pdf->Write(5, 'Some sample text');
+    $pdf->Output('Laporan-Kinerja-Pengawas-'.date('Y-m-d.H-i-s').'.pdf', 'I');
+    }
     function laporan_pdf(){
         $this->load->model('m_main');
         $jenis_pelanggaran = $this->input->get("jenis_pelanggaran");

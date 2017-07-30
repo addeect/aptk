@@ -48,6 +48,15 @@ class Main extends CI_Controller {
 			'page_name' => $page_name
 			);
 		}
+		elseif($page_name=='kinerja-pengawas'){
+			$this->load->model('m_main');
+			// $id_tk=$_SESSION['user_id'];
+			$data=array(
+			'data_work_done' => $this->m_main->getDataWorkDone(),
+			'title' => ucwords($title),
+			'page_name' => $page_name
+			);
+		}
 		elseif($page_name=='pembuatan-surat-perintah-tugas'){
 			$this->load->model('m_main');
 			// $id_tk=$_SESSION['user_id'];

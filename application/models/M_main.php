@@ -891,6 +891,19 @@ class M_main extends CI_Model{
 		$q = $this->db->get();
 		return $q->result();
 	}
+	function getDataWorkDone(){
+		$status = 100;
+		$this->db->select("count(*) as jumlah, ap.*,jk.*,k.*");
+		$this->db->from("admin_pengawas ap");
+		$this->db->join("jenis_keluhan jk","ap.id_keluhan = jk.id_jenis_keluhan");
+		$this->db->join("kepala_bidang kb","ap.idpengguna = kb.idpengguna");
+		$this->db->join("karyawan k","kb.id_kabid = k.id_kabid");
+		$this->db->where("jk.status_penyelesaian", $status);
+		$this->db->group_by("ap.idpengguna");
+		$this->db->order_by("jumlah DESC");
+		$q = $this->db->get();
+		return $q->result();
+	}
 	function permintaan_spt(){
 		$this->db->select("*");
 		$this->db->from("surat_perintah_tugas");

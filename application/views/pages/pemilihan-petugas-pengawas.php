@@ -61,6 +61,9 @@
                         <li>
                             <a href="<?php echo site_url('main/index/master-pasal') ?>" class="hitam"><i class="fa fa-cog fa-fw"></i> Master Pasal</a>
                         </li>
+                        <li>
+                            <a href="<?php echo site_url('main/index/kinerja-pengawas') ?>" class="hitam"><i class="fa fa-bar-chart-o fa-fw"></i> Kinerja Pengawas</a>
+                        </li>
                         <li class="active">
                             <a href="#" class="hitam"><i class="fa fa-tasks fa-fw"></i> Pemilihan Petugas Pegawas<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse in" aria-expanded="true">
