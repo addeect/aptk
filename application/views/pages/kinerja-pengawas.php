@@ -70,7 +70,7 @@
                             <ul class="nav nav-second-level collapse in" aria-expanded="true">
                                 
                                 <li>
-                                    <a class="">Petugas Pengawas</a>
+                                    <a href="<?php echo site_url('main/index/pemilihan-petugas-pengawas') ?>" class="">Petugas Pengawas</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -87,7 +87,7 @@
             
             
                 <div class="col-lg-12">
-                    <h1 class="page-header">Kinerja Pengawas</h1>
+                    <h1 class="page-header">Kinerja Pengawas<a id="pdf_button" target="_blank" href="<?php echo site_url('pengaduan/cetak_laporan_kinerja'); ?>" class="btn btn-md btn-primary  pull-right"><i class="fa fa-bar-chart-o fa-fw"></i>&nbsp;&nbsp;Cetak</a></h1>
                     
                 </div>
                 <!-- /.col-lg-12 -->
@@ -112,9 +112,6 @@
                 <!-- <div class="form-group col-sm-2">
                     <input type="submit" class="btn btn-md btn-success btn-block" value="Tampilkan"/>
                 </div> -->
-                <div class="form-group col-sm-2">
-                    <a id="pdf_button" target="_blank" href="<?php echo site_url('pengaduan/cetak_laporan_kinerja'); ?>" class="btn btn-md btn-primary btn-block">Cetak</a>
-                </div>
             </div>
             <div class="row">
                 <div class="col-sm-12">
