@@ -92,14 +92,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group tk" id="f04">
+                            <div class="form-group tk" id="f04" style="display: none">
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-3">
                                         <label for="tempat_lahir_tk">Tempat Lahir</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input style="width:150px" maxlength="50" type="text" class="form-control tk" name="tempat_lahir_tk" id="tempat_lahir_tk" placeholder="Contoh : Jakarta" />
+                                        <input style="width:150px" maxlength="50" type="text" class="form-control tk" name="tempat_lahir_tk" id="tempat_lahir_tk" placeholder="Contoh : Jakarta" value="systemdefault"/>
                                         <p class="help-block" style="display:none"></p>
                                     </div>
                                 </div>
@@ -131,19 +131,19 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group tk" id="f07">
+                            <div class="form-group tk" id="f07" style="display: none;">
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-3">
                                         <label for="agama_tk">Agama</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input maxlength="20" style="width:120px" type="text" class="form-control tk" name="agama_tk" id="agama_tk" placeholder="Contoh : Islam" />
+                                        <input maxlength="20" style="width:120px" type="text" class="form-control tk" name="agama_tk" id="agama_tk" placeholder="Contoh : Islam" value="systemdefault"/>
                                         <p class="help-block" style="display:none"></p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group tk" id="f08">
+                            <div class="form-group tk" id="f08" style="display: none;">
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-3">

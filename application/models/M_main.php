@@ -3,6 +3,10 @@ class M_main extends CI_Model{
 	function __construct(){
 		$this->load->database();
 	}
+	function deleteTemuan($id_hasil_temuan){
+		$this->db->where('id_hasil_temuan', $id_hasil_temuan);
+		$this->db->delete('hasil_temuan');
+	}
 	function getEmailPerusahaan($id_jenis_keluhan){
 		$this->db->select("tk.*");	
 		$this->db->from("tenaga_kerja tk");	
@@ -221,10 +225,25 @@ class M_main extends CI_Model{
 		$query = $this->db->get();
 		return $query->result();
 	}
+	function getSelectedPasal($id_pasal,$jenis){
+		$this->db->select("p.*");
+		$this->db->from("pasal p");
+		$this->db->where("p.JENIS_PASAL_PELANGGARAN",$jenis);
+		$this->db->where_not_in("p.id_pasal",$id_pasal);
+		$query = $this->db->get();
+		return $query->result();
+	}
 	function getDataPasal_p($id){
 		$this->db->select("p.*");
 		$this->db->from("pasal p");
 		$this->db->where("p.ID_PASAL",$id);
+		$query = $this->db->get();
+		return $query->result();
+	}
+	function getDataPasal_t($jenis){
+		$this->db->select("p.*");
+		$this->db->from("pasal p");
+		$this->db->where("p.JENIS_PASAL_PELANGGARAN",$jenis);
 		$query = $this->db->get();
 		return $query->result();
 	}
@@ -254,6 +273,21 @@ class M_main extends CI_Model{
 		$this->db->where("ht.ID_SPT",$id_spt);
 		$query = $this->db->get();
 		return $query->result();
+	}
+	function getIDPasal($id_spt){
+		$this->db->select("p.id_pasal");
+		$this->db->from("hasil_temuan ht");
+		$this->db->join("pasal p","p.ID_PASAL = ht.ID_PASAL");
+		$this->db->where("ht.ID_SPT",$id_spt);
+		$query = $this->db->get();
+		// return $query->result();
+		// $id_pasal[] = null;
+		// $pasal[] = null;
+		foreach ($query->result_array() as $row)
+		{
+		        $pasal[] = $row['id_pasal'];
+		}
+		return $pasal;
 	}
 	function getDataPengadu($id_tk){
 		$this->db->select("ap.*,tk.*,k.*,jk.*,kt.*,ks.*,spt.*");

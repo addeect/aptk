@@ -96,8 +96,8 @@
                             <div class="form-group">
                                 <label>Jenis Pelanggaran</label>
                                 <select name="jenis_pelanggaran" id="jenis_pelanggaran" class="form-control">
-                                    <option value="Pelanggaran_K3">Pelanggaran K3</option>
-                                    <option value="Pelanggaran_Normatif">Pelanggaran Normatif</option>
+                                    <option value="2">Pelanggaran K3</option>
+                                    <option value="1">Pelanggaran Normatif</option>
                                 </select>
                             </div>
                         </div>
@@ -134,7 +134,7 @@
                                         <tr>
                                             <td><?php echo $count++; ?></td>
                                             <td><?php echo $key->KETERANGAN_PASAL; ?></td>
-                                            <td><?php echo $key->JENIS_PASAL_PELANGGARAN; ?></td>
+                                            <td><?php if($key->JENIS_PASAL_PELANGGARAN == 1 ){echo "Pelanggaran Normatif";} elseif($key->JENIS_PASAL_PELANGGARAN == 2){echo "Pelanggaran K3";} ?></td>
                                             <td><a class="btn btn-sm btn-primary btn-block" href="javascript:void(0)" onclick="editPasal(<?php echo $key->ID_PASAL; ?>)">Edit</a></td>
                                         </tr>
                                     <?php } ?>
@@ -173,8 +173,8 @@
                                             <div class="form-group">
                                                 <label>Jenis Pelanggaran</label>
                                                 <select class="form-control" name="jenis_pelanggaran_edit" id="jenis_pelanggaran_edit">
-                                                    <option value="Pelanggaran_K3">Pelanggaran K3</option>
-                                                    <option value="Pelanggaran_Normatif">Pelanggaran Normatif</option>
+                                                    <option value="2">Pelanggaran K3</option>
+                                                    <option value="1">Pelanggaran Normatif</option>
                                                 </select>
                                             </div>
                                         </div>

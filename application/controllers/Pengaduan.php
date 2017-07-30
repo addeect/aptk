@@ -11,6 +11,14 @@ class Pengaduan extends CI_Controller {
 		$this->load->view('pages/registrasi');
 		$this->load->view('default/footer');
 	}
+    function hapusTemuan($id_hasil_temuan){
+        $id_spt = $this->input->get("id_spt");
+        $id_jenis_keluhan = $this->input->get("id_jenis_keluhan");
+        $status = $this->input->get("status");
+        $this->load->model('m_main');
+        $this->m_main->deleteTemuan($id_hasil_temuan);
+        redirect('main/index/hasil-temuan?id_spt='.$id_spt.'&id_jenis_keluhan='.$id_jenis_keluhan.'&status='.$status);
+    }
     function konfirmasi_datang(){
         $id_nota_pemeriksaan = $this->input->get("key");
         $this->load->model("m_tk");
@@ -2630,6 +2638,20 @@ a[x-apple-data-detectors=true] {
     $this->load->model('m_main');
     $data_pasal = $this->m_main->getDataPasal_p($id_pasal);
     echo json_encode($data_pasal);
+  }
+  function getPasal_t(){
+
+    $jenis = json_decode($_POST["jenis"], false);
+    $id_spt = json_decode($_POST["id_spt"], false);
+
+    $this->load->model('m_main');
+
+    $id_pasal = $this->m_main->getIDPasal($id_spt);
+    $data_pasal = $this->m_main->getSelectedPasal($id_pasal,$jenis);
+
+    // $data_pasal = $this->m_main->getDataPasal_t($jenis);
+    echo json_encode($data_pasal);
+    // var_dump($id_pasal);
   }
   function pemilihan_petugas(){
     $id_pengadu = $this->input->post("id");

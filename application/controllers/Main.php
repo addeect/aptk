@@ -111,12 +111,20 @@ class Main extends CI_Controller {
 		elseif($page_name=='hasil-temuan'){
 			$this->load->model('m_main');
 			$id_spt=$_GET['id_spt'];
-			$data=array(
-			'spt_list' => $this->m_main->getDataTemuan($id_spt),
-			'pasal' => $this->m_main->getDataPasal(),
-			'title' => ucwords($title),
-			'page_name' => $page_name
-			);
+			$data = array();
+			$data['spt_list'] = $this->m_main->getDataTemuan($id_spt);
+			$id_pasal = $this->m_main->getIDPasal($id_spt);
+			// $data['id_pasal'] = $this->m_main->getIDPasal($id_spt);
+			// var_dump($id_pasal);die();
+			$data['pasal'] = $this->m_main->getSelectedPasal($id_pasal);
+			$data['title'] = ucwords($title);
+			$data['page_name'] = $page_name;
+			// $data=array(
+			// 'spt_list' => $this->m_main->getDataTemuan($id_spt),
+			// 'pasal' => $this->m_main->getSelectedPasal($id_spt),
+			// 'title' => ucwords($title),
+			// 'page_name' => $page_name
+			// );
 		}
 		elseif($page_name=='master-pasal'){
 			$this->load->model('m_main');

@@ -168,19 +168,21 @@
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <label>Jenis Pelanggaran</label>
-                                <select class="form-control" name="jenis_pelanggaran">
-                                    <option value="Pelanggaran Normatif">Pelanggaran Normatif</option>
-                                    <option value="Pelanggaran K3">Pelanggaran K3</option>
+                                <select class="form-control" name="jenis_pelanggaran" id="jenis_pelanggaran">
+                                    <option value="null" hidden selected>Pilih Jenis Pelanggaran</option>
+                                    <option value="1">Pelanggaran Normatif</option>
+                                    <option value="2">Pelanggaran K3</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="form-group">
+                            <div class="form-group" id="isi_pasal">
                                 <label>Pasal</label>
                                 <select class="form-control" name="id_pasal" id="id_pasal">
-                                    <?php foreach ($pasal as $key) { ?>
-                                        <option value="<?php echo $key->ID_PASAL; ?>"><?php echo $key->KETERANGAN_PASAL; ?></option>
-                                    <?php } ?>
+                                <option hidden selected >Pilih Pasal</option>
+                                    <!--<?php foreach ($pasal as $key) { ?>
+                                        <option value="<?php echo $key->ID_PASAL; ?>" label="<?php echo $key->JENIS_PASAL_PELANGGARAN ?>"><?php echo $key->KETERANGAN_PASAL; ?></option>
+                                    <?php } ?>-->
                                 </select>
                             </div>
                         </div>
@@ -218,9 +220,9 @@
                                         <tr>
                                             <td><?php echo $count++; ?></td>
                                             <td><?php echo $key->ISI_HASIL_TEMUAN; ?></td>
-                                            <td><?php echo $key->JENIS_PELANGGARAN; ?></td>
+                                            <td><?php if($key->JENIS_PELANGGARAN == 1){echo "Pelanggaran Normatif";} elseif($key->JENIS_PELANGGARAN == 2){echo "Pelanggaran K3";} ?></td>
                                             <td><?php echo $key->KETERANGAN_PASAL; ?></td>
-                                            <td><a href="<?php ?>" class="btn btn-sm btn-block btn-danger">Hapus</a></td>
+                                            <td><a href="<?php echo site_url('pengaduan/hapusTemuan'); echo '/'; echo $key->ID_HASIL_TEMUAN; ?>?id_spt=<?php echo $_GET['id_spt'] ?>&id_jenis_keluhan=<?php echo $_GET['id_jenis_keluhan']; ?>&status=<?php echo $_GET['status']; ?>" class="btn btn-sm btn-block btn-danger">Hapus</a></td>
                                         </tr>
                                     <?php } ?>
                                     
@@ -267,9 +269,47 @@
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
     $(document).ready(function() {
-        $('select#id_pasal').selectize({
-            sortField: 'text'
+        $('select#jenis_pelanggaran').change(function(){
+            var select = $('select#id_pasal');
+            select.empty();
+            var jenis = this.value;
+            var id_spt = <?php echo $_GET['id_spt'] ?>;
+            // alert(jenis);
+            // AJAX START
+            var request = $.ajax({
+              url: "<?php echo site_url('pengaduan/getPasal_t') ?>",
+              method: "POST",
+              data: { jenis : jenis, id_spt : id_spt },
+              dataType: "json"
+            });
+             
+            request.done(function( data ) {
+              if ($.isEmptyObject(data)){
+                    $('select#id_pasal').val("Data Tidak Ditemukan");
+                }
+              else{
+                var id_pasal = data[0].ID_PASAL;
+                var pasal = data[0].KETERANGAN_PASAL;
+                
+                // alert(data.length);
+                var i = 0;
+                for (i = 0; i < data.length ; i++) {
+                    select.append('<option value="'+data[i].ID_PASAL+'">'+data[i].KETERANGAN_PASAL+'</option>');
+                }
+                
+                // select.empty().append('<option value="'+id_pasal+'">'+pasal+'</option>');
+                
+              }
+              
+            });
+             
+            request.fail(function( jqXHR, textStatus ) {
+              alert( "Request failed: " + textStatus );
+            });
         });
+
+        
+
         $('#dataTables-example').DataTable({
             "language": {
                 "sSearch": "Cari:",
