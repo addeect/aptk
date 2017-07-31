@@ -157,9 +157,6 @@ $status_kawin='';
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="row">
-                                            <div class="col-xs-4">
-                                                <input class="form-control" name="tempat_lahir" id="tempat_lahir" value="<?php echo $key->TEMPAT_LAHIR; ?>" />
-                                            </div>
                                             <div class="col-xs-8">
                                                 <input class="form-control" name="tanggal_lahir" id="tanggal_lahir" value="<?php $date=$key->TANGGAL_LAHIR; echo date('d-m-Y', strtotime($date)); ?>" />
                                             </div>
@@ -202,88 +199,8 @@ $status_kawin='';
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-1">&nbsp;</div>
-                                    <div class="col-sm-3">
-                                        <label for="agama">Agama</label>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <select name="agama" class="form-control" id="agama">
-                                            <!--option selected hidden>Silahkan Pilih</option-->
-                                            <?php 
-                                            $agama = $key->AGAMA;
-                                            if($agama=='Islam'){
-                                                    echo '<option value="Islam" selected>Islam</option>';
-                                                    echo '<option value="Kristen">Kristen</option>';
-                                                    echo '<option value="Hindu">Hindu</option>';
-                                                    echo '<option value="Budha">Budha</option>';
-                                                    echo '<option value="Konghucu">Konghucu</option>';
-                                                }
-                                                elseif($agama=='Kristen'){
-                                                    echo '<option value="Islam">Islam</option>';
-                                                    echo '<option value="Kristen" selected>Kristen</option>';
-                                                    echo '<option value="Hindu">Hindu</option>';
-                                                    echo '<option value="Budha">Budha</option>';
-                                                    echo '<option value="Konghucu">Konghucu</option>';
-                                                }
-                                                elseif($agama=='Hindu'){
-                                                    echo '<option value="Islam">Islam</option>';
-                                                    echo '<option value="Kristen">Kristen</option>';
-                                                    echo '<option value="Hindu" selected>Hindu</option>';
-                                                    echo '<option value="Budha">Budha</option>';
-                                                    echo '<option value="Konghucu">Konghucu</option>';
-                                                }
-                                                elseif($agama=='Budha'){
-                                                    echo '<option value="Islam">Islam</option>';
-                                                    echo '<option value="Kristen">Kristen</option>';
-                                                    echo '<option value="Hindu">Hindu</option>';
-                                                    echo '<option value="Budha" selected>Budha</option>';
-                                                    echo '<option value="Konghucu">Konghucu</option>';
-                                                }
-                                                elseif($agama=='Konghucu'){
-                                                    echo '<option value="Islam">Islam</option>';
-                                                    echo '<option value="Kristen">Kristen</option>';
-                                                    echo '<option value="Hindu">Hindu</option>';
-                                                    echo '<option value="Budha">Budha</option>';
-                                                    echo '<option value="Konghucu" selected>Konghucu</option>';
-                                                }
-                                                else{
-                                                    echo '<option selected hidden>Silahkan Pilih Agama</option>';
-                                                    echo '<option value="Islam">Islam</option>';
-                                                    echo '<option value="Kristen">Kristen</option>';
-                                                    echo '<option value="Hindu">Hindu</option>';
-                                                    echo '<option value="Budha">Budha</option>';
-                                                    echo '<option value="Konghucu">Konghucu</option>';
-                                                }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-sm-1">&nbsp;</div>
-                                    <div class="col-sm-3">
-                                        <label for="status_kawin">Status Perkawinan</label>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <select name="status_kawin" class="form-control" id="status_kawin">
-                                            <!--option selected hidden>Silahkan Pilih</option-->
-                                            <?php $status_kawin=$key->STATUS_KAWIN;
-                                            if($status_kawin=='Kawin'){
-                                                    echo '<option value="Kawin" selected>Kawin</option>';
-                                                    echo '<option value="Belum Kawin">Belum Kawin</option>';
-                                                }
-                                                elseif($status_kawin=='Belum Kawin'){
-                                                    echo '<option value="Kawin" >Kawin</option>';
-                                                    echo '<option value="Belum Kawin" selected>Belum Kawin</option>';
-                                                }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
+                            
+                            
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>

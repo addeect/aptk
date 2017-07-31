@@ -92,7 +92,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group tk" id="f04" style="display: none">
+                            <!--<div class="form-group tk" id="f04" style="display: none">
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-3">
@@ -103,7 +103,7 @@
                                         <p class="help-block" style="display:none"></p>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                             <div class="form-group tk" id="f05">
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
@@ -131,7 +131,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group tk" id="f07" style="display: none;">
+                            <!--<div class="form-group tk" id="f07" style="display: none;">
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-3">
@@ -142,13 +142,13 @@
                                         <p class="help-block" style="display:none"></p>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group tk" id="f08" style="display: none;">
+                            </div>-->
+                           <!-- <div class="form-group tk" id="f08" style="display: none;">
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>
                                     <div class="col-sm-3">
                                         <label for="status_kawin_tk">Status Kawin</label>
-                                        <!--p class="help-block">*Isi keluhan pengaduan minimal 500 kata dan diceritakan secara berurutan</p-->
+                                        
                                     </div>
                                     <div class="col-sm-6">
                                         <select style="width:140px" name="status_kawin_tk" id="status_kawin_tk" class="form-control tk">
@@ -158,7 +158,7 @@
                                         <p class="help-block" style="display:none"></p>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                             <div class="form-group tk" id="f09">
                                 <div class="row">
                                     <div class="col-sm-1">&nbsp;</div>

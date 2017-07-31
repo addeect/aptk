@@ -148,7 +148,64 @@ class Pengaduan extends CI_Controller {
     $html .= '</tr>';
     $html .= '</table>';
 
-    
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+    // Spacing
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+
+    $html .= '<table>';
+    $html .= '<tr>';
+    $html .= '<td width="50px">&nbsp;</td>';
+    $html .= '<td>';
+    $html .= '<table border="0">';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:underline"></font></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:none"></font></td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+    $html .= '</td>';
+    $html .= '<td width="200px">&nbsp;</td>';
+    $html .= '<td>';
+    $html .= '<table border="0">';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">Mengetahui</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">Kepala Dinas</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:underline">Sulton Prakasa</font></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:none">Nip. 10170001.189423.1.001</font></td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+    $html .= '</td>';
+    $html .= '</tr>';
+    $html .= '</table>';
 
     // output the HTML content
     $pdf->writeHTML($html, true, false, true, false, '');
@@ -2572,9 +2629,10 @@ a[x-apple-data-detectors=true] {
     $html .= '</tr>';
     $html .= '</table>';
 
-
+    // Spacing 
+    $html .= '<div style="width:300px;text-align:left;border:none;line-height:0.3"><span style="font-weight: normal;"></span></div>';
     // Section 6
-    $html .= '<div style="width:300px;text-align:left;border:none;line-height:1.5"><p style="font-weight: normal;"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Demikian Surat Perintah Tugas ini diberikan kepada yang bersangkutan untuk dilaksanakan dengan penuh tanggung jawab.</p></div>';
+    $html .= '<div style="width:300px;text-align:left;border:none;line-height:1.5"><span style="font-weight: normal;"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Demikian Surat Perintah Tugas ini diberikan kepada yang bersangkutan untuk dilaksanakan dengan penuh tanggung jawab.</span></div>';
 
     // Section 3
     $html .= '<table>';
@@ -2630,6 +2688,8 @@ a[x-apple-data-detectors=true] {
     $html .= '</td>';
     $html .= '</tr>';
     $html .= '</table>';
+
+    $html .= '<div style="width:300px;text-align:left;border:none;line-height:1.5"><span style="font-weight: normal;">Tembusan :<br/>1. ............... <br/>2. Pimpinan '.$_GET['nama_perusahaan'].'</span></div>';
 
     // $html .= '<table border="0" width="400px">';
     // $html .= '<tr>';
