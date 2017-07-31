@@ -1886,19 +1886,88 @@ class Pengaduan extends CI_Controller {
 
     // Section 2
     foreach ($data_nota2 as $key2) {
-    $html .= '<div style="text-align:justify;border:none;line-height:1.5"><p style="font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sehubungan dengan pemeriksaan di perusahaan Saudara pada tanggal '.date('d F Y', strtotime($key2->TGL_SPT)).' tentang pelaksanaan peraturan perundang-undangan di bidang ketenagakerjaan dan berdasarkan data yang Saudara berikan, maka diminta agar memperhatikan hal-hal di bawah ini :</p></div>';
+    $html .= '<div style="text-align:justify;border:none;line-height:1.5"><span style="font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sehubungan dengan pemeriksaan di perusahaan Saudara pada tanggal '.date('d F Y', strtotime($key2->TGL_SPT)).' tentang pelaksanaan peraturan perundang-undangan di bidang ketenagakerjaan dan berdasarkan data yang Saudara berikan, maka diminta agar memperhatikan hal-hal di bawah ini :</span></div>';
     }
-
+    
     // Spacing
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
 
     // Section 3
     $nota3 = 1;
+    $html .= '<table border="0" style="line-height:1.5">'; 
+    
+    
     foreach ($data_nota3 as $key3) {
-    $html .= '<div style="text-align:justify;border:none;line-height:1.5"><font style="font-weight: normal;">'.$nota3.'. '.$key3->ISI_HASIL_TEMUAN.'</font></div>';
+    $html .= '<tr>'; 
+    $html .= '<td width="70px">&nbsp;</td>'; 
+    $html .= '<td width="30px">'.$nota3.'.</td>'; 
+    $html .= '<td width="500px">'.$key3->ISI_HASIL_TEMUAN.'</td>'; 
+    $html .= '</tr>';
+    $html .= '<tr>'; 
+    $html .= '<td>&nbsp;</td>'; 
+    $html .= '<td>&nbsp;</td>'; 
+    $html .= '<td>Melanggar : '.$key3->KETERANGAN_PASAL.'</td>'; 
+    $html .= '</tr>'; 
+    $html .= '<tr>'; 
+    $html .= '<td style="height:10px"></td>'; 
+    $html .= '</tr>'; 
     $nota3++;
     }
-    
+    $html .= '</table>'; 
+
+    $html .= '<div style="text-align:justify;border:none;line-height:1.5"><span style="font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dengan adanya pelanggaran tersebut di atas, diminta kepada Saudara agar segera melaksanakan sesuai dengan peraturan perundangan yang berlaku.</span><p style="font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Demikian Nota Pemeriksaan ini dibuat sebagai peringatan I (pertama) dan kepada Saudara diminta untuk melaporkan pelaksanaannya secara tertulis kepada kami dalam waktu 7 (tujuh) hari setelah menerima surat ini.</p></div>';
+
+    // Section 3
+    $html .= '<table>';
+    $html .= '<tr>';
+    $html .= '<td width="50px">&nbsp;</td>';
+    $html .= '<td>';
+    $html .= '<table border="0">';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">Kepala Dinas</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:underline">Sulton Prakasa</font></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:none">Pembina Utama Muda</font></td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+    $html .= '</td>';
+    $html .= '<td width="200px">&nbsp;</td>';
+    $html .= '<td>';
+    $html .= '<table border="0">';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">Pegawai Pengawas</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">Yang memeriksa</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:underline">'.$_SESSION["nama_user"].'</font></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:none">Nip. '.$_SESSION["nik"].'</font></td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+    $html .= '</td>';
+    $html .= '</tr>';
+    $html .= '</table>';
     // output the HTML content
     $pdf->writeHTML($html, true, false, true, false, '');
 
