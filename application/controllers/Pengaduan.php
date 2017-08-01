@@ -220,7 +220,7 @@ class Pengaduan extends CI_Controller {
         $tgl_awal = date('Y-m-d H:i:s', strtotime($this->input->get("tgl_awal")));
         $tgl_akhir = date('Y-m-d H:i:s', strtotime($this->input->get("tgl_akhir")));
         // $kasus_masuk = '';
-        if(isset($_GET['tgl_awal']) && $_GET['tgl_awal']!=''){
+        if($_GET['tgl_awal']!='' && $_GET['tgl_akhir']!=''){
             $kasus_masuk = $this->m_main->kasus_masuk_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
             $kasus_masuk_serikat = $this->m_main->kasus_masuk_serikat_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
             $kasus_selesai = $this->m_main->kasus_selesai_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
@@ -283,38 +283,96 @@ class Pengaduan extends CI_Controller {
     
     // Spacing
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
-    $html .= '<div style="width:300px;text-align:left;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">1. JUMLAH KASUS MASUK</span></div>';
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">LAPORAN BULANAN PENANGANAN KASUS KATEGORI TENAGA KERJA</span></div>';
     
 
     // Spacing
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
     $html .= '<table>';
     $html .= '<tr>';
-    $html .= '<td width="180px"></td>';
+    $html .= '<td width="30px"></td>';
 
     $html .= '<td width="250px">';
     $html .= '<table border="1">';
     $html .= '<tr style="text-align:center;">';
     $html .= '<td width="100px"><strong>Bulan</strong></td>';
-    $html .= '<td width="150px"><strong>Jumlah</strong></td>';
+    $html .= '<td width="150px"><strong>Kasus Masuk</strong></td>';
+    
     $html .= '</tr>';
     foreach ($kasus_masuk as $key) {
         $html .= '<tr style="text-align:center">';
         $html .= '<td>'.$key->Bulan.'</td>';
         $html .= '<td>'.$key->jumlah.'</td>';
         $html .= '</tr>';
+
+        
     }
     $html .= '</table>';
     $html .= '</td>';
-    $html .= '<td width="10px">&nbsp;</td>';
-    $html .= '<td width="250px">';
-    
+
+    $html .= '<td width="150px">';
+    $html .= '<table border="1">';
+    $html .= '<tr style="text-align:center">';
+    $html .= '<td><strong>Kasus Selesai</strong></td>';
+    $html .= '</tr>';
+    foreach ($kasus_masuk as $key) {
+        foreach ($kasus_selesai as $key1) {
+
+            if($key->Bulan == $key1->Bulan){
+                $html .= '<tr style="text-align:center">';
+                // $html .= '<td>'.$key->Bulan.'</td>';
+                // $html .= '<td>'.$key->jumlah.'</td>';
+                $html .= '<td>'.$key1->jumlah.'</td>';
+                $html .= '</tr>';
+            }
+
+        }
+    }
+    $html .= '</table>';
+    $html .= '</td>';
+
+    $html .= '<td width="150px">';
+    $html .= '<table border="1">';
+    $html .= '<tr style="text-align:center">';
+    $html .= '<td><strong>Kasus Tidak Selesai</strong></td>';
+    $html .= '</tr>';
+    foreach ($kasus_masuk as $key) {
+        foreach ($kasus_tidak_selesai as $key1) {
+
+            if($key->Bulan == $key1->Bulan){
+                $html .= '<tr style="text-align:center">';
+                // $html .= '<td>'.$key->Bulan.'</td>';
+                // $html .= '<td>'.$key->jumlah.'</td>';
+                $html .= '<td>'.$key1->jumlah.'</td>';
+                $html .= '</tr>';
+            }
+
+        }
+    }
+    $html .= '</table>';
     $html .= '</td>';
 
     $html .= '<td width="20px"></td>';
     $html .= '</tr>';
     $html .= '</table>';
 
+    $html .= '<table border="0">';
+    $html .= '<tr>';
+    $html .= '<td width="30px"></td>';
+    $html .= '<td>';
+    $html .= '<table border="1">';
+    $html .= '<tr style="text-align:center">';
+    $html .= '<td width="100px">Total</td>';
+    $html .= '<td width="150px">';
+    foreach ($kasus_masuk as $key) {
+        $html .= floatval($html) + $key->jumlah;
+    }
+    $html .= '</td>';
+    $html .= '</tr>';
+    $html .= '</table>';
+    $html .= '</td>';
+    $html .= '</tr>';
+    $html .= '</table>';
     // Spacing
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
     $html .= '<div style="width:300px;text-align:left;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">2. KASUS SELESAI & TIDAK SELESAI</span></div>';

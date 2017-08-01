@@ -1,0 +1,15 @@
+SELECT * FROM (SELECT MONTHNAME( TANGGAL_MASUK ) AS Bulan FROM keluhan_tk) as masuk 
+GROUP BY Bulan
+ORDER BY Bulan DESC 
+
+SELECT masuk.*,selesai.* FROM 
+(SELECT MONTHNAME( TANGGAL_MASUK ) AS Bulan_masuk FROM keluhan_tk) as masuk ,
+(SELECT MONTHNAME( TANGGAL_MASUK ) AS Bulan_selesai FROM keluhan_tk kt join jenis_keluhan jk on kt.ID_KELUHAN_TK = jk.ID_KELUHAN_TK where jk.STATUS_PENYELESAIAN = 100) as selesai 
+GROUP BY Bulan_masuk
+ORDER BY Bulan_masuk DESC 
+
+SELECT masuk.*,selesai.* FROM 
+(SELECT MONTHNAME( TANGGAL_MASUK ) AS Bulan_masuk, count(*) as jumlah_masuk FROM keluhan_tk group by Bulan_masuk) as masuk ,
+(SELECT MONTHNAME( TANGGAL_MASUK ) AS Bulan_selesai, count(*) as jumlah_selesai FROM keluhan_tk kt join jenis_keluhan jk on kt.ID_KELUHAN_TK = jk.ID_KELUHAN_TK where jk.STATUS_PENYELESAIAN = 100 group by Bulan_selesai) as selesai 
+GROUP BY Bulan_masuk
+ORDER BY Bulan_masuk DESC 
