@@ -225,10 +225,14 @@ class Pengaduan extends CI_Controller {
             $kasus_masuk_serikat = $this->m_main->kasus_masuk_serikat_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
             $kasus_selesai = $this->m_main->kasus_selesai_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
             $kasus_serikat_selesai = $this->m_main->kasus_serikat_selesai_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
-            $kasus_tidak_selesai = $this->m_main->kasus_tidak_selesai($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
-            $kasus_serikat_tidak_selesai = $this->m_main->kasus_serikat_tidak_selesai($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
+            $kasus_tidak_selesai = $this->m_main->kasus_tidak_selesai_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
+            $kasus_serikat_tidak_selesai = $this->m_main->kasus_serikat_tidak_selesai_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
             $kecenderungan_perorangan = $this->m_main->kecenderungan_perorangan_p($tgl_awal,$tgl_akhir);
             $kecenderungan_serikat = $this->m_main->kecenderungan_serikat_p($tgl_awal,$tgl_akhir);
+
+            $total_masuk = $this->m_main->kasus_masuk_p_total($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
+            $total_selesai = $this->m_main->kasus_selesai_p_total($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
+            $total_tidak_selesai = $this->m_main->kasus_tidak_selesai_p_total($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
         }
         else{
             $kasus_masuk = $this->m_main->kasus_masuk();
@@ -239,6 +243,10 @@ class Pengaduan extends CI_Controller {
             $kasus_serikat_tidak_selesai = $this->m_main->kasus_serikat_tidak_selesai();
             $kecenderungan_perorangan = $this->m_main->kecenderungan_perorangan();
             $kecenderungan_serikat = $this->m_main->kecenderungan_serikat();
+
+            $total_masuk = $this->m_main->kasus_masuk_total();
+            $total_selesai = $this->m_main->kasus_selesai_total();
+            $total_tidak_selesai = $this->m_main->kasus_tidak_selesai_total();
         }
         $this->load->library('Pdf');
 
@@ -364,8 +372,18 @@ class Pengaduan extends CI_Controller {
     $html .= '<tr style="text-align:center">';
     $html .= '<td width="100px">Total</td>';
     $html .= '<td width="150px">';
-    foreach ($kasus_masuk as $key) {
-        $html .= floatval($html) + $key->jumlah;
+    foreach ($total_masuk as $key) {
+    $html .= $key->jumlah; 
+    }
+    $html .= '</td>';
+    $html .= '<td width="150px">';
+    foreach ($total_selesai as $key) {
+    $html .= $key->jumlah; 
+    }
+    $html .= '</td>';
+    $html .= '<td width="150px">';
+    foreach ($total_tidak_selesai as $key) {
+    $html .= $key->jumlah; 
     }
     $html .= '</td>';
     $html .= '</tr>';
