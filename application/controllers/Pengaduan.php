@@ -503,62 +503,10 @@ class Pengaduan extends CI_Controller {
     $html .= '</tr>';
     $html .= '</table>';
 
-    // Spacing
-    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
-    $html .= '<div style="width:300px;text-align:left;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">2. KASUS SELESAI & TIDAK SELESAI</span></div>';
     
-
     // Spacing
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
-    $html .= '<table>';
-    $html .= '<tr>';
-    $html .= '<td width="100px"></td>';
-
-    $html .= '<td width="160px">';
-    $html .= '<table border="1">';
-    $html .= '<tr style="text-align:center;">';
-    $html .= '<td colspan="2">Kasus Selesai</td>';
-    $html .= '</tr>';
-    $html .= '<tr style="text-align:center;">';
-    $html .= '<td width="80px"><strong>Bulan</strong></td>';
-    $html .= '<td width="80px"><strong>Jumlah</strong></td>';
-    $html .= '</tr>';
-    foreach ($kasus_selesai as $key) {
-        $html .= '<tr style="text-align:center">';
-        $html .= '<td>'.$key->Bulan.'</td>';
-        $html .= '<td>'.$key->jumlah.'</td>';
-        $html .= '</tr>';
-    }
-    $html .= '</table>';
-    $html .= '</td>';
-    $html .= '<td width="10px">&nbsp;</td>';
-    $html .= '<td width="250px">';
-    $html .= '<table border="1">';
-    $html .= '<tr style="text-align:center;">';
-    $html .= '<td colspan="2">Kasus Tidak Selesai</td>';
-    $html .= '</tr>';
-    $html .= '<tr style="text-align:center;">';
-    $html .= '<td width="100px"><strong>Bulan</strong></td>';
-    $html .= '<td width="150px"><strong>Jumlah</strong></td>';
-    $html .= '</tr>';
-    foreach ($kasus_tidak_selesai as $key) {
-        $html .= '<tr style="text-align:center">';
-        $html .= '<td>'.$key->Bulan.'</td>';
-        $html .= '<td>'.$key->jumlah.'</td>';
-        $html .= '</tr>';
-    }
-    $html .= '</table>';
-    $html .= '</td>';
-
-    $html .= '<td width="20px"></td>';
-    $html .= '</tr>';
-    $html .= '</table>';
-
-    
-
-    // Spacing
-    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
-    $html .= '<div style="width:300px;text-align:left;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">3. KECENDERUNGAN KASUS</span></div>';
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">LAPORAN BULANAN KECENDERUNGAN KASUS</span></div>';
     
 
     // Spacing
@@ -570,8 +518,9 @@ class Pengaduan extends CI_Controller {
     $html .= '<td width="260px">';
     $html .= '<table border="1">';
     $html .= '<tr style="text-align:center;">';
-    $html .= '<td width="180px"><strong>Jenis Pelanggaran</strong></td>';
-    $html .= '<td width="80px"><strong>Jumlah</strong></td>';
+    $html .= '<td width="100px"><strong>Bulan</strong></td>';
+    $html .= '<td width="180px"><strong>Pelanggaran Normatif</strong></td>';
+    $html .= '<td width="180px"><strong>Pelanggaran K3</strong></td>';
     $html .= '</tr>';
     foreach ($kecenderungan_perorangan as $key) {
         $html .= '<tr style="text-align:center">';
