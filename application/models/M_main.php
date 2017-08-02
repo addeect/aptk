@@ -334,6 +334,21 @@ class M_main extends CI_Model{
 		$query = $this -> db -> get();
 		return $query->result();
 	}
+	function kasus_tidak_selesai_serikat_p_total($tgl_awal,$tgl_akhir,$jenis_pelanggaran){
+		$status = 100;
+		$this->db->select("count(*) as jumlah, MONTHNAME(ks.TGL_MASUK) as Bulan");
+		$this->db->from("keluhan_serikat ks");
+		$this->db->join("jenis_keluhan jk","ks.ID_KELUHAN_SERIKAT=jk.ID_KELUHAN_SERIKAT");
+		$this->db->where('ks.TGL_MASUK >=', $tgl_awal);
+		$this->db->where('ks.TGL_MASUK <=', $tgl_akhir);
+		$this->db->where('ks.JENIS_KELUHAN_SERIKAT', $jenis_pelanggaran);
+		$this->db->where('jk.STATUS_PENYELESAIAN < ', $status);
+		// $this->db->group_by("Bulan");
+		$this->db->order_by("Bulan DESC");
+		// $this->db->order_by("ID_SPT ASC");
+		$query = $this -> db -> get();
+		return $query->result();
+	}
 	function kasus_tidak_selesai_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran){
 		$status = 100;
 		$this->db->select("count(*) as jumlah, MONTHNAME(kt.TANGGAL_MASUK) as Bulan");
@@ -379,6 +394,21 @@ class M_main extends CI_Model{
 		$query = $this -> db -> get();
 		return $query->result();
 	}
+	function kasus_selesai_serikat_p_total($tgl_awal,$tgl_akhir,$jenis_pelanggaran){
+		$status = 100;
+		$this->db->select("count(*) as jumlah, MONTHNAME(ks.TGL_MASUK) as Bulan");
+		$this->db->from("keluhan_serikat ks");
+		$this->db->join("jenis_keluhan jk","ks.ID_KELUHAN_SERIKAT=jk.ID_KELUHAN_SERIKAT");
+		$this->db->where('ks.TGL_MASUK >=', $tgl_awal);
+		$this->db->where('ks.TGL_MASUK <=', $tgl_akhir);
+		$this->db->where('ks.JENIS_KELUHAN_SERIKAT', $jenis_pelanggaran);
+		$this->db->where('jk.STATUS_PENYELESAIAN', $status);
+		// $this->db->group_by("Bulan");
+		$this->db->order_by("Bulan DESC");
+		// $this->db->order_by("ID_SPT ASC");
+		$query = $this -> db -> get();
+		return $query->result();
+	}
 	function kasus_selesai_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran){
 		$status = 100;
 		$this->db->select("count(*) as jumlah, MONTHNAME(kt.TANGGAL_MASUK) as Bulan");
@@ -414,6 +444,18 @@ class M_main extends CI_Model{
 		$this->db->from("keluhan_tk");
 		$this->db->where('TANGGAL_MASUK >=', $tgl_awal);
 		$this->db->where('TANGGAL_MASUK <=', $tgl_akhir);
+		$this->db->where('JENIS_KELUHAN', $jenis_pelanggaran);
+		// $this->db->group_by("Bulan");
+		$this->db->order_by("Bulan DESC");
+		// $this->db->order_by("ID_SPT ASC");
+		$query = $this -> db -> get();
+		return $query->result();
+	}
+	function kasus_masuk_serikat_p_total($tgl_awal,$tgl_akhir,$jenis_pelanggaran){
+		$this->db->select("count(*) as jumlah, MONTHNAME(TGL_MASUK) as Bulan");
+		$this->db->from("keluhan_serikat");
+		$this->db->where('TGL_MASUK >=', $tgl_awal);
+		$this->db->where('TGL_MASUK <=', $tgl_akhir);
 		$this->db->where('JENIS_KELUHAN', $jenis_pelanggaran);
 		// $this->db->group_by("Bulan");
 		$this->db->order_by("Bulan DESC");
@@ -467,6 +509,17 @@ class M_main extends CI_Model{
 		$query = $this -> db -> get();
 		return $query->result();
 	}
+	function kasus_tidak_selesai_serikat_total(){
+		$status = 100;
+		$this->db->select("count(*) as jumlah, MONTHNAME(ks.TGL_MASUK) as Bulan");
+		$this->db->from("keluhan_serikat ks");
+		$this->db->join("jenis_keluhan jk","ks.ID_KELUHAN_SERIKAT = jk.ID_KELUHAN_SERIKAT");
+		$this->db->where("jk.STATUS_PENYELESAIAN < ",$status);
+		// $this->db->group_by("Bulan");
+		$this->db->order_by("Bulan DESC");
+		$query = $this -> db -> get();
+		return $query->result();
+	}
 	function kasus_serikat_tidak_selesai(){
 		$status = 100;
 		$this->db->select("count(*) as jumlah, MONTHNAME(ks.TGL_MASUK) as Bulan");
@@ -483,6 +536,17 @@ class M_main extends CI_Model{
 		$this->db->select("count(*) as jumlah, MONTHNAME(kt.TANGGAL_MASUK) as Bulan");
 		$this->db->from("keluhan_tk kt");
 		$this->db->join("jenis_keluhan jk","kt.ID_KELUHAN_TK = jk.ID_KELUHAN_TK");
+		$this->db->where("jk.STATUS_PENYELESAIAN",$status);
+		// $this->db->group_by("Bulan");
+		$this->db->order_by("Bulan DESC");
+		$query = $this -> db -> get();
+		return $query->result();
+	}
+	function kasus_selesai_serikat_total(){
+		$status = 100;
+		$this->db->select("count(*) as jumlah, MONTHNAME(ks.TGL_MASUK) as Bulan");
+		$this->db->from("keluhan_serikat ks");
+		$this->db->join("jenis_keluhan jk","ks.ID_KELUHAN_SERIKAT = jk.ID_KELUHAN_SERIKAT");
 		$this->db->where("jk.STATUS_PENYELESAIAN",$status);
 		// $this->db->group_by("Bulan");
 		$this->db->order_by("Bulan DESC");
@@ -568,6 +632,16 @@ class M_main extends CI_Model{
 	function kasus_masuk_total(){
 		$this->db->select("count(*) as jumlah, MONTHNAME(TANGGAL_MASUK) as Bulan");
 		$this->db->from("keluhan_tk");
+		// $this->db->group_by("Bulan");
+		$this->db->order_by("Bulan DESC");
+		// $this->db->where("ap.ID_KARYAWAN",$id_karyawan);
+		// $this->db->order_by("ID_SPT ASC");
+		$query = $this -> db -> get();
+		return $query->result();
+	}
+	function kasus_masuk_serikat_total(){
+		$this->db->select("count(*) as jumlah, MONTHNAME(TGL_MASUK) as Bulan");
+		$this->db->from("keluhan_serikat");
 		// $this->db->group_by("Bulan");
 		$this->db->order_by("Bulan DESC");
 		// $this->db->where("ap.ID_KARYAWAN",$id_karyawan);
