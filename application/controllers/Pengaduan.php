@@ -255,6 +255,9 @@ class Pengaduan extends CI_Controller {
             $total_masuk_serikat = $this->m_main->kasus_masuk_serikat_total();
             $total_selesai_serikat = $this->m_main->kasus_selesai_serikat_total();
             $total_tidak_selesai_serikat = $this->m_main->kasus_tidak_selesai_serikat_total();
+
+            $kecenderungan_kasus = $this->m_main->kecenderungan_kasus();
+            $kecenderungan_kasus_normatif = $this->m_main->kecenderungan_kasus_normatif();
         }
         $this->load->library('Pdf');
 
@@ -513,21 +516,44 @@ class Pengaduan extends CI_Controller {
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
     $html .= '<table>';
     $html .= '<tr>';
-    $html .= '<td width="180px"></td>';
+    $html .= '<td width="80px"></td>';
 
     $html .= '<td width="260px">';
     $html .= '<table border="1">';
     $html .= '<tr style="text-align:center;">';
     $html .= '<td width="100px"><strong>Bulan</strong></td>';
-    $html .= '<td width="180px"><strong>Pelanggaran Normatif</strong></td>';
     $html .= '<td width="180px"><strong>Pelanggaran K3</strong></td>';
+    $html .= '<td width="180px"><strong>Pelanggaran Normatif</strong></td>';
     $html .= '</tr>';
-    foreach ($kecenderungan_perorangan as $key) {
+    foreach ($kecenderungan_kasus as $key) {
         $html .= '<tr style="text-align:center">';
-        $html .= '<td>'.$key->jenis.'</td>';
+        $html .= '<td>'.$key->bulan.'</td>';
         $html .= '<td>'.$key->jumlah.'</td>';
+        $jumlah_k3 = $this->m_main->getCounterK3($key->bulan);
+        if($jumlah_k3 != null){
+            $html .= '<td>'.$jumlah_k3.'</td>';
+        }
+        else{
+            $html .= '<td>0</td>';
+        }
         $html .= '</tr>';
     }
+    $html .= '<tr style="text-align:center">';
+    $html .= '<td>Total</td>';
+    $jumlah_k3 = 0;
+    $jumlah_normatif = 0;
+    foreach ($kecenderungan_kasus as $key) {
+        $jumlah_k3_db = $key->jumlah;
+        $jumlah_k3 = $jumlah_k3 + floatval($jumlah_k3_db);
+    }
+    foreach ($kecenderungan_kasus_normatif as $key) {
+        $jumlah_normatif_db = $key->jumlah;
+        $jumlah_normatif = $jumlah_normatif + floatval($jumlah_normatif_db);
+    }
+    $html .= '<td>'.$jumlah_k3.'</td>';
+    $html .= '<td>'.$jumlah_normatif.'</td>';
+    
+    $html .= '</tr>';
     $html .= '</table>';
     $html .= '</td>';
     $html .= '<td width="10px">&nbsp;</td>';

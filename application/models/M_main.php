@@ -609,6 +609,43 @@ class M_main extends CI_Model{
 		$query = $this -> db -> get();
 		return $query->result();
 	}
+	function kecenderungan_kasus(){
+		$jenis = "Pelanggaran K3";
+		$this->db->select("MONTHNAME(TANGGAL_MASUK) as bulan, count(*) as jumlah, JENIS_KELUHAN as jenis");
+		$this->db->from("keluhan_tk");
+		$this->db->where("jenis_keluhan",$jenis);
+		$this->db->group_by("bulan");
+		$this->db->order_by("bulan DESC");
+		
+		$query = $this -> db -> get();
+		return $query->result();
+	}
+	function kecenderungan_kasus_normatif(){
+		$jenis = "Pelanggaran Normatif";
+		$this->db->select("MONTHNAME(TANGGAL_MASUK) as bulan, count(*) as jumlah, JENIS_KELUHAN as jenis");
+		$this->db->from("keluhan_tk");
+		$this->db->where("jenis_keluhan",$jenis);
+		$this->db->group_by("bulan");
+		$this->db->order_by("bulan DESC");
+		
+		$query = $this -> db -> get();
+		return $query->result();
+	}
+	function getCounterK3($bulan){
+		$jenis = "Pelanggaran Normatif";
+		$this->db->select("MONTHNAME(TANGGAL_MASUK) as bulan, count(*) as jumlah, JENIS_KELUHAN as jenis");
+		$this->db->from("keluhan_tk");
+		$this->db->where("jenis_keluhan",$jenis);
+		$this->db->where("MONTHNAME(TANGGAL_MASUK)",$bulan);
+		$this->db->group_by("bulan");
+		$this->db->order_by("bulan DESC");
+		
+		$query = $this -> db -> get();
+		$row = $query->result();
+		foreach ($row as $key) {
+			return $key->jumlah;
+		}
+	}
 	function kecenderungan_serikat(){
 		$this->db->select("count(*) as jumlah, JENIS_KELUHAN_SERIKAT as jenis");
 		$this->db->from("keluhan_serikat");
