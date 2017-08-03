@@ -570,7 +570,7 @@ class Pengaduan extends CI_Controller {
     $html .= '<br pagebreak="true"/>';
     
     // Section 1
-    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:underline">LAPORAN BULANAN PERSERIKATAN</span></div>';
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:underline">LAPORAN BULANAN NOTA PEMERIKSAAN</span></div>';
     if(isset($_GET['tgl_awal']) && $_GET['tgl_awal']!=''){
         $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">JENIS '.strtoupper($_GET['jenis_pelanggaran']).' PERIODE '.date('d-m-Y',strtotime($_GET['tgl_awal'])).' s/d '.date('d-m-Y',strtotime($_GET['tgl_akhir'])).'</span></div>';
     }
