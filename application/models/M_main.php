@@ -3,6 +3,59 @@ class M_main extends CI_Model{
 	function __construct(){
 		$this->load->database();
 	}
+	function getAllSPT(){
+		$this->db->select("MONTHNAME(spt.TGL_SPT) as bulan, spt.*");	
+		$this->db->from("surat_perintah_tugas spt");
+		$this->db->order_by("spt.ID_SPT ASC");
+		$query = $this->db->get();
+		return $query->result();
+	}
+	function getPerusahaan($id_spt){
+		$this->db->select("tk.NAMA_PERUSAHAAN,tk.ALAMAT_PERUSAHAAN");
+		$this->db->from("tenaga_kerja tk");
+		$this->db->join("jenis_keluhan jk","tk.id_tk = jk.id_tk");
+		$this->db->join("admin_pengawas ap","ap.id_keluhan=jk.id_jenis_keluhan");
+		$this->db->where("ap.ID_SPT",$id_spt);
+		$this->db->limit("1");
+		
+		$query = $this -> db -> get();
+		$row = $query->result();
+		foreach ($row as $key) {
+			$data = array(
+				"nama_perusahaan" => $key->NAMA_PERUSAHAAN,
+				"alamat_perusahaan" => $key->ALAMAT_PERUSAHAAN,
+			);
+			return $data;
+		}
+		// return $row;
+	}
+	function getLastNota($id_spt){
+		$this->db->select("IF(max(isi_nota_pemeriksaan) IS NULL,'-',max(isi_nota_pemeriksaan)) AS 'nota_terakhir'");
+		$this->db->from("nota_pemeriksaan");
+		$this->db->where("ID_SPT",$id_spt);
+		
+		$query = $this -> db -> get();
+		$row = $query->result();
+		foreach ($row as $key) {
+			return $key->nota_terakhir;
+		}
+		// return $row;
+	}
+	function getPengawas($id_spt){
+		$this->db->select("IF(k.NAMA_KARYAWAN IS NULL,'-',k.NAMA_KARYAWAN) AS 'NAMA_KARYAWAN'");
+		$this->db->from("karyawan k");
+		$this->db->join("kepala_bidang kb","k.ID_KABID = kb.ID_KABID");
+		$this->db->join("admin_pengawas ap","ap.IDPENGGUNA = kb.IDPENGGUNA");
+		$this->db->where("ap.ID_SPT",$id_spt);
+		$this->db->order_by("ap.ID_ADMIN_PENGAWAS ASC");
+		
+		$query = $this -> db -> get();
+		$row = $query->result();
+		// foreach ($row as $key) {
+		// 	return $key->jumlah;
+		// }
+		return $row;
+	}
 	function deleteTemuan($id_hasil_temuan){
 		$this->db->where('id_hasil_temuan', $id_hasil_temuan);
 		$this->db->delete('hasil_temuan');

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Inang: 127.0.0.1
--- Waktu pembuatan: 30 Jul 2017 pada 19.59
+-- Waktu pembuatan: 05 Agu 2017 pada 12.04
 -- Versi Server: 5.5.27
 -- Versi PHP: 5.4.7
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `admin_pengawas` (
   KEY `RELATION_201_FK` (`IDPENGGUNA`),
   KEY `RELATION_208_FK` (`ID_SPT`),
   KEY `RELATION_209_FK` (`ID_KARYAWAN`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=56 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=61 ;
 
 --
 -- Dumping data untuk tabel `admin_pengawas`
@@ -97,7 +97,12 @@ INSERT INTO `admin_pengawas` (`ID_ADMIN_PENGAWAS`, `IDPENGGUNA`, `ID_SPT`, `ID_K
 (52, 'sita', 18, '19620602.199003.2.002', 29),
 (53, 'prastowo', 19, '19670620.199803.1.003', 30),
 (54, 'sita', 19, '19620602.199003.2.002', 30),
-(55, 'nuky', 19, '19680816.199703.2.000', 30);
+(55, 'nuky', 19, '19680816.199703.2.000', 30),
+(56, 'nuky', 20, '19680816.199703.2.000', 31),
+(57, 'widya', 20, '19610527.198603.2.009', 31),
+(58, 'endah', 20, '19580624.198303.2.011', 31),
+(59, 'maudy', 1, '201700002', 5),
+(60, 'raisa', 1, '201700003', 5);
 
 -- --------------------------------------------------------
 
@@ -115,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `hasil_temuan` (
   PRIMARY KEY (`ID_HASIL_TEMUAN`),
   KEY `ID_SPT` (`ID_SPT`),
   KEY `ID_PASAL` (`ID_PASAL`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 --
 -- Dumping data untuk tabel `hasil_temuan`
@@ -136,7 +141,9 @@ INSERT INTO `hasil_temuan` (`ID_HASIL_TEMUAN`, `TGL_TEMUAN`, `ISI_HASIL_TEMUAN`,
 (12, '2017-07-29 17:12:18', 'a', 9, 1, '1'),
 (13, '2017-07-29 19:38:16', 'a', 15, 1, '1'),
 (14, '2017-07-29 19:42:29', '', 14, 1, '1'),
-(15, '2017-07-29 20:20:39', 'as', 15, 2, '1');
+(15, '2017-07-29 20:20:39', 'as', 15, 2, '1'),
+(16, '2017-08-01 00:38:44', 'Perangkat Kerja', 20, 1, '2'),
+(17, '2017-08-01 00:38:58', 'Jam Kerja', 20, 4, '1');
 
 -- --------------------------------------------------------
 
@@ -154,7 +161,7 @@ CREATE TABLE IF NOT EXISTS `jenis_keluhan` (
   KEY `RELATION_205_FK` (`ID_TK`),
   KEY `RELATION_206_FK` (`ID_KELUHAN_TK`),
   KEY `RELATION_207_FK` (`ID_KELUHAN_SERIKAT`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=31 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=32 ;
 
 --
 -- Dumping data untuk tabel `jenis_keluhan`
@@ -184,7 +191,8 @@ INSERT INTO `jenis_keluhan` (`ID_JENIS_KELUHAN`, `ID_TK`, `ID_KELUHAN_TK`, `ID_K
 (27, 40, 26, NULL, 100),
 (28, 40, 27, NULL, 100),
 (29, 31, NULL, 2, 100),
-(30, 34, 28, NULL, 90);
+(30, 34, 28, NULL, 90),
+(31, 41, 29, NULL, 70);
 
 -- --------------------------------------------------------
 
@@ -266,7 +274,7 @@ CREATE TABLE IF NOT EXISTS `keluhan_tk` (
   `ISI_KELUHAN` varchar(500) DEFAULT NULL,
   `BUKTI_FILE` text,
   PRIMARY KEY (`ID_KELUHAN_TK`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
 
 --
 -- Dumping data untuk tabel `keluhan_tk`
@@ -296,7 +304,8 @@ INSERT INTO `keluhan_tk` (`ID_KELUHAN_TK`, `JENIS_KELUHAN`, `TANGGAL_MASUK`, `TA
 (21, 'Pelanggaran K3', '2017-07-22 18:13:34', NULL, 'Disnaker', NULL),
 (26, 'Pelanggaran Normatif', '2017-07-23 23:58:33', NULL, 'Gaji telat 2 bulan', NULL),
 (27, 'Pelanggaran K3', '2017-07-24 00:00:10', NULL, 'Peralatan tidak lengkap', NULL),
-(28, 'Pelanggaran Normatif', '2017-07-29 12:46:33', NULL, 'Lorem ipsum.', NULL);
+(28, 'Pelanggaran Normatif', '2017-07-29 12:46:33', NULL, 'Lorem ipsum.', NULL),
+(29, 'Pelanggaran K3', '2017-08-01 00:15:31', NULL, 'Bla bla', NULL);
 
 -- --------------------------------------------------------
 
@@ -376,7 +385,7 @@ CREATE TABLE IF NOT EXISTS `nota_pemeriksaan` (
   `IS_COME` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID_NOTA_PEMERIKSAAN`),
   KEY `ID_SPT` (`ID_SPT`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=37 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=38 ;
 
 --
 -- Dumping data untuk tabel `nota_pemeriksaan`
@@ -413,7 +422,8 @@ INSERT INTO `nota_pemeriksaan` (`ID_NOTA_PEMERIKSAAN`, `TGL_NOTA_PEMERIKSAAN`, `
 (33, '2017-07-29 19:43:23', '3', 14, 1),
 (34, '2017-07-30 16:05:36', '1', 12, 0),
 (35, '2017-07-30 16:08:03', '2', 12, 0),
-(36, '2017-07-30 22:32:46', '3', 12, 0);
+(36, '2017-07-30 22:32:46', '3', 12, 0),
+(37, '2017-08-01 00:39:10', '1', 20, 0);
 
 -- --------------------------------------------------------
 
@@ -540,7 +550,7 @@ CREATE TABLE IF NOT EXISTS `surat_perintah_tugas` (
   `IS_CONFIRM` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID_SPT`),
   KEY `ID_PASAL` (`ID_PASAL`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 --
 -- Dumping data untuk tabel `surat_perintah_tugas`
@@ -565,7 +575,8 @@ INSERT INTO `surat_perintah_tugas` (`ID_SPT`, `NO_SPT`, `STATUS_SPT`, `IS_ACTIVE
 (16, '16/20/22.07/2017', 1, 1, '2017-07-22 14:25:00', '1. Melakukan pemeriksaan pelaksanaan peraturan perundang-undangan ketenagakerjaan pada perusahaan Ittron Global Teknologi alamat Jl. Wonokoyo Utara No. 90 Surabaya <br/>2. melaksanakan tugas dari tanggal 24-07-2017 s/d tanggal 27-07-2017 <br/>3. Setelah selesai melaksanakan tugas, segera menyampaikan laporan tertulis kepada Kepala Dinas Sulton Prakasa.', 'Perusahaan terkait tidak menyediakan cukup banyak alat keselamatan bagi para pekerja.', NULL, '50', '2017-07-22 17:17:32', 0),
 (17, '17/21/22.07/2017', 1, 1, '2017-07-22 18:14:06', '1. Melakukan pemeriksaan pelaksanaan peraturan perundang-undangan ketenagakerjaan pada perusahaan Ittron Global Teknologi alamat Jl. Wonokoyo Utara No. 90 Surabaya <br/>2. melaksanakan tugas dari tanggal 26-07-2017 s/d tanggal 31-07-2017 <br/>3. Setelah selesai melaksanakan tugas, segera menyampaikan laporan tertulis kepada Kepala Dinas Sulton Prakasa.', 'Wow', NULL, '35', '2017-07-22 18:19:35', 0),
 (18, '18/29/24.07/2017', 1, 1, '2017-07-24 00:04:25', '1. Melakukan pemeriksaan pelaksanaan peraturan perundang-undangan ketenagakerjaan pada perusahaan CV. Lucky Star alamat Jl. Ronggolawe No. 103 Cepu Blora Jawa Tengah <br/>2. melaksanakan tugas dari tanggal 25-07-2017 s/d tanggal 27-07-2017 <br/>3. Setelah selesai melaksanakan tugas, segera menyampaikan laporan tertulis kepada Kepala Dinas Sulton Prakasa.', 'Alat kerja yang mudah rusak dan di bawah standar membahayakan pekerja', NULL, '102', '2017-07-24 00:15:05', 0),
-(19, '19/30/29.07/2017', 1, 1, '2017-07-29 13:15:59', '1. Melakukan pemeriksaan pelaksanaan peraturan perundang-undangan ketenagakerjaan pada perusahaan PT. Fintego Indonesia alamat Jl. Demak No. 23 Surabaya <br/>2. melaksanakan tugas dari tanggal 30-07-2017 s/d tanggal 01-08-2017 <br/>3. Setelah selesai melaksanakan tugas, segera menyampaikan laporan tertulis kepada Kepala Dinas Sulton Prakasa.', 'Tes 123', NULL, '100', '2017-07-29 14:36:51', 0);
+(19, '19/30/29.07/2017', 1, 1, '2017-07-29 13:15:59', '1. Melakukan pemeriksaan pelaksanaan peraturan perundang-undangan ketenagakerjaan pada perusahaan PT. Fintego Indonesia alamat Jl. Demak No. 23 Surabaya <br/>2. melaksanakan tugas dari tanggal 30-07-2017 s/d tanggal 01-08-2017 <br/>3. Setelah selesai melaksanakan tugas, segera menyampaikan laporan tertulis kepada Kepala Dinas Sulton Prakasa.', 'Tes 123', NULL, '100', '2017-07-29 14:36:51', 0),
+(20, '20/31/01.08/2017', 1, 1, '2017-08-01 00:16:30', '1. Melakukan pemeriksaan pelaksanaan peraturan perundang-undangan ketenagakerjaan pada perusahaan Ittron Global Teknologi alamat Jl. Wonokoyo Utara No. 90 Surabaya <br/>2. melaksanakan tugas dari tanggal 01-08-2017 s/d tanggal 04-08-2017 <br/>3. Setelah selesai melaksanakan tugas, segera menyampaikan laporan tertulis kepada Kepala Dinas Sulton Prakasa.', 'Rusak', NULL, '45', '2017-08-01 00:38:21', 0);
 
 -- --------------------------------------------------------
 
@@ -620,7 +631,8 @@ INSERT INTO `tenaga_kerja` (`ID_TK`, `NO_KTP`, `EMAIL`, `NAMA_TK`, `ALAMAT_TK`, 
 (37, '32952672597', 'eko@gmail.com', 'Eko Hernowo', 'Jl. Kutilang No. 22 GKA Gresik', 'Tulungagung', '1983-11-05 00:00:00', 'Laki-laki', 'Islam', 'Kawin', 'Karyawan Swasta', 'WNI', '46f94c8de14fb36680850768ff1b7f2a', NULL, NULL, NULL, 'PT. Dubai Exsoteknik', 'Jl. Banjar Kemantren No. 34 Surabaya', 'adam.triamukti@gmail.com', '0233682815', '034863838', NULL, 1, 'perseorangan', 'Staff Elektronika', '9', 'Produsen Cat Emulsi'),
 (38, '593828582', 'dwi@gmail.com', 'Dwi Sasongko', 'Jl. Veteran No. 105 Gresik', 'Surabaya', '1990-07-11 00:00:00', 'Laki-laki', 'Islam', 'Kawin', 'Karyawan Swasta', 'WNI', '46f94c8de14fb36680850768ff1b7f2a', NULL, NULL, NULL, NULL, NULL, 'adam.triamukti@gmail.com', NULL, NULL, NULL, 1, 'perseorangan', NULL, NULL, NULL),
 (39, '482682763', 'arif@gmail.com', 'Arif Rahman Hakim', 'Jl. Kasuari III No. 155 Surabaya', 'Surabaya', '1990-09-12 00:00:00', 'Laki-laki', 'Islam', 'Kawin', 'Karyawan Swasta', 'WNI', '46f94c8de14fb36680850768ff1b7f2a', NULL, NULL, NULL, 'PT. Solindo', 'Jl. Diponegoro No. 44 Surabaya', 'adam.triamukti@gmail.com', '0318643767', '0315827627', NULL, 1, 'perseorangan', 'Staff GA', '1', 'Importir Barang Fashion'),
-(40, '535235321', 'adam.triamukti@gmail.com', 'Adam Triamukti', 'Jl. Rajawali IV', 'Gresik', '1995-07-05 00:00:00', 'Laki-laki', 'Islam', 'Belum Kawin', 'Karyawan Swasta', 'WNI', '46f94c8de14fb36680850768ff1b7f2a', NULL, NULL, NULL, 'Ittron Global Teknologi', 'Jl. Wonokoyo Utara No. 90 Surabaya', 'adam.triamukti@gmail.com', '0532577', '2257382', NULL, 1, 'perseorangan', 'Support Programmer', '2', 'IT Company');
+(40, '535235321', 'adam.triamukti@gmail.com', 'Adam Triamukti', 'Jl. Rajawali IV', 'Gresik', '1995-07-05 00:00:00', 'Laki-laki', 'Islam', 'Belum Kawin', 'Karyawan Swasta', 'WNI', '46f94c8de14fb36680850768ff1b7f2a', NULL, NULL, NULL, 'Ittron Global Teknologi', 'Jl. Wonokoyo Utara No. 90 Surabaya', 'adam.triamukti@gmail.com', '0532577', '2257382', NULL, 1, 'perseorangan', 'Support Programmer', '2', 'IT Company'),
+(41, '46729329682', 'veddeect86@gmail.com', 'Viviana Tundriana', 'Jl. Kalibokor No. 22', NULL, '1991-07-08 00:00:00', 'Perempuan', NULL, NULL, 'Karyawan Swasta', 'WNI', '46f94c8de14fb36680850768ff1b7f2a', NULL, NULL, NULL, 'Ittron Global Teknologi', 'Jl. Wonokoyo Utara No. 90 Surabaya', 'adam.triamukti@gmail.com', '0532577', '2257382', NULL, 1, 'perseorangan', 'Support Programmer', '', 'IT Company');
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

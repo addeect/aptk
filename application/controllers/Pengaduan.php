@@ -565,74 +565,63 @@ class Pengaduan extends CI_Controller {
     $html .= '</tr>';
     $html .= '</table>';
 
-    // Page #2
-
-    $html .= '<br pagebreak="true"/>';
     
-    // Section 1
-    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:underline">LAPORAN BULANAN NOTA PEMERIKSAAN</span></div>';
-    if(isset($_GET['tgl_awal']) && $_GET['tgl_awal']!=''){
-        $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">JENIS '.strtoupper($_GET['jenis_pelanggaran']).' PERIODE '.date('d-m-Y',strtotime($_GET['tgl_awal'])).' s/d '.date('d-m-Y',strtotime($_GET['tgl_akhir'])).'</span></div>';
-    }
     
     // Spacing
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
-    $html .= '<div style="width:300px;text-align:left;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">1. JUMLAH KASUS MASUK</span></div>';
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">LAPORAN BULANAN NOTA PEMERIKSAAN</span></div>';
     
 
     // Spacing
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
     $html .= '<table>';
     $html .= '<tr>';
-    $html .= '<td width="180px"></td>';
+    $html .= '<td width="10px"></td>';
 
-    $html .= '<td width="250px">';
+    $html .= '<td width="920px">';
     $html .= '<table border="1">';
     $html .= '<tr style="text-align:center;">';
-    $html .= '<td width="100px"><strong>Bulan</strong></td>';
-    $html .= '<td width="150px"><strong>Jumlah</strong></td>';
+    $html .= '<td width="70px"><strong>Bulan</strong></td>';
+    $html .= '<td width="100px"><strong>Nama Pengawas 1</strong></td>';
+    $html .= '<td width="100px"><strong>Nama Pengawas 2</strong></td>';
+    $html .= '<td width="100px"><strong>Nama Pengawas 3</strong></td>';
+    $html .= '<td width="100px"><strong>Perusahaan</strong></td>';
+    $html .= '<td width="100px"><strong>Alamat</strong></td>';
+    $html .= '<td width="50px"><strong>Nota Ke</strong></td>';
     $html .= '</tr>';
-    foreach ($kasus_masuk_serikat as $key) {
+    $all_spt = $this->m_main->getAllSPT();
+    foreach ($all_spt as $key) {
         $html .= '<tr style="text-align:center">';
-        $html .= '<td>'.$key->Bulan.'</td>';
-        $html .= '<td>'.$key->jumlah.'</td>';
+        $html .= '<td>'.$key->bulan.'<br/>'.date('d/m', strtotime($key->TGL_SPT)).'<br/>'.date('Y', strtotime($key->TGL_SPT)).'</td>';
+        // get Nama Pengawas
+        $pengawas_1 = $this->m_main->getPengawas($key->ID_SPT);
+        foreach ($pengawas_1 as $key1) {
+            if($key1->NAMA_KARYAWAN != null){
+                $html .= '<td>'.$key1->NAMA_KARYAWAN.'</td>';
+            }
+        }
+
+        // get Nama Perusahaan
+        $data_perusahaan = $this->m_main->getPerusahaan($key->ID_SPT); 
+        // var_dump($data_perusahaan);die();
+        if($data_perusahaan != null){
+            $html .= '<td>'.$data_perusahaan['nama_perusahaan'].'</td>';
+        }
+
+        // get Alamat Perusahaan
+        $data_perusahaan = $this->m_main->getPerusahaan($key->ID_SPT); 
+        if($data_perusahaan != null){
+            $html .= '<td>'.$data_perusahaan['alamat_perusahaan'].'</td>';
+        }
+
+        // get Nota Pemeriksaan Terakhir
+        $nota_terakhir = $this->m_main->getLastNota($key->ID_SPT); 
+        if($nota_terakhir != null){
+            $html .= '<td>'.$nota_terakhir.'</td>';
+        }
         $html .= '</tr>';
     }
-    $html .= '</table>';
-    $html .= '</td>';
-    $html .= '<td width="10px">&nbsp;</td>';
-    $html .= '<td width="250px">';
     
-    $html .= '</td>';
-
-    $html .= '<td width="20px"></td>';
-    $html .= '</tr>';
-    $html .= '</table>';
-
-    
-    // Spacing
-    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
-    $html .= '<div style="width:300px;text-align:left;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">3. KECENDERUNGAN KASUS</span></div>';
-    
-
-    // Spacing
-    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
-    $html .= '<table>';
-    $html .= '<tr>';
-    $html .= '<td width="180px"></td>';
-
-    $html .= '<td width="260px">';
-    $html .= '<table border="1">';
-    $html .= '<tr style="text-align:center;">';
-    $html .= '<td width="180px"><strong>Jenis Pelanggaran</strong></td>';
-    $html .= '<td width="80px"><strong>Jumlah</strong></td>';
-    $html .= '</tr>';
-    foreach ($kecenderungan_serikat as $key) {
-        $html .= '<tr style="text-align:center">';
-        $html .= '<td>'.$key->jenis.'</td>';
-        $html .= '<td>'.$key->jumlah.'</td>';
-        $html .= '</tr>';
-    }
     $html .= '</table>';
     $html .= '</td>';
     $html .= '<td width="10px">&nbsp;</td>';
@@ -643,8 +632,6 @@ class Pengaduan extends CI_Controller {
     $html .= '<td width="20px"></td>';
     $html .= '</tr>';
     $html .= '</table>';
-
-    
 
     // output the HTML content
     $pdf->writeHTML($html, true, false, true, false, '');
