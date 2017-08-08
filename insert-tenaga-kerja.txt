@@ -8,3 +8,5 @@ Serikat Kerja
 
 insert into tenaga_kerja (`NAMA_SERIKAT`,`ALAMAT_SERIKAT`,`TELP_SERIKAT`,`NAMA_PERUSAHAAN`,`ALAMAT_PERUSAHAAN`,`TELP_PERUSAHAAN`,`TELP_HRD_SERIKAT`,`PASSWORD_TK`,`USER_STS`,`USER_TYPE`) values ('SP3I','Jl. Baturaja III/35 Surabaya','083574','CV. Ijo Edi Jaya','Jl. Palubutung No.72 Surabaya','08658343','9684638','46f94c8de14fb36680850768ff1b7f2a','1','perserikatan');
 
+insert into [table] (`field_1`,`field_2`) values ('value_field1','value_field2'), ('value_field1','value_field2'), ('value_field1','value_field2');
+
