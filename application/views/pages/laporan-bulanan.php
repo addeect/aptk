@@ -91,18 +91,25 @@
             <!-- /.row -->
             <div class="row">
             <form method="get" target="_self" action="<?php echo site_url('main/index/laporan-bulanan'); ?>" id="form_laporan">
-            <div class="form-group col-sm-4">
+            <div class="form-group col-sm-3">
                 <label>Jenis Pelanggaran</label>
                 <select class="form-control" id="jenis_pelanggaran" name="jenis_pelanggaran">
                     <option value="Pelanggaran K3">Pelanggaran K3</option>
                     <option value="Pelanggaran Normatif">Pelanggaran Normatif</option>
                 </select>
             </div>
-            <div class="form-group col-sm-4">
+            <div class="form-group col-sm-3">
+                <label>Kategori</label>
+                <select class="form-control" id="kategori" name="kategori">
+                    <option value="tenaga_kerja">Tenaga Kerja</option>
+                    <option value="serikat_kerja">Serikat Kerja</option>
+                </select>
+            </div>
+            <div class="form-group col-sm-3">
                 <label>Tanggal Awal</label>
                 <input type="text" name="tgl_awal" id="tgl_awal" class="form-control">
             </div>
-            <div class="form-group col-sm-4">
+            <div class="form-group col-sm-3">
                 <label>Tanggal Akhir</label>
                 <input type="text" name="tgl_akhir" id="tgl_akhir" class="form-control">
             </div>
@@ -546,9 +553,10 @@
 
         $('#pdf_button').click(function(){
             var jenis_pelanggaran = $('#jenis_pelanggaran').val();
+            var kategori = $('#kategori').val();
             var tgl_awal = $('#tgl_awal').val();
             var tgl_akhir = $('#tgl_akhir').val();
-            var url = "<?php echo site_url('pengaduan/laporan_pdf'); ?>?jenis_pelanggaran="+jenis_pelanggaran+"&tgl_awal="+tgl_awal+"&tgl_akhir="+tgl_akhir;
+            var url = "<?php echo site_url('pengaduan/laporan_pdf'); ?>?jenis_pelanggaran="+jenis_pelanggaran+"&tgl_awal="+tgl_awal+"&tgl_akhir="+tgl_akhir+"&kategori="+kategori;
             var win = window.open(url, '_blank');
               win.focus();
         });

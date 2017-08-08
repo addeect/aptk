@@ -509,7 +509,7 @@ class M_main extends CI_Model{
 		$this->db->from("keluhan_serikat");
 		$this->db->where('TGL_MASUK >=', $tgl_awal);
 		$this->db->where('TGL_MASUK <=', $tgl_akhir);
-		$this->db->where('JENIS_KELUHAN', $jenis_pelanggaran);
+		$this->db->where('JENIS_KELUHAN_SERIKAT', $jenis_pelanggaran);
 		// $this->db->group_by("Bulan");
 		$this->db->order_by("Bulan DESC");
 		// $this->db->order_by("ID_SPT ASC");

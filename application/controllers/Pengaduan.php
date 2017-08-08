@@ -217,6 +217,7 @@ class Pengaduan extends CI_Controller {
     function laporan_pdf(){
         $this->load->model('m_main');
         $jenis_pelanggaran = $this->input->get("jenis_pelanggaran");
+        $kategori = $this->input->get("kategori");
         $tgl_awal = date('Y-m-d H:i:s', strtotime($this->input->get("tgl_awal")));
         $tgl_akhir = date('Y-m-d H:i:s', strtotime($this->input->get("tgl_akhir")));
         // $kasus_masuk = '';
@@ -294,219 +295,283 @@ class Pengaduan extends CI_Controller {
     $pdf->SetFont('dejavusans', '', 10);
 
     $pdf->AddPage();
-    // Section 1
-    $html = '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:underline">LAPORAN BULANAN PERORANGAN</span></div>';
-    if(isset($_GET['tgl_awal']) && $_GET['tgl_awal']!=''){
-        $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">JENIS '.strtoupper($_GET['jenis_pelanggaran']).' PERIODE '.date('d-m-Y',strtotime($_GET['tgl_awal'])).' s/d '.date('d-m-Y',strtotime($_GET['tgl_akhir'])).'</span></div>';
+    if ($kategori == 'tenaga_kerja'){
+        // Section 1
+        $html = '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:underline">LAPORAN BULANAN TENAGA KERJA</span></div>';
+        if(isset($_GET['tgl_awal']) && $_GET['tgl_awal']!=''){
+            $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">JENIS '.strtoupper($_GET['jenis_pelanggaran']).' PERIODE '.date('d-m-Y',strtotime($_GET['tgl_awal'])).' s/d '.date('d-m-Y',strtotime($_GET['tgl_akhir'])).'</span></div>';
+        }
+        
+        // Spacing
+        $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+        $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">LAPORAN BULANAN PENANGANAN KASUS KATEGORI TENAGA KERJA</span></div>';
+        
+
+        // Spacing
+        $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+        $html .= '<table>';
+        $html .= '<tr>';
+        $html .= '<td width="30px"></td>';
+
+        $html .= '<td width="250px">';
+        $html .= '<table border="1">';
+        $html .= '<tr style="text-align:center;">';
+        $html .= '<td width="100px"><strong>Bulan</strong></td>';
+        $html .= '<td width="150px"><strong>Kasus Masuk</strong></td>';
+        
+        $html .= '</tr>';
+        foreach ($kasus_masuk as $key) {
+            $html .= '<tr style="text-align:center">';
+            $html .= '<td>'.$key->Bulan.'</td>';
+            $html .= '<td>'.$key->jumlah.'</td>';
+            $html .= '</tr>';
+
+            
+        }
+        $html .= '</table>';
+        $html .= '</td>';
+
+        $html .= '<td width="150px">';
+        $html .= '<table border="1">';
+        $html .= '<tr style="text-align:center">';
+        $html .= '<td><strong>Kasus Selesai</strong></td>';
+        $html .= '</tr>';
+        foreach ($kasus_masuk as $key) {
+            foreach ($kasus_selesai as $key1) {
+
+                if($key->Bulan == $key1->Bulan){
+                    $html .= '<tr style="text-align:center">';
+                    // $html .= '<td>'.$key->Bulan.'</td>';
+                    // $html .= '<td>'.$key->jumlah.'</td>';
+                    $html .= '<td>'.$key1->jumlah.'</td>';
+                    $html .= '</tr>';
+                }
+
+            }
+        }
+        $html .= '</table>';
+        $html .= '</td>';
+
+        $html .= '<td width="150px">';
+        $html .= '<table border="1">';
+        $html .= '<tr style="text-align:center">';
+        $html .= '<td><strong>Kasus Tidak Selesai</strong></td>';
+        $html .= '</tr>';
+        foreach ($kasus_masuk as $key) {
+            foreach ($kasus_tidak_selesai as $key1) {
+
+                if($key->Bulan == $key1->Bulan){
+                    $html .= '<tr style="text-align:center">';
+                    // $html .= '<td>'.$key->Bulan.'</td>';
+                    // $html .= '<td>'.$key->jumlah.'</td>';
+                    $html .= '<td>'.$key1->jumlah.'</td>';
+                    $html .= '</tr>';
+                }
+
+            }
+        }
+        $html .= '</table>';
+        $html .= '</td>';
+
+        $html .= '<td width="20px"></td>';
+        $html .= '</tr>';
+        $html .= '</table>';
+
+        $html .= '<table border="0">';
+        $html .= '<tr>';
+        $html .= '<td width="30px"></td>';
+        $html .= '<td>';
+        $html .= '<table border="1">';
+        $html .= '<tr style="text-align:center">';
+        $html .= '<td width="100px">Total</td>';
+        $html .= '<td width="150px">';
+        foreach ($total_masuk as $key) {
+        $html .= $key->jumlah; 
+        }
+        $html .= '</td>';
+        $html .= '<td width="150px">';
+        foreach ($total_selesai as $key) {
+        $html .= $key->jumlah; 
+        }
+        $html .= '</td>';
+        $html .= '<td width="150px">';
+        foreach ($total_tidak_selesai as $key) {
+        $html .= $key->jumlah; 
+        }
+        $html .= '</td>';
+        $html .= '</tr>';
+        $html .= '</table>';
+        $html .= '</td>';
+        $html .= '</tr>';
+        $html .= '</table>';
+    }
+    else if($kategori == 'serikat_kerja'){
+        // Section 1
+        $html = '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:underline">LAPORAN BULANAN SERIKAT KERJA</span></div>';
+        if(isset($_GET['tgl_awal']) && $_GET['tgl_awal']!=''){
+            $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">JENIS '.strtoupper($_GET['jenis_pelanggaran']).' PERIODE '.date('d-m-Y',strtotime($_GET['tgl_awal'])).' s/d '.date('d-m-Y',strtotime($_GET['tgl_akhir'])).'</span></div>';
+        }
+        // Spacing
+        $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+        $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">LAPORAN BULANAN PENANGANAN KASUS KATEGORI SERIKAT KERJA</span></div>';
+        
+
+        // Spacing
+        $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+        $html .= '<table>';
+        $html .= '<tr>';
+        $html .= '<td width="30px"></td>';
+
+        $html .= '<td width="250px">';
+        $html .= '<table border="1">';
+        $html .= '<tr style="text-align:center;">';
+        $html .= '<td width="100px"><strong>Bulan</strong></td>';
+        $html .= '<td width="150px"><strong>Kasus Masuk</strong></td>';
+        
+        $html .= '</tr>';
+        foreach ($kasus_masuk_serikat as $key) {
+            $html .= '<tr style="text-align:center">';
+            $html .= '<td>'.$key->Bulan.'</td>';
+            $html .= '<td>'.$key->jumlah.'</td>';
+            $html .= '</tr>';
+
+            
+        }
+        $html .= '</table>';
+        $html .= '</td>';
+
+        $html .= '<td width="150px">';
+        $html .= '<table border="1">';
+        $html .= '<tr style="text-align:center">';
+        $html .= '<td><strong>Kasus Selesai</strong></td>';
+        $html .= '</tr>';
+        foreach ($kasus_masuk_serikat as $key) {
+            foreach ($kasus_serikat_selesai as $key1) {
+
+                if($key->Bulan == $key1->Bulan){
+                    $html .= '<tr style="text-align:center">';
+                    // $html .= '<td>'.$key->Bulan.'</td>';
+                    // $html .= '<td>'.$key->jumlah.'</td>';
+                    $html .= '<td>'.$key1->jumlah.'</td>';
+                    $html .= '</tr>';
+                }
+
+            }
+        }
+        $html .= '</table>';
+        $html .= '</td>';
+
+        $html .= '<td width="150px">';
+        $html .= '<table border="1">';
+        $html .= '<tr style="text-align:center">';
+        $html .= '<td><strong>Kasus Tidak Selesai</strong></td>';
+        $html .= '</tr>';
+        foreach ($kasus_masuk_serikat as $key) {
+            foreach ($kasus_serikat_tidak_selesai as $key1) {
+
+                if($key->Bulan == $key1->Bulan){
+                    $html .= '<tr style="text-align:center">';
+                    // $html .= '<td>'.$key->Bulan.'</td>';
+                    // $html .= '<td>'.$key->jumlah.'</td>';
+                    $html .= '<td>'.$key1->jumlah.'</td>';
+                    $html .= '</tr>';
+                }
+
+            }
+        }
+        $html .= '</table>';
+        $html .= '</td>';
+
+        $html .= '<td width="20px"></td>';
+        $html .= '</tr>';
+        $html .= '</table>';
+
+        $html .= '<table border="0">';
+        $html .= '<tr>';
+        $html .= '<td width="30px"></td>';
+        $html .= '<td>';
+        $html .= '<table border="1">';
+        $html .= '<tr style="text-align:center">';
+        $html .= '<td width="100px">Total</td>';
+        $html .= '<td width="150px">';
+        foreach ($total_masuk_serikat as $key) {
+        $html .= $key->jumlah; 
+        }
+        $html .= '</td>';
+        $html .= '<td width="150px">';
+        foreach ($total_selesai_serikat as $key) {
+        $html .= $key->jumlah; 
+        }
+        $html .= '</td>';
+        $html .= '<td width="150px">';
+        foreach ($total_tidak_selesai_serikat as $key) {
+        $html .= $key->jumlah; 
+        }
+        $html .= '</td>';
+        $html .= '</tr>';
+        $html .= '</table>';
+        $html .= '</td>';
+        $html .= '</tr>';
+        $html .= '</table>';
     }
     
     // Spacing
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
-    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">LAPORAN BULANAN PENANGANAN KASUS KATEGORI TENAGA KERJA</span></div>';
-    
-
-    // Spacing
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
+    // Section 3
     $html .= '<table>';
     $html .= '<tr>';
-    $html .= '<td width="30px"></td>';
-
-    $html .= '<td width="250px">';
-    $html .= '<table border="1">';
-    $html .= '<tr style="text-align:center;">';
-    $html .= '<td width="100px"><strong>Bulan</strong></td>';
-    $html .= '<td width="150px"><strong>Kasus Masuk</strong></td>';
-    
-    $html .= '</tr>';
-    foreach ($kasus_masuk as $key) {
-        $html .= '<tr style="text-align:center">';
-        $html .= '<td>'.$key->Bulan.'</td>';
-        $html .= '<td>'.$key->jumlah.'</td>';
-        $html .= '</tr>';
-
-        
-    }
-    $html .= '</table>';
-    $html .= '</td>';
-
-    $html .= '<td width="150px">';
-    $html .= '<table border="1">';
-    $html .= '<tr style="text-align:center">';
-    $html .= '<td><strong>Kasus Selesai</strong></td>';
-    $html .= '</tr>';
-    foreach ($kasus_masuk as $key) {
-        foreach ($kasus_selesai as $key1) {
-
-            if($key->Bulan == $key1->Bulan){
-                $html .= '<tr style="text-align:center">';
-                // $html .= '<td>'.$key->Bulan.'</td>';
-                // $html .= '<td>'.$key->jumlah.'</td>';
-                $html .= '<td>'.$key1->jumlah.'</td>';
-                $html .= '</tr>';
-            }
-
-        }
-    }
-    $html .= '</table>';
-    $html .= '</td>';
-
-    $html .= '<td width="150px">';
-    $html .= '<table border="1">';
-    $html .= '<tr style="text-align:center">';
-    $html .= '<td><strong>Kasus Tidak Selesai</strong></td>';
-    $html .= '</tr>';
-    foreach ($kasus_masuk as $key) {
-        foreach ($kasus_tidak_selesai as $key1) {
-
-            if($key->Bulan == $key1->Bulan){
-                $html .= '<tr style="text-align:center">';
-                // $html .= '<td>'.$key->Bulan.'</td>';
-                // $html .= '<td>'.$key->jumlah.'</td>';
-                $html .= '<td>'.$key1->jumlah.'</td>';
-                $html .= '</tr>';
-            }
-
-        }
-    }
-    $html .= '</table>';
-    $html .= '</td>';
-
-    $html .= '<td width="20px"></td>';
-    $html .= '</tr>';
-    $html .= '</table>';
-
+    $html .= '<td width="50px">&nbsp;</td>';
+    $html .= '<td>';
     $html .= '<table border="0">';
     $html .= '<tr>';
-    $html .= '<td width="30px"></td>';
-    $html .= '<td>';
-    $html .= '<table border="1">';
-    $html .= '<tr style="text-align:center">';
-    $html .= '<td width="100px">Total</td>';
-    $html .= '<td width="150px">';
-    foreach ($total_masuk as $key) {
-    $html .= $key->jumlah; 
-    }
-    $html .= '</td>';
-    $html .= '<td width="150px">';
-    foreach ($total_selesai as $key) {
-    $html .= $key->jumlah; 
-    }
-    $html .= '</td>';
-    $html .= '<td width="150px">';
-    foreach ($total_tidak_selesai as $key) {
-    $html .= $key->jumlah; 
-    }
-    $html .= '</td>';
+    $html .= '<td width="190px" style="text-align:center"></td>';
     $html .= '</tr>';
-    $html .= '</table>';
-    $html .= '</td>';
-    $html .= '</tr>';
-    $html .= '</table>';
-
-    // Spacing
-    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
-    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">LAPORAN BULANAN PENANGANAN KASUS KATEGORI SERIKAT KERJA</span></div>';
-    
-
-    // Spacing
-    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
-    $html .= '<table>';
     $html .= '<tr>';
-    $html .= '<td width="30px"></td>';
-
-    $html .= '<td width="250px">';
-    $html .= '<table border="1">';
-    $html .= '<tr style="text-align:center;">';
-    $html .= '<td width="100px"><strong>Bulan</strong></td>';
-    $html .= '<td width="150px"><strong>Kasus Masuk</strong></td>';
-    
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
     $html .= '</tr>';
-    foreach ($kasus_masuk_serikat as $key) {
-        $html .= '<tr style="text-align:center">';
-        $html .= '<td>'.$key->Bulan.'</td>';
-        $html .= '<td>'.$key->jumlah.'</td>';
-        $html .= '</tr>';
-
-        
-    }
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:underline"></font></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:none"></font></td>';
+    $html .= '</tr>';
     $html .= '</table>';
     $html .= '</td>';
-
-    $html .= '<td width="150px">';
-    $html .= '<table border="1">';
-    $html .= '<tr style="text-align:center">';
-    $html .= '<td><strong>Kasus Selesai</strong></td>';
-    $html .= '</tr>';
-    foreach ($kasus_masuk_serikat as $key) {
-        foreach ($kasus_serikat_selesai as $key1) {
-
-            if($key->Bulan == $key1->Bulan){
-                $html .= '<tr style="text-align:center">';
-                // $html .= '<td>'.$key->Bulan.'</td>';
-                // $html .= '<td>'.$key->jumlah.'</td>';
-                $html .= '<td>'.$key1->jumlah.'</td>';
-                $html .= '</tr>';
-            }
-
-        }
-    }
-    $html .= '</table>';
-    $html .= '</td>';
-
-    $html .= '<td width="150px">';
-    $html .= '<table border="1">';
-    $html .= '<tr style="text-align:center">';
-    $html .= '<td><strong>Kasus Tidak Selesai</strong></td>';
-    $html .= '</tr>';
-    foreach ($kasus_masuk_serikat as $key) {
-        foreach ($kasus_serikat_tidak_selesai as $key1) {
-
-            if($key->Bulan == $key1->Bulan){
-                $html .= '<tr style="text-align:center">';
-                // $html .= '<td>'.$key->Bulan.'</td>';
-                // $html .= '<td>'.$key->jumlah.'</td>';
-                $html .= '<td>'.$key1->jumlah.'</td>';
-                $html .= '</tr>';
-            }
-
-        }
-    }
-    $html .= '</table>';
-    $html .= '</td>';
-
-    $html .= '<td width="20px"></td>';
-    $html .= '</tr>';
-    $html .= '</table>';
-
+    $html .= '<td width="200px">&nbsp;</td>';
+    $html .= '<td>';
     $html .= '<table border="0">';
     $html .= '<tr>';
-    $html .= '<td width="30px"></td>';
-    $html .= '<td>';
-    $html .= '<table border="1">';
-    $html .= '<tr style="text-align:center">';
-    $html .= '<td width="100px">Total</td>';
-    $html .= '<td width="150px">';
-    foreach ($total_masuk_serikat as $key) {
-    $html .= $key->jumlah; 
-    }
-    $html .= '</td>';
-    $html .= '<td width="150px">';
-    foreach ($total_selesai_serikat as $key) {
-    $html .= $key->jumlah; 
-    }
-    $html .= '</td>';
-    $html .= '<td width="150px">';
-    foreach ($total_tidak_selesai_serikat as $key) {
-    $html .= $key->jumlah; 
-    }
-    $html .= '</td>';
+    $html .= '<td width="190px" style="text-align:center">Kepala Dinas</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center">&nbsp;</td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:underline">Sulton Prakasa</font></td>';
+    $html .= '</tr>';
+    $html .= '<tr>';
+    $html .= '<td width="190px" style="text-align:center"><font style="text-decoration:none">Pembina Utama Muda</font></td>';
     $html .= '</tr>';
     $html .= '</table>';
     $html .= '</td>';
     $html .= '</tr>';
     $html .= '</table>';
 
-    
+    $html .= '<br pagebreak="true">';
     // Spacing
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">LAPORAN BULANAN KECENDERUNGAN KASUS</span></div>';
