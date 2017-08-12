@@ -789,57 +789,6 @@ class M_main extends CI_Model{
 		$row = $query->num_rows();
 		return $row;
 	}
-	function getDone1($bulan){
-
-		$status = 100;
-		$this->db->select("MONTHNAME(kt.TANGGAL_MASUK) as Bulan");
-		$this->db->from("keluhan_tk kt");
-		$this->db->join("jenis_keluhan jk","kt.ID_KELUHAN_TK = jk.ID_KELUHAN_TK");
-		$this->db->where("jk.STATUS_PENYELESAIAN",$status);
-		$this->db->where("MONTHNAME(kt.TANGGAL_MASUK)",$bulan);
-		// $this->db->group_by("Bulan");
-		$this->db->order_by("Bulan DESC");
-		// $query = $this -> db -> get();
-		// return $query->result();
-
-		// $this->db->select("IF(count(*) IS NULL,'0',count(*)) AS 'jumlah', MONTHNAME(TANGGAL_MASUK) as Bulan");
-		// $this->db->from("keluhan_tk");
-		
-		// $this->db->where("MONTHNAME(TANGGAL_MASUK)",$bulan);
-		// $this->db->group_by("Bulan");
-		// $this->db->order_by("Bulan DESC");
-		// $this->db->order_by("ID_SPT ASC");
-		$query = $this -> db -> get();
-		$row = $query->num_rows();
-		return $row;
-		// foreach ($row as $key) {
-			// return $key->jumlah;
-		// }
-	}
-	function getUnDone1($bulan){
-
-		$status = 100;
-		$this->db->select("MONTHNAME(kt.TANGGAL_MASUK) as Bulan");
-		$this->db->from("keluhan_tk kt");
-		$this->db->join("jenis_keluhan jk","kt.ID_KELUHAN_TK = jk.ID_KELUHAN_TK");
-		$this->db->where("jk.STATUS_PENYELESAIAN < 100");
-		$this->db->where("MONTHNAME(kt.TANGGAL_MASUK)",$bulan);
-		// $this->db->group_by("Bulan");
-		$this->db->order_by("Bulan DESC");
-		// $query = $this -> db -> get();
-		// return $query->result();
-
-		// $this->db->select("IF(count(*) IS NULL,'0',count(*)) AS 'jumlah', MONTHNAME(TANGGAL_MASUK) as Bulan");
-		// $this->db->from("keluhan_tk");
-		
-		// $this->db->where("MONTHNAME(TANGGAL_MASUK)",$bulan);
-		// $this->db->group_by("Bulan");
-		// $this->db->order_by("Bulan DESC");
-		// $this->db->order_by("ID_SPT ASC");
-		$query = $this -> db -> get();
-		$row = $query->num_rows();
-		return $row;
-	}
 	function kasus_masuk_total(){
 		$this->db->select("count(*) as jumlah, MONTHNAME(TANGGAL_MASUK) as Bulan");
 		$this->db->from("keluhan_tk");
