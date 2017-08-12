@@ -218,8 +218,12 @@ class Pengaduan extends CI_Controller {
         $this->load->model('m_main');
         $jenis_pelanggaran = $this->input->get("jenis_pelanggaran");
         $kategori = $this->input->get("kategori");
-        $tgl_awal = date('Y-m-d H:i:s', strtotime($this->input->get("tgl_awal")));
-        $tgl_akhir = date('Y-m-d H:i:s', strtotime($this->input->get("tgl_akhir")));
+        $tgl_awal = null;
+        $tgl_akhir = null;
+        if($_GET['tgl_awal']!='' && $_GET['tgl_akhir']!=''){
+            $tgl_awal = date('Y-m-d H:i:s', strtotime($this->input->get("tgl_awal")));
+            $tgl_akhir = date('Y-m-d H:i:s', strtotime($this->input->get("tgl_akhir")));
+        }
         // $kasus_masuk = '';
         if($_GET['tgl_awal']!='' && $_GET['tgl_akhir']!=''){
             $kasus_masuk = $this->m_main->kasus_masuk_p($tgl_awal,$tgl_akhir,$jenis_pelanggaran);
@@ -295,6 +299,8 @@ class Pengaduan extends CI_Controller {
     $pdf->SetFont('dejavusans', '', 10);
 
     $pdf->AddPage();
+    $bulan_masuk_tk = $this->m_main->getMonthNameTK($tgl_awal,$tgl_akhir);
+    $bulan_masuk_sk = $this->m_main->getMonthNameSK($tgl_awal,$tgl_akhir);
     if ($kategori == 'tenaga_kerja'){
         // Section 1
         $html = '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:underline">LAPORAN BULANAN TENAGA KERJA</span></div>';
@@ -314,61 +320,50 @@ class Pengaduan extends CI_Controller {
         $html .= '<td width="30px"></td>';
 
         $html .= '<td width="250px">';
-        $html .= '<table border="1">';
+        $html .= '<table border="1" cellpadding="2">';
         $html .= '<tr style="text-align:center;">';
         $html .= '<td width="100px"><strong>Bulan</strong></td>';
         $html .= '<td width="150px"><strong>Kasus Masuk</strong></td>';
         
         $html .= '</tr>';
-        foreach ($kasus_masuk as $key) {
+        
+        foreach ($bulan_masuk_tk as $key) {
             $html .= '<tr style="text-align:center">';
-            $html .= '<td>'.$key->Bulan.'</td>';
-            $html .= '<td>'.$key->jumlah.'</td>';
+            $html .= '<td>'.$key->monthname.'</td>';
+            $r = $this->m_main->getCreatedTK($key->month,$key->year);
+            $html .= '<td>'.$r.'</td>';
             $html .= '</tr>';
+        }
+        $html .= '</table>';
+        $html .= '</td>';
 
+        $html .= '<td width="150px">';
+        $html .= '<table border="1" cellpadding="2">';
+        $html .= '<tr style="text-align:center">';
+        $html .= '<td><strong>Kasus Selesai</strong></td>';
+        $html .= '</tr>';
+        foreach ($bulan_masuk_tk as $key) {
+            $usage = null;
+            $r = $this->m_main->getCreatedTK($key->month,$key->year,$usage,100);
+            $html .= '<tr style="text-align:center">';
+            $html .= '<td>'.$r.'</td>';
+            $html .= '</tr>';
             
         }
         $html .= '</table>';
         $html .= '</td>';
 
         $html .= '<td width="150px">';
-        $html .= '<table border="1">';
-        $html .= '<tr style="text-align:center">';
-        $html .= '<td><strong>Kasus Selesai</strong></td>';
-        $html .= '</tr>';
-        foreach ($kasus_masuk as $key) {
-            foreach ($kasus_selesai as $key1) {
-
-                if($key->Bulan == $key1->Bulan){
-                    $html .= '<tr style="text-align:center">';
-                    // $html .= '<td>'.$key->Bulan.'</td>';
-                    // $html .= '<td>'.$key->jumlah.'</td>';
-                    $html .= '<td>'.$key1->jumlah.'</td>';
-                    $html .= '</tr>';
-                }
-
-            }
-        }
-        $html .= '</table>';
-        $html .= '</td>';
-
-        $html .= '<td width="150px">';
-        $html .= '<table border="1">';
+        $html .= '<table border="1" cellpadding="2">';
         $html .= '<tr style="text-align:center">';
         $html .= '<td><strong>Kasus Tidak Selesai</strong></td>';
         $html .= '</tr>';
-        foreach ($kasus_masuk as $key) {
-            foreach ($kasus_tidak_selesai as $key1) {
-
-                if($key->Bulan == $key1->Bulan){
-                    $html .= '<tr style="text-align:center">';
-                    // $html .= '<td>'.$key->Bulan.'</td>';
-                    // $html .= '<td>'.$key->jumlah.'</td>';
-                    $html .= '<td>'.$key1->jumlah.'</td>';
-                    $html .= '</tr>';
-                }
-
-            }
+        foreach ($bulan_masuk_tk as $key) {
+            $usage = '<';
+            $r = $this->m_main->getCreatedTK($key->month,$key->year,$usage,100);
+            $html .= '<tr style="text-align:center">';
+            $html .= '<td>'.$r.'</td>';
+            $html .= '</tr>';
         }
         $html .= '</table>';
         $html .= '</td>';
@@ -381,24 +376,32 @@ class Pengaduan extends CI_Controller {
         $html .= '<tr>';
         $html .= '<td width="30px"></td>';
         $html .= '<td>';
-        $html .= '<table border="1">';
+        $html .= '<table border="1" cellpadding="2">';
         $html .= '<tr style="text-align:center">';
-        $html .= '<td width="100px">Total</td>';
-        $html .= '<td width="150px">';
-        foreach ($total_masuk as $key) {
-        $html .= $key->jumlah; 
+        $html .= '<td width="100px"><b>Total</b></td>';
+        $html .= '<td width="150px"><b>';
+        foreach ($bulan_masuk_tk as $key) {
+            $r = $this->m_main->getCreatedTK($key->month,$key->year);
+            $r_count = $r_count + floatval($r);
         }
-        $html .= '</td>';
-        $html .= '<td width="150px">';
-        foreach ($total_selesai as $key) {
-        $html .= $key->jumlah; 
+        $html .= $r_count; 
+        $html .= '</b></td>';
+        $html .= '<td width="150px"><b>';
+        foreach ($bulan_masuk_tk as $key) {
+            $usage = null;
+            $r_done = $this->m_main->getCreatedTK($key->month,$key->year,$usage,100);
+            $r_done_count = $r_done_count + floatval($r_done);
         }
-        $html .= '</td>';
-        $html .= '<td width="150px">';
-        foreach ($total_tidak_selesai as $key) {
-        $html .= $key->jumlah; 
+        $html .= $r_done_count; 
+        $html .= '</b></td>';
+        $html .= '<td width="150px"><b>';
+        foreach ($bulan_masuk_tk as $key) {
+            $usage = '<';
+            $r_undone = $this->m_main->getCreatedTK($key->month,$key->year,$usage,100);
+            $r_undone_count = $r_undone_count + floatval($r_undone);
         }
-        $html .= '</td>';
+        $html .= $r_undone_count;
+        $html .= '</b></td>';
         $html .= '</tr>';
         $html .= '</table>';
         $html .= '</td>';
@@ -423,61 +426,50 @@ class Pengaduan extends CI_Controller {
         $html .= '<td width="30px"></td>';
 
         $html .= '<td width="250px">';
-        $html .= '<table border="1">';
+        $html .= '<table border="1" cellpadding="2">';
         $html .= '<tr style="text-align:center;">';
         $html .= '<td width="100px"><strong>Bulan</strong></td>';
         $html .= '<td width="150px"><strong>Kasus Masuk</strong></td>';
         
         $html .= '</tr>';
-        foreach ($kasus_masuk_serikat as $key) {
+        foreach ($bulan_masuk_sk as $key) {
+            // var_dump($key->monthname);die();
             $html .= '<tr style="text-align:center">';
-            $html .= '<td>'.$key->Bulan.'</td>';
-            $html .= '<td>'.$key->jumlah.'</td>';
+            $html .= '<td>'.$key->monthname.'</td>';
+            $r = $this->m_main->getCreatedSK($key->month,$key->year);
+            $html .= '<td>'.$r.'</td>';
             $html .= '</tr>';
+        }
+        $html .= '</table>';
+        $html .= '</td>';
 
+        $html .= '<td width="150px">';
+        $html .= '<table border="1" cellpadding="2">';
+        $html .= '<tr style="text-align:center">';
+        $html .= '<td><strong>Kasus Selesai</strong></td>';
+        $html .= '</tr>';
+        foreach ($bulan_masuk_sk as $key) {
+            $usage = null;
+            $r = $this->m_main->getCreatedSK($key->month,$key->year,$usage,100);
+            $html .= '<tr style="text-align:center">';
+            $html .= '<td>'.$r.'</td>';
+            $html .= '</tr>';
             
         }
         $html .= '</table>';
         $html .= '</td>';
 
         $html .= '<td width="150px">';
-        $html .= '<table border="1">';
-        $html .= '<tr style="text-align:center">';
-        $html .= '<td><strong>Kasus Selesai</strong></td>';
-        $html .= '</tr>';
-        foreach ($kasus_masuk_serikat as $key) {
-            foreach ($kasus_serikat_selesai as $key1) {
-
-                if($key->Bulan == $key1->Bulan){
-                    $html .= '<tr style="text-align:center">';
-                    // $html .= '<td>'.$key->Bulan.'</td>';
-                    // $html .= '<td>'.$key->jumlah.'</td>';
-                    $html .= '<td>'.$key1->jumlah.'</td>';
-                    $html .= '</tr>';
-                }
-
-            }
-        }
-        $html .= '</table>';
-        $html .= '</td>';
-
-        $html .= '<td width="150px">';
-        $html .= '<table border="1">';
+        $html .= '<table border="1" cellpadding="2">';
         $html .= '<tr style="text-align:center">';
         $html .= '<td><strong>Kasus Tidak Selesai</strong></td>';
         $html .= '</tr>';
-        foreach ($kasus_masuk_serikat as $key) {
-            foreach ($kasus_serikat_tidak_selesai as $key1) {
-
-                if($key->Bulan == $key1->Bulan){
-                    $html .= '<tr style="text-align:center">';
-                    // $html .= '<td>'.$key->Bulan.'</td>';
-                    // $html .= '<td>'.$key->jumlah.'</td>';
-                    $html .= '<td>'.$key1->jumlah.'</td>';
-                    $html .= '</tr>';
-                }
-
-            }
+        foreach ($bulan_masuk_sk as $key) {
+            $usage = '<';
+            $r = $this->m_main->getCreatedSK($key->month,$key->year,$usage,100);
+            $html .= '<tr style="text-align:center">';
+            $html .= '<td>'.$r.'</td>';
+            $html .= '</tr>';
         }
         $html .= '</table>';
         $html .= '</td>';
@@ -490,24 +482,32 @@ class Pengaduan extends CI_Controller {
         $html .= '<tr>';
         $html .= '<td width="30px"></td>';
         $html .= '<td>';
-        $html .= '<table border="1">';
+        $html .= '<table border="1" cellpadding="2">';
         $html .= '<tr style="text-align:center">';
-        $html .= '<td width="100px">Total</td>';
-        $html .= '<td width="150px">';
-        foreach ($total_masuk_serikat as $key) {
-        $html .= $key->jumlah; 
+        $html .= '<td width="100px"><b>Total</b></td>';
+        $html .= '<td width="150px"><b>';
+        foreach ($bulan_masuk_sk as $key) {
+            $r = $this->m_main->getCreatedSK($key->month,$key->year);
+            $r_count = $r_count + floatval($r);
         }
-        $html .= '</td>';
-        $html .= '<td width="150px">';
-        foreach ($total_selesai_serikat as $key) {
-        $html .= $key->jumlah; 
+        $html .= $r_count;
+        $html .= '</b></td>';
+        $html .= '<td width="150px"><b>';
+        foreach ($bulan_masuk_sk as $key) {
+            $usage = null;
+            $r_done = $this->m_main->getCreatedSK($key->month,$key->year,$usage,100);
+            $r_done_count = $r_done_count + floatval($r_done);
         }
-        $html .= '</td>';
-        $html .= '<td width="150px">';
-        foreach ($total_tidak_selesai_serikat as $key) {
-        $html .= $key->jumlah; 
+        $html .= $r_done_count;
+        $html .= '</b></td>';
+        $html .= '<td width="150px"><b>';
+        foreach ($bulan_masuk_sk as $key) {
+            $usage = '<';
+            $r_undone = $this->m_main->getCreatedSK($key->month,$key->year,$usage,100);
+            $r_undone_count = $r_undone_count + floatval($r_undone);
         }
-        $html .= '</td>';
+        $html .= $r_undone_count;
+        $html .= '</b></td>';
         $html .= '</tr>';
         $html .= '</table>';
         $html .= '</td>';
@@ -584,7 +584,7 @@ class Pengaduan extends CI_Controller {
     $html .= '<td width="80px"></td>';
 
     $html .= '<td width="260px">';
-    $html .= '<table border="1">';
+    $html .= '<table border="1" cellpadding="2">';
     $html .= '<tr style="text-align:center;">';
     $html .= '<td width="100px"><strong>Bulan</strong></td>';
     $html .= '<td width="180px"><strong>Pelanggaran K3</strong></td>';

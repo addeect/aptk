@@ -719,6 +719,127 @@ class M_main extends CI_Model{
 		$query = $this -> db -> get();
 		return $query->result();
 	}
+	function getMonthNameTK($start_date = null,$end_date = null){
+		$this->db->select("distinct MONTHNAME( tanggal_masuk ) as monthname, 
+			month(tanggal_masuk) as month, 
+			year(tanggal_masuk) as year");
+		$this->db->from("keluhan_tk");
+		if($start_date != null){
+			$this->db->where("tanggal_masuk >=",$start_date);
+		}
+		if($end_date != null){
+			$this->db->where("tanggal_masuk <=",$end_date);
+		}
+		$this->db->order_by("tanggal_masuk ASC");
+		$query = $this -> db -> get();
+		return $query->result();
+		// return $start_date;
+	}
+	function getMonthNameSK($start_date = null,$end_date = null){
+		$this->db->select("distinct MONTHNAME( tgl_masuk ) as monthname, 
+			month(tgl_masuk) as month, 
+			year(tgl_masuk) as year");
+		$this->db->from("keluhan_serikat");
+		if($start_date != null){
+			$this->db->where("tgl_masuk >=",$start_date);
+		}
+		if($end_date != null){
+			$this->db->where("tgl_masuk <=",$end_date);
+		}
+		$this->db->order_by("tgl_masuk ASC");
+		$query = $this -> db -> get();
+		return $query->result();
+		// return $start_date;
+	}
+	function getCreatedTK($bulan, $tahun, $usage = null, $status = null){
+
+		$this->db->select("*");
+		$this->db->from("keluhan_tk kt");
+		$this->db->join("jenis_keluhan jk","kt.ID_KELUHAN_TK = jk.ID_KELUHAN_TK");
+		if ($status != null){
+			if($usage != null){
+				$this->db->where("jk.STATUS_PENYELESAIAN ".$usage, $status);
+			}
+			else{
+				$this->db->where("jk.STATUS_PENYELESAIAN", $status);
+			}
+		}
+		$this->db->where("MONTH(kt.TANGGAL_MASUK)",$bulan);
+		$this->db->where("YEAR(kt.TANGGAL_MASUK)",$tahun);
+		$query = $this -> db -> get();
+		$row = $query->num_rows();
+		return $row;
+	}
+	function getCreatedSK($bulan, $tahun, $usage = null, $status = null){
+
+		$this->db->select("*");
+		$this->db->from("keluhan_serikat ks");
+		$this->db->join("jenis_keluhan jk","ks.ID_KELUHAN_SERIKAT = jk.ID_KELUHAN_SERIKAT");
+		if ($status != null){
+			if($usage != null){
+				$this->db->where("jk.STATUS_PENYELESAIAN ".$usage, $status);
+			}
+			else{
+				$this->db->where("jk.STATUS_PENYELESAIAN", $status);
+			}
+		}
+		$this->db->where("MONTH(ks.TGL_MASUK)",$bulan);
+		$this->db->where("YEAR(ks.TGL_MASUK)",$tahun);
+		$query = $this -> db -> get();
+		$row = $query->num_rows();
+		return $row;
+	}
+	function getDone1($bulan){
+
+		$status = 100;
+		$this->db->select("MONTHNAME(kt.TANGGAL_MASUK) as Bulan");
+		$this->db->from("keluhan_tk kt");
+		$this->db->join("jenis_keluhan jk","kt.ID_KELUHAN_TK = jk.ID_KELUHAN_TK");
+		$this->db->where("jk.STATUS_PENYELESAIAN",$status);
+		$this->db->where("MONTHNAME(kt.TANGGAL_MASUK)",$bulan);
+		// $this->db->group_by("Bulan");
+		$this->db->order_by("Bulan DESC");
+		// $query = $this -> db -> get();
+		// return $query->result();
+
+		// $this->db->select("IF(count(*) IS NULL,'0',count(*)) AS 'jumlah', MONTHNAME(TANGGAL_MASUK) as Bulan");
+		// $this->db->from("keluhan_tk");
+		
+		// $this->db->where("MONTHNAME(TANGGAL_MASUK)",$bulan);
+		// $this->db->group_by("Bulan");
+		// $this->db->order_by("Bulan DESC");
+		// $this->db->order_by("ID_SPT ASC");
+		$query = $this -> db -> get();
+		$row = $query->num_rows();
+		return $row;
+		// foreach ($row as $key) {
+			// return $key->jumlah;
+		// }
+	}
+	function getUnDone1($bulan){
+
+		$status = 100;
+		$this->db->select("MONTHNAME(kt.TANGGAL_MASUK) as Bulan");
+		$this->db->from("keluhan_tk kt");
+		$this->db->join("jenis_keluhan jk","kt.ID_KELUHAN_TK = jk.ID_KELUHAN_TK");
+		$this->db->where("jk.STATUS_PENYELESAIAN < 100");
+		$this->db->where("MONTHNAME(kt.TANGGAL_MASUK)",$bulan);
+		// $this->db->group_by("Bulan");
+		$this->db->order_by("Bulan DESC");
+		// $query = $this -> db -> get();
+		// return $query->result();
+
+		// $this->db->select("IF(count(*) IS NULL,'0',count(*)) AS 'jumlah', MONTHNAME(TANGGAL_MASUK) as Bulan");
+		// $this->db->from("keluhan_tk");
+		
+		// $this->db->where("MONTHNAME(TANGGAL_MASUK)",$bulan);
+		// $this->db->group_by("Bulan");
+		// $this->db->order_by("Bulan DESC");
+		// $this->db->order_by("ID_SPT ASC");
+		$query = $this -> db -> get();
+		$row = $query->num_rows();
+		return $row;
+	}
 	function kasus_masuk_total(){
 		$this->db->select("count(*) as jumlah, MONTHNAME(TANGGAL_MASUK) as Bulan");
 		$this->db->from("keluhan_tk");
