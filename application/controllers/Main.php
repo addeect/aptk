@@ -188,6 +188,8 @@ class Main extends CI_Controller {
 				'kasus_serikat_tidak_selesai' => $this->m_main->kasus_serikat_tidak_selesai($tgl_awal,$tgl_akhir,$jenis_pelanggaran),
 				'kecenderungan_perorangan' => $this->m_main->kecenderungan_perorangan_p($tgl_awal,$tgl_akhir),
 				'kecenderungan_serikat' => $this->m_main->kecenderungan_serikat_p($tgl_awal,$tgl_akhir),
+				'bulan_masuk_tk' => $this->m_main->getMonthNameTK($tgl_awal,$tgl_akhir),
+    			'bulan_masuk_sk' => $this->m_main->getMonthNameSK($tgl_awal,$tgl_akhir),
 				// 'pasal' => $this->m_main->getDataPasal(),
 				'title' => ucwords($title),
 				'page_name' => $page_name
@@ -203,6 +205,9 @@ class Main extends CI_Controller {
 				'kasus_serikat_tidak_selesai' => $this->m_main->kasus_serikat_tidak_selesai(),
 				'kecenderungan_perorangan' => $this->m_main->kecenderungan_perorangan(),
 				'kecenderungan_serikat' => $this->m_main->kecenderungan_serikat(),
+				'bulan_masuk_tk' => $this->m_main->getMonthNameTK(),
+    			'bulan_masuk_sk' => $this->m_main->getMonthNameSK(),
+				
 				// 'pasal' => $this->m_main->getDataPasal(),
 				'title' => ucwords($title),
 				'page_name' => $page_name

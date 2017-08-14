@@ -574,8 +574,12 @@ class Pengaduan extends CI_Controller {
     $html .= '<br pagebreak="true">';
     // Spacing
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
-    $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">LAPORAN BULANAN KECENDERUNGAN KASUS</span></div>';
-    
+    if ($kategori == 'tenaga_kerja'){
+        $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">LAPORAN BULANAN KECENDERUNGAN KASUS TENAGA KERJA</span></div>';
+    }
+    else if ($kategori == 'serikat_kerja'){
+        $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: normal;text-decoration:none">LAPORAN BULANAN KECENDERUNGAN KASUS SERIKAT KERJA</span></div>';
+    }
 
     // Spacing
     $html .= '<div style="width:300px;text-align:center;border:none;line-height:1px"><span style="font-weight: bold;"></span></div>';
@@ -590,33 +594,57 @@ class Pengaduan extends CI_Controller {
     $html .= '<td width="180px"><strong>Pelanggaran K3</strong></td>';
     $html .= '<td width="180px"><strong>Pelanggaran Normatif</strong></td>';
     $html .= '</tr>';
-    foreach ($kecenderungan_kasus as $key) {
-        $html .= '<tr style="text-align:center">';
-        $html .= '<td>'.$key->bulan.'</td>';
-        $html .= '<td>'.$key->jumlah.'</td>';
-        $jumlah_k3 = $this->m_main->getCounterK3($key->bulan);
-        if($jumlah_k3 != null){
+    
+    if ($kategori == 'tenaga_kerja'){
+        foreach ($bulan_masuk_tk as $key) {
+            $html .= '<tr style="text-align:center">';
+            $html .= '<td>'.$key->monthname.'</td>';
+            $jumlah_k3 = $this->m_main->getCounterK3($key->month,'Pelanggaran K3',$kategori);
             $html .= '<td>'.$jumlah_k3.'</td>';
+            $jumlah_normatif = $this->m_main->getCounterK3($key->month,'Pelanggaran Normatif',$kategori);
+            $html .= '<td>'.$jumlah_normatif.'</td>';
+            $html .= '</tr>';
         }
-        else{
-            $html .= '<td>0</td>';
-        }
-        $html .= '</tr>';
     }
+    else if ($kategori == 'serikat_kerja'){
+        foreach ($bulan_masuk_sk as $key) {
+            $html .= '<tr style="text-align:center">';
+            $html .= '<td>'.$key->monthname.'</td>';
+            $jumlah_k3 = $this->m_main->getCounterK3($key->month,'Pelanggaran K3',$kategori);
+            $html .= '<td>'.$jumlah_k3.'</td>';
+            $jumlah_normatif = $this->m_main->getCounterK3($key->month,'Pelanggaran Normatif',$kategori);
+            $html .= '<td>'.$jumlah_normatif.'</td>';
+            $html .= '</tr>';
+        }
+    }
+    
     $html .= '<tr style="text-align:center">';
-    $html .= '<td>Total</td>';
+    $html .= '<td><b>Total</b></td>';
     $jumlah_k3 = 0;
     $jumlah_normatif = 0;
-    foreach ($kecenderungan_kasus as $key) {
-        $jumlah_k3_db = $key->jumlah;
-        $jumlah_k3 = $jumlah_k3 + floatval($jumlah_k3_db);
+    if ($kategori == 'tenaga_kerja'){
+        foreach ($bulan_masuk_tk as $key) {
+            $jumlah_k3_db = $this->m_main->getCounterK3($key->month,'Pelanggaran K3',$kategori);
+            $jumlah_k3 = $jumlah_k3 + floatval($jumlah_k3_db);
+        }
+        foreach ($bulan_masuk_tk as $key) {
+            $jumlah_normatif_db = $this->m_main->getCounterK3($key->month,'Pelanggaran Normatif',$kategori);
+            $jumlah_normatif = $jumlah_normatif + floatval($jumlah_normatif_db);
+        }
     }
-    foreach ($kecenderungan_kasus_normatif as $key) {
-        $jumlah_normatif_db = $key->jumlah;
-        $jumlah_normatif = $jumlah_normatif + floatval($jumlah_normatif_db);
+    else if ($kategori == 'serikat_kerja'){
+        foreach ($bulan_masuk_sk as $key) {
+            $jumlah_k3_db = $this->m_main->getCounterK3($key->month,'Pelanggaran K3',$kategori);
+            $jumlah_k3 = $jumlah_k3 + floatval($jumlah_k3_db);
+        }
+        foreach ($bulan_masuk_sk as $key) {
+            $jumlah_normatif_db = $this->m_main->getCounterK3($key->month,'Pelanggaran Normatif',$kategori);
+            $jumlah_normatif = $jumlah_normatif + floatval($jumlah_normatif_db);
+        }
     }
-    $html .= '<td>'.$jumlah_k3.'</td>';
-    $html .= '<td>'.$jumlah_normatif.'</td>';
+    
+    $html .= '<td><b>'.$jumlah_k3.'</b></td>';
+    $html .= '<td><b>'.$jumlah_normatif.'</b></td>';
     
     $html .= '</tr>';
     $html .= '</table>';

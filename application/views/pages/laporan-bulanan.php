@@ -215,17 +215,17 @@
     <script>
     // #1 CHART ===========================================================================================================
     var nama = [<?php
-    foreach ($kasus_masuk as $key) {
-        $arr_bulan[] = '"'.$key->Bulan.'"';
+    foreach ($bulan_masuk_tk as $key) {
+        $arr_bulan[] = '"'.$key->monthname.'"';
      } echo implode(',', $arr_bulan)?>];
     var nilai = [<?php
-    foreach ($kasus_masuk as $key) {
-        $arr_jumlah[] = $key->jumlah;
+    foreach ($bulan_masuk_tk as $key) {
+        $arr_jumlah[] = $this->m_main->getCreatedTK($key->month,$key->year);
     } echo implode(',', $arr_jumlah)?>];
 
     var nilai_sk = [<?php
-    foreach ($kasus_masuk_serikat as $key) {
-        $arr_jumlah_serikat[] = $key->jumlah;
+    foreach ($bulan_masuk_sk as $key) {
+        $arr_jumlah_serikat[] = $this->m_main->getCreatedSK($key->month,$key->year);
     } echo implode(',', $arr_jumlah_serikat)?>];
     // var nilai_sk = [4,8];
     
@@ -315,27 +315,31 @@
 
     // #2 CHART =====================================================================================================
     var nama_bulan_chart_2 = [<?php
-    foreach ($kasus_selesai as $key) {
-        $arr_nama_bulan_chart_2[] = '"'.$key->Bulan.'"';
+    foreach ($bulan_masuk_tk as $key) {
+        $arr_nama_bulan_chart_2[] = '"'.$key->monthname.'"';
      } echo implode(',', $arr_nama_bulan_chart_2)?>];
     var nilai_selesai_perorangan = [<?php
-    foreach ($kasus_selesai as $key) {
-        $arr_nilai_selesai_perorangan[] = $key->jumlah;
+    foreach ($bulan_masuk_tk as $key) {
+        $usage = null;
+        $arr_nilai_selesai_perorangan[] = $this->m_main->getCreatedTK($key->month,$key->year,$usage,100);
     } echo implode(',', $arr_nilai_selesai_perorangan)?>];
 
     var nilai_selesai_serikat = [<?php
-    foreach ($kasus_serikat_selesai as $key) {
-        $arr_nilai_selesai_sk[] = $key->jumlah;
+    foreach ($bulan_masuk_sk as $key) {
+        $usage = null;
+        $arr_nilai_selesai_sk[] = $this->m_main->getCreatedSK($key->month,$key->year,$usage,100);
     } echo implode(',', $arr_nilai_selesai_sk)?>];
 
     var nilai_tidak_selesai_perorangan = [<?php
-    foreach ($kasus_tidak_selesai as $key) {
-        $arr_nilai_tidak_selesai_perorangan[] = $key->jumlah;
+    foreach ($bulan_masuk_tk as $key) {
+        $usage = '<';
+        $arr_nilai_tidak_selesai_perorangan[] = $this->m_main->getCreatedTK($key->month,$key->year,$usage,100);
     } echo implode(',', $arr_nilai_tidak_selesai_perorangan)?>];
 
     var nilai_tidak_selesai_serikat = [<?php
-    foreach ($kasus_serikat_tidak_selesai as $key) {
-        $arr_nilai_tidak_selesai_sk[] = $key->jumlah;
+    foreach ($bulan_masuk_sk as $key) {
+        $usage = '<';
+        $arr_nilai_tidak_selesai_sk[] = $this->m_main->getCreatedSK($key->month,$key->year,$usage,100);
     } echo implode(',', $arr_nilai_tidak_selesai_sk)?>];
     // var nilai_sk = [4,8];
     
